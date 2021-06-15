@@ -94,6 +94,8 @@ function LogIn() {
                     backgroundColor: "transparent",
                     border: "2px solid white",
                     color: "white",
+                   
+                  
                     
                     // border:"none",
                     // borderBottom:"2px solid white",
@@ -109,7 +111,7 @@ function LogIn() {
                   </Alert>
                 ) : null}
 
-                <div style={{ textAlign: "center",marginTop:"10px" }}>
+                <div style={{ textAlign: "center",marginTop:"30px" }}>
                   <Button
                     type="submit"
                     variant="outline-light"
