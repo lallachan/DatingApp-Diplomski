@@ -53,16 +53,23 @@ body{
 
 
 /* width */
-::-webkit-scrollbar {
+#background::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+#background::-webkit-scrollbar-track {
   display:"none" 
 }
  
 /* Handle */
-::-webkit-scrollbar-thumb {
+#background::-webkit-scrollbar-thumb {
   background: white; 
+}
+
+.buttonStyle{
+  border-radius:"1px";
+  padding:"10px";
+  border:"2px solid white";
+
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import img from "../images/banner.jpg";
 import { Formik, Field, Form } from "formik";
+import axios from "axios"
 import {
   Alert,
   Button,
@@ -12,6 +13,23 @@ import {
   Row,
 } from "react-bootstrap";
 import * as Yup from "yup";
+
+const HandleErrors = (error) => {
+  if (error.response) {
+    // Request made and server responded
+    console.log(error.response.data);
+    console.log(error.response.status);
+    console.log(error.response.headers);
+  } else if (error.request) {
+    // The request was made but no response was received
+    console.log(error.request);
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.log('Error', error.message);
+  }
+}
+
+
 function LogIn() {
 
     const LogInSchema = Yup.object().shape({
@@ -46,8 +64,16 @@ function LogIn() {
             }}
             validationSchema={LogInSchema}
             onSubmit={async (values) => {
-              await new Promise((r) => setTimeout(r, 500));
-              alert(JSON.stringify(values, null, 2));
+              // await new Promise((r) => setTimeout(r, 500));
+              // alert(JSON.stringify(values, null, 2));
+              try {
+                const res = await axios.post(process.env.REACT_APP_LOGIN,values)
+                console.log(res.data)
+                //get tokens
+              } catch (error) {
+                HandleErrors(error) 
+              }
+
             }}
           >
             {({ errors, touched }) => (

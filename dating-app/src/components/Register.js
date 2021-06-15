@@ -96,7 +96,8 @@ function Register() {
           style={{
             padding: "50px",
             marginTop: "80px",
-            backgroundColor: "#007893",
+            // backgroundColor: "#007893",
+            background : "rgba(0, 120, 147,0.2)",
             overflow: "scroll",
             height: "70vh",
           }}
@@ -129,12 +130,12 @@ function Register() {
             validationSchema={RegisterShema}
             onSubmit={async (values) => {
               values.age = values.day + "." + values.month + "." + values.year;
-              console.log(values)
-              delete values.day
-              delete values.month
-              delete values.year
-              delete values.confirmPassword
-              
+              console.log(values);
+              delete values.day;
+              delete values.month;
+              delete values.year;
+              delete values.confirmPassword;
+
               await new Promise((r) => setTimeout(r, 500));
               alert(JSON.stringify(values, null, 2));
             }}
@@ -153,6 +154,7 @@ function Register() {
                       name="firstName"
                       type="text"
                       className="form-control form-group"
+                      // style={{background:"transparent",border:"2px solid white"}}
                     />
                     {errors.firstName && touched.firstName ? (
                       <Alert variant="warning">{errors.firstName}</Alert>
@@ -254,8 +256,7 @@ function Register() {
                       <Alert variant="warning">{errors.zip}</Alert>
                     ) : null}
 
-
-                  <label
+                    <label
                       htmlFor="age"
                       style={{ color: "white", fontSize: "20px" }}
                     >
@@ -285,6 +286,7 @@ function Register() {
 
                     <Field
                       name="month"
+                      data-dropup-auto="false"
                       id="month"
                       type="string"
                       as="select"
@@ -305,6 +307,7 @@ function Register() {
                     ) : null}
 
                     <Field
+                      data-dropup-auto="false"
                       name="year"
                       id="year"
                       type="string"
@@ -338,18 +341,24 @@ function Register() {
                       aria-labelledby="my-radio-group"
                       style={{ color: "white" }}
                     >
-                      <label>
-                        <Field type="radio" name="gender" value="Male" />
-                        Male
-                      </label>
-                      <label>
-                        <Field type="radio" name="gender" value="Female" />
-                        Female
-                      </label>
-                      <label>
-                        <Field type="radio" name="gender" value="Other" />
-                        Other
-                      </label>
+                      <div>
+                        <label>
+                          <Field type="radio" name="gender" value="Male" />
+                          Male
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <Field type="radio" name="gender" value="Female" />
+                          Female
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <Field type="radio" name="gender" value="Other" />
+                          Other
+                        </label>
+                      </div>
                     </div>
                     {errors.gender && touched.gender ? (
                       <Alert variant="warning">{errors.gender}</Alert>
