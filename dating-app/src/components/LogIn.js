@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext, useState } from "react";
 import img from "../images/banner.jpg";
 import { Formik, Field, Form } from "formik";
-import axios from "axios"
+import axios from "axios";
+
 import {
   Alert,
   Button,
@@ -13,36 +14,50 @@ import {
   Row,
 } from "react-bootstrap";
 import * as Yup from "yup";
-
-const HandleErrors = (error) => {
-  if (error.response) {
-    // Request made and server responded
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
-  } else if (error.request) {
-    // The request was made but no response was received
-    console.log(error.request);
-  } else {
-    // Something happened in setting up the request that triggered an Error
-    console.log('Error', error.message);
-  }
-}
-
+import { errorHandler } from "./functions/Functions";
+import myContext from "./contexts/myContext";
 
 function LogIn() {
+  const { accessToken, setAccessToken, refreshToken, setRefreshToken,userData,setUserData ,refreshAccessToken} =
+    useContext(myContext);
 
-    const LogInSchema = Yup.object().shape({
-        email: Yup.string().email("Invalid email").required("Email adresa je obavezna."),
-        password: Yup.string().min(6).max(20).required("Lozinka je obavezna."),
-      });
+  const LogInSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Email adresa je obavezna."),
+    password: Yup.string().min(6).max(20).required("Lozinka je obavezna."),
+  });
 
+ 
 
-    return (
-       
-        <div style={{background: `url(${img})`,height:"100vh",backgroundSize:"cover",backgroundPosition:"center"}}  className="page-holder bg-cover">
-        
-        <Row style={{ justifyContent: "center",width:"100%" }}>
+  const getUserData = async (access) => {
+    try {
+      const res = await axios.get(process.env.REACT_APP_GET_USER_DATA,{
+        headers:{
+          'authorization':access
+        }
+      })
+      console.log(res.data)
+      setUserData(res.data)
+      
+    } catch (error) {
+      errorHandler(error);
+    }
+  }
+
+ 
+
+  return (
+    <div
+      style={{
+        background: `url(${img})`,
+        height: "100vh",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      className="page-holder bg-cover"
+    >
+      <Row style={{ justifyContent: "center", width: "100%" }}>
         <Col lg={4} style={{ padding: "50px", marginTop: "80px" }}>
           <h1
             style={{
@@ -52,7 +67,6 @@ function LogIn() {
               fontSize: "3rem",
               textAlign: "center",
               marginBottom: "20px",
-              
             }}
           >
             Dobrodošli!
@@ -64,16 +78,20 @@ function LogIn() {
             }}
             validationSchema={LogInSchema}
             onSubmit={async (values) => {
-              // await new Promise((r) => setTimeout(r, 500));
-              // alert(JSON.stringify(values, null, 2));
               try {
-                const res = await axios.post(process.env.REACT_APP_LOGIN,values)
-                console.log(res.data)
-                //get tokens
-              } catch (error) {
-                HandleErrors(error) 
-              }
+                const res = await axios.post(
+                  process.env.REACT_APP_LOGIN,
+                  values
+                );
+                const { data, message, length } = res.data;
+                setRefreshToken(data.refresh);
+                getUserData(data.access)
 
+              } catch (error) {
+               errorHandler(error);
+              }
+             
+              
             }}
           >
             {({ errors, touched }) => (
@@ -95,16 +113,10 @@ function LogIn() {
                     marginBottom: "30px",
                     // border:"none",
                     // borderBottom:"2px solid white",
-                   
                   }}
                 />
                 {errors.email && touched.email ? (
-                  <Alert
-                    variant="warning"
-                   
-                  >
-                    {errors.email}
-                  </Alert>
+                  <Alert variant="warning">{errors.email}</Alert>
                 ) : null}
                 <label
                   htmlFor="password"
@@ -120,48 +132,42 @@ function LogIn() {
                     backgroundColor: "transparent",
                     border: "2px solid white",
                     color: "white",
-                   
-                  
-                    
+
                     // border:"none",
                     // borderBottom:"2px solid white",
-                   
                   }}
                 />
                 {errors.password && touched.password ? (
-                  <Alert
-                    variant="warning"
-                  
-                  >
-                    {errors.password}
-                  </Alert>
+                  <Alert variant="warning">{errors.password}</Alert>
                 ) : null}
 
-                <div style={{ textAlign: "center",marginTop:"30px" }}>
+                <div style={{ textAlign: "center", marginTop: "30px" }}>
                   <Button
                     type="submit"
                     variant="outline-light"
                     size="md"
-                    style={{ width: "50%",padding:"10px" }}
+                    style={{ width: "50%", padding: "10px" }}
                   >
                     Log In
                   </Button>
                 </div>
                 <hr></hr>
                 {/* //Todo forgot password */}
-                <div style={{ marginTop: "20px",textAlign:"center"}}>
-                  <a href="#" style={{textDecoration:"none",color:"white"}}>Forgot Password?</a>
+                <div style={{ marginTop: "20px", textAlign: "center" }}>
+                  <a
+                    href="#"
+                    style={{ textDecoration: "none", color: "white" }}
+                  >
+                    Forgot Password?
+                  </a>
                 </div>
               </Form>
             )}
           </Formik>
         </Col>
       </Row>
-
-
-         
-        </div>
-    )
+    </div>
+  );
 }
 
-export default LogIn
+export default LogIn;

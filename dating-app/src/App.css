@@ -67,9 +67,10 @@ body{
   background: white; 
 }
 
-.buttonStyle{
-  border-radius:"1px";
-  padding:"10px";
-  border:"2px solid white";
+button:hover{
+  color:"black"
+}
 
+a:hover{
+  color:"black"
 }
