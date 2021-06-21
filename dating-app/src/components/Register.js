@@ -3,6 +3,10 @@ import { Row, Col, Button, Alert, InputGroup } from "react-bootstrap";
 import img from "../images/banner.jpg";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { errorHandler } from "./functions/Functions";
+
+
 
 function Register() {
   const RegisterShema = Yup.object().shape({
@@ -20,13 +24,7 @@ function Register() {
     confirmPassword: Yup.string()
       .required("Please confirm your password")
       .oneOf([Yup.ref("password"), null], "Passwords don't match."),
-    // gender: Yup.string().required("Spol je obavezan."),
-
-    // age: Yup.object({
-    //   day: Yup.string().required(),
-    //   month: Yup.string().required(),
-    //   year: Yup.string().required(),
-    // }),
+    gender: Yup.string().required("Spol je obavezan."),
 
     day: Yup.string().required("Unesite dan."),
     month: Yup.string().required("Unesite mjesec."),
@@ -56,6 +54,7 @@ function Register() {
     "Studeni",
     "Prosinac",
   ];
+  
   const years = [];
   for (let i = 1; i <= 31; i++) {
     days.push(i);
@@ -68,6 +67,20 @@ function Register() {
     let name = e.target.value;
     alert(name);
   };
+
+  const reformatDate = (day,month,year) => {
+
+    month = (months.indexOf(month))+1
+  
+    if(month < 10){
+      month = "0" + month
+    }
+
+   
+
+    return year + "-" + month + "-" + day
+
+  } 
 
   return (
     <div
@@ -129,15 +142,27 @@ function Register() {
             }}
             validationSchema={RegisterShema}
             onSubmit={async (values) => {
-              values.age = values.day + "." + values.month + "." + values.year;
+              values.dob = reformatDate(values.day,values.month,values.year)
               console.log(values);
               delete values.day;
               delete values.month;
               delete values.year;
               delete values.confirmPassword;
 
-              await new Promise((r) => setTimeout(r, 500));
-              alert(JSON.stringify(values, null, 2));
+              // await new Promise((r) => setTimeout(r, 500));
+              // alert(JSON.stringify(values, null, 2));
+
+              try {
+                const res = await axios.post(
+                  process.env.REACT_APP_REGISTER_USER,
+                  values
+                );
+                console.log(res.data)
+              } catch (error) {
+               errorHandler(error);
+              }
+
+
             }}
           >
             {({ errors, touched, values }) => (
@@ -257,7 +282,7 @@ function Register() {
                     ) : null}
 
                     <label
-                      htmlFor="age"
+                      htmlFor="dob"
                       style={{ color: "white", fontSize: "20px" }}
                     >
                       Datum rođenja

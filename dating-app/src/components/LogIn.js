@@ -16,6 +16,8 @@ import {
 import * as Yup from "yup";
 import { errorHandler } from "./functions/Functions";
 import myContext from "./contexts/myContext";
+import { useHistory } from "react-router-dom";
+
 
 function LogIn() {
   const { accessToken, setAccessToken, refreshToken, setRefreshToken,userData,setUserData ,refreshAccessToken} =
@@ -39,13 +41,18 @@ function LogIn() {
       })
       console.log(res.data)
       setUserData(res.data)
+      history.push("/completeSetup")
+      
       
     } catch (error) {
       errorHandler(error);
     }
+
+   
   }
 
  
+const history = useHistory()
 
   return (
     <div
@@ -84,8 +91,12 @@ function LogIn() {
                   values
                 );
                 const { data, message, length } = res.data;
+                localStorage.setItem("refreshToken",data.refresh)
+        
                 setRefreshToken(data.refresh);
+                setAccessToken(data.access)
                 getUserData(data.access)
+                
 
               } catch (error) {
                errorHandler(error);

@@ -5,25 +5,52 @@ import myContext from './components/contexts/myContext';
 import Routes from "./components/Routes"
 import axios from "axios"
 import { errorHandler } from './components/functions/Functions';
+import { useHistory } from 'react-router-dom';
 
 function App() {
-
+  
   //TokenContext
   const [accessToken,setAccessToken] = useState()
-  const [refreshToken,setRefreshToken] = useState()
-  const [userData,setUserData] = useState()
+  const [refreshToken,setRefreshToken] = useState(localStorage.getItem('refreshToken'))
+  const [userData,setUserData] = useState(null)
   
   const {Provider} = myContext
 
+  const history = useHistory()
  
   //TODO CHECK REFRESH TOKEN (if false redirect on login)
-  
 
-  useEffect(() => {
+  useEffect(async() => {
+   await getAcessToken()
+ 
+     
+  
+ }, [])
+  
+  const getUserData = async (access = accessToken)=>{
+    try{
+ 
+      const res = await axios.get(
+        process.env.REACT_APP_GET_USER_DATA,
+        {
+          headers: {
+            "authorization": access,
+          }
+        }
+      );
+      setUserData(res.data)
+     
     
-     //CHECK IF REFRESH TOKEN 
-    console.log("New Access token",Date.now())
-    setTimeout(async ()=>{
+    }
+    catch(error){
+      errorHandler(error)
+    }
+  }
+  const getAcessToken = async ()=>{
+    
+    //CHECK IF REFRESH TOKEN 
+    if(refreshToken != null){
+  
       try{
         const res = await axios.get(
           process.env.REACT_APP_GET_ACCESS,
@@ -34,19 +61,36 @@ function App() {
           }
         );
         const { data, message, length } = res.data;
-        setAccessToken(data.access)
+
+        await setAccessToken(data)
+
+        getUserData(data)
+      
       }
       catch(error){
         errorHandler(error)
-        //if error 444 redirect to login page
+        //if error 444 call get access
+        
       }
-    }
       
-      , 60*1000); //900000
-      
+    
    
+      
+     
+   }
+  }
+
+  useEffect(async () => {
+     //CHECK IF REFRESH TOKEN 
+     if(refreshToken != null){
+
+      setTimeout(await getAcessToken, 60*900000); //900000
+     }
   }, [accessToken])
   
+
+
+
  
 
 

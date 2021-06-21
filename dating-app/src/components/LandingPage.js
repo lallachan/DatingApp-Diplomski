@@ -30,11 +30,12 @@ function LandingPage() {
         </Col>
       </Row>
 
-      <Row style={{width:"100%",margin:"100px auto",textAlign:"center",justifyContent:"center",height:"200px"}}>
-        <h1 style={{fontSize:"10em",marginTop:"30px",color:"#FFF3CD",fontFamily:"Roboto"}}>Find love near you</h1>
-      </Row>
+      {/* <Row style={{width:"100%",margin:"100px auto",textAlign:"center",justifyContent:"center",height:"200px"}}>
+      
+      </Row> */}
 
       <Row style={{width:"100%",textAlign:"center",justifyContent:"center",marginTop:"-50px"}}>
+      <h1 style={{fontSize:"10em",marginTop:"130px",color:"#FFF3CD",fontFamily:"Roboto"}}>Find love near you</h1>
         <Col>
         <h1 style={{color:"white",fontFamily:"Roboto",fontSize:"70px"}}>Join us today!</h1>
         <br></br>
