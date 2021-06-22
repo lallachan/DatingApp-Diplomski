@@ -8,6 +8,7 @@ import myContext from './contexts/myContext'
 import Main from './Main'
 import { Spinner } from 'react-bootstrap'
 import {default as _} from 'lodash'
+import UserProfile from './UserProfile'
 
 
 function Routes() {
@@ -32,7 +33,7 @@ function Routes() {
           <Route exact path="/main" >
             {_.isNull(userData)?<Spinner animation="border" role="status" />:<Main/>}
             </Route>
-          
+            <Route exact path="/user/:id" component={UserProfile} />
         </Switch>
         </Router>
     )

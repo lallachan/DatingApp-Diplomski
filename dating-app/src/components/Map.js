@@ -1,15 +1,18 @@
 import axios from 'axios';
 import { accessToken } from 'mapbox-gl';
 import React, { useContext, useEffect, useState } from 'react'
-import ReactMapGL, { Marker,Layer,SVGOverlay } from "react-map-gl";
+import ReactMapGL, { Marker,Layer } from "react-map-gl";
 import myContext from './contexts/myContext';
 import { errorHandler } from './functions/Functions';
 import img from '../images/default-photo.png'
+import { useHistory } from 'react-router-dom';
 
 
 
 function Map(props) {
 
+  
+    const history = useHistory()
     const {userData,accessToken} = useContext(myContext)
     const userImage = process.env.REACT_APP_CLOUDINARY_URL  + "/"+ userData.imageUrl
     const [viewport, setViewport] = useState({
@@ -38,6 +41,16 @@ function Map(props) {
         }
       };
 
+      const goToUserPage = (id) => {
+          history.push(`/user/${id}`)
+      }
+
+      const onMarkerClick = (id) => {
+        alert('You clicked on marker');
+      
+        history.push(`/user/${id}`)
+      };
+
 
       const getUsersInRadius = async (radius = 100)=>{
         try {
@@ -48,6 +61,7 @@ function Map(props) {
                }
            })
             setUsersMarkers(res.data)
+            
 
         } catch (error) {
             errorHandler(error)
@@ -63,32 +77,38 @@ function Map(props) {
 
            
               <ReactMapGL
-              
                 {...viewport}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
                 onViewportChange={(nextViewport) => setViewport(nextViewport)}
                 mapStyle="mapbox://styles/fakkkkkk123/ckq6pcalq3jpd17o6c7kiwz2y"
+                
               >
                 <Marker
                   latitude={userData.lastKnownLocation.coordinates[0]}
                   longitude={userData.lastKnownLocation.coordinates[1]}
-          
+                  offsetLeft={-50}
+                  
                   zoom = {11}
                 >
-                  <img width="40px" src={userImage} />
+                  <img width="40px" src={userImage} onClick={event => {
+                  console.log("hey");
+                }}/>
                 </Marker>
-                {usersMarkers.map(i=>{
+                {usersMarkers.map((user,i)=>{
 
                     return <Marker
-                    latitude={i.lastKnownLocation.coordinates[0]}
-                    longitude={i.lastKnownLocation.coordinates[1]}
-            
+                    key={i}
+                    latitude={user.lastKnownLocation.coordinates[0]}
+                    longitude={user.lastKnownLocation.coordinates[1]}
                     zoom = {11}
+                    onClick={()=>onMarkerClick(user._id)}
+                    offsetRight={-50}
                   >
-                    <img width="40px" src={img}/>
+                    <img width="40px" src={img}  />
+                    
                   </Marker>
                 })}
-                 <SVGOverlay redraw={redraw} />
+                
               </ReactMapGL>
             );
           

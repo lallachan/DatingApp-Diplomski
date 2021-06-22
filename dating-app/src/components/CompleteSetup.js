@@ -17,11 +17,14 @@ import defaultPhoto from "../images/default-photo.png";
 import { errorHandler } from "./functions/Functions";
 import myContext from "./contexts/myContext";
 import { useHistory } from "react-router-dom";
+import { default as _ } from "lodash";
 
 
 function CompleteSetup() {
 
-  const {accessToken} = useContext(myContext)
+
+  const {accessToken,userData} = useContext(myContext)
+  const history = useHistory()
   
   const [toggleWindow, setToggleWindow] = useState(false);
 
@@ -33,7 +36,6 @@ function CompleteSetup() {
   const ref2 = useRef()
   const ref3 = useRef()
 
-  const history = useHistory()
 
   //Cloudinary default photo
   const [image, setImage] = useState(
