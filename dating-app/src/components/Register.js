@@ -111,7 +111,7 @@ function Register() {
             marginTop: "80px",
             // backgroundColor: "#007893",
             background : "rgba(0, 120, 147,0.2)",
-            overflow: "scroll",
+            overflowY: "scroll",
             height: "70vh",
           }}
         >

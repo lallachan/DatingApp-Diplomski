@@ -9,6 +9,8 @@ import Main from './Main'
 import { Spinner } from 'react-bootstrap'
 import {default as _} from 'lodash'
 import UserProfile from './UserProfile'
+import Chat from './chat/Chat'
+
 
 
 function Routes() {
@@ -34,6 +36,9 @@ function Routes() {
             {_.isNull(userData)?<Spinner animation="border" role="status" />:<Main/>}
             </Route>
             <Route exact path="/user/:id" component={UserProfile} />
+            <Route exact path="/chat" >
+            {_.isNull(userData)?<Spinner animation="border" role="status" />:<Chat/>}
+            </Route>
         </Switch>
         </Router>
     )
