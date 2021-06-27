@@ -3,26 +3,54 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import myContext from "./contexts/myContext";
 import { errorHandler } from "./functions/Functions";
-import { Spinner,Container,Button } from "react-bootstrap";
+import { Spinner, Container, Button } from "react-bootstrap";
 import { default as _ } from "lodash";
 
 
 function UserProfile() {
   const [userData, setUserData] = useState(null);
   const { id } = useParams();
-  const { accessToken } = useContext(myContext);
+  const { accessToken,setChatId,chatId } = useContext(myContext);
+  console.log("access token "  + accessToken)
+  const history = useHistory();
 
-  const history = useHistory()
+  const handleClick = async () => {
+    //Set the user id to cookie
 
-  const handleClick = () => {
+    localStorage.setItem("recieverId", id);
 
-  //Set the user id to cookie
+    //Create chat
+
+    try {
+      console.log("sending")
+      const res = await axios.post(
+        process.env.REACT_APP_CHAT_ROUTE, {recipient_id : id},
+        {
+          headers:{
+              'authorization': accessToken
+            }
+      }
+       
+      );
+      console.log("hey")
+      console.log(res.data);
+      setChatId(res.data.chat_id)
+      console.log(chatId)
+      history.push("/chat");
+    } catch (err) {
+      console.log(err)
+      errorHandler(err);
+    }
+ 
     
-    localStorage.setItem("recieverId",id)
-    history.push("/chat")
+     
 
-   
-  }
+
+    //TODO FIX
+
+
+ 
+  };
 
   useEffect(async () => {
     if (userData == null) {
@@ -56,11 +84,12 @@ function UserProfile() {
           <h2>
             {userData.firstName} {userData.lastName}
           </h2>
-        <img
-        width="50%"
-         src={process.env.REACT_APP_CLOUDINARY_URL +"/" + userData.imageUrl} />
+          <img
+            width="50%"
+            src={process.env.REACT_APP_CLOUDINARY_URL + "/" + userData.imageUrl}
+          />
 
-        <p>{userData.description}</p>
+          <p>{userData.description}</p>
         </React.Fragment>
       )}
 

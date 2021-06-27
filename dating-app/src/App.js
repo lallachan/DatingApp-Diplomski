@@ -13,6 +13,7 @@ function App() {
   const [accessToken,setAccessToken] = useState()
   const [refreshToken,setRefreshToken] = useState(localStorage.getItem('refreshToken'))
   const [userData,setUserData] = useState(null)
+  const [chatId, setChatId] = useState(null)
   
   const {Provider} = myContext
 
@@ -98,7 +99,7 @@ function App() {
   
   return (
     <div>
-      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData}}>
+      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData,chatId,setChatId}}>
 
       <Routes />
       </Provider>

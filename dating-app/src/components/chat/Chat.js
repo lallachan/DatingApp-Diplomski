@@ -11,146 +11,124 @@ import { useHistory } from "react-router-dom";
 
 
 function Chat() {
-  //Fetching conversation
 
 
-  const [conversations, setConversations] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
-  const [messages, setMessages] = useState(null);
-  const [newMessage, setNewMessage] = useState("");
-  const [arrivalMessage, setArrivalMessage] = useState([]);
-  const socket = useRef(); //get socket url
+  const { userData,chatId,accessToken } = useContext(myContext);
+  const [chatMessages, setChatMessages] = useState([])
+  const [arriveMessage, setArriveMessage] = useState(null)
+  const [reciverID,setReciverID] = useState(null)
+  const [socket, setSocket] = useState(null)
 
+  const textArea = useRef();
 
-  //Scroll ref
-  const scrollRef = useRef();
+  useEffect(() => {
 
-    //Check user data
-    const { userData } = useContext(myContext);
-   
-    console.log("user =",userData._id)
+ 
+    try {
+       axios.get(process.env.REACT_APP_CHAT_ROUTE,{
+        headers:{
+          authorization:accessToken,
+          chat_id:chatId
+        }
+      }).then(res=>{
+        const {user_1,user_2} = res.data;
+        if(user_1 == userData._id){
+          setReciverID(user_2)
+        }
+        else{
+          setReciverID(user_1)
+        }
+        setChatMessages(res.data.messages)
+      })
+      .catch(err=>{
+        errorHandler(err)
+      })
 
-    const receiverId = localStorage.getItem("recieverId")
+     
+
+    
+ 
     
 
+
+      setSocket( io("ws://localhost:8900"));
+ 
+    } catch (error) {
+      errorHandler(error)
+    }
+
+
+
+  }, [])
+
   useEffect(() => {
-    //Connect to socket
-    socket.current = io("ws://localhost:8900");
+    if(arriveMessage!=null){
+      setChatMessages([...chatMessages,arriveMessage])
+    }
 
-    //Update arrival message
-    socket.current.on("getMessage", (data) => {
-      setArrivalMessage([...arrivalMessage,{
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(), //create new date
-      }]);
-    });
-  }, []);
+  }, [arriveMessage])
 
-  //Check for new arrival messages
   useEffect(() => {
-
-  }, [arrivalMessage]);
-
-  //Send user id to socket
-  useEffect(() => {
-    socket.current.emit("addUser", userData._id); //TODO ADD USER ID
-    socket.current.on("getUsers", (users) => {
-
-    });
-  }, [userData]);
-
-  console.log(socket);
-
-
-
-//   useEffect(() => {
-//     const getConversations = (async = () => {
-//       try {
-//         const res = await axios.get("/conversations/" + userData._id);
-//         setConversations(res.data);
-//       } catch (err) {
-//         errorHandler(err);
-//       }
-//     });
-//   }, [userData]); // or user id
-
-
-
-
-  //Fetch messages
-//   useEffect(() => {
-//     const getMessages = async () => {
-//       try {
-//         const res = await axios.get("/messages/" + currentChat._id);
-//         setMessages(res.data);
-//       } catch (err) {
-//         errorHandler(err);
-//       }
-//     };
-//     getMessages();
-//   }, [currentChat]);
-
-
-//   const recieverId = currentChat.members.find(
-//     (member) => member !== userData._id
-//   );
-
+    if(socket!=null){
+      socket.emit("addUser", userData._id);
+      socket.on("getUsers", (users) => { })
   
-  //Send new message
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const message = {
-      sender: userData._id,
-      text: newMessage,
-    //   conversationId: currentChat._id,
-    };
-    console.log("reciver =",receiverId)
-    socket.current.emit("sendMessage", {
-      senderId: userData._id, //currentuser iD
-      receiverId:receiverId,
-      text: newMessage,
-    });
+  
+      socket.on('getMessage', (data)=>{
+        let newMessageArray = Array.from(chatMessages)
+        let messObj = {
+          message:data.text,
+          date:Date.now(),
+        }
+        setArriveMessage(messObj)
+      })
+  
+    }
 
-    // try {
-    //   const res = await axios.post("/messages", message);
-    //   setMessages([...message, res.data]); //refreshing message
-    //   setNewMessage("");
-    // } catch (err) {
-    //   errorHandler(err);
-    // }
-  };
+  }, [socket])
 
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+
+  const handleSubmit = async()=>{
+
+    const messageM = textArea.current.value
+    socket.emit('sendMessage',{
+      senderId: userData._id,
+      receiverId:reciverID,
+      text:messageM,
+    })
+    try {
+      const res = await axios.patch(process.env.REACT_APP_CHAT_ROUTE,{message:messageM},{
+        headers:{
+          authorization:accessToken,
+          chat_id:chatId
+        }
+      });
+      setChatMessages([...chatMessages,{message:messageM }])
+      delete textArea.current.value
+    } catch (error) {
+      errorHandler(error)
+    }
+    
+    
+
+  }
 
   return (
-    <div>
-      {conversations.map((c) => {
-        <div onClick={() => setCurrentChat(c)}>
-          {/* <Conversation conversation={c} currentUser={userData} /> */}
-        </div>;
-      })}
-      {/* {currentChat ? ( */}
-        <>
-            {arrivalMessage.map(m=>{
-                return <>
-                
-                <p>{m.text}
-              
-                </p></>
-            })}
-          <textarea
-            onChange={(e) => setNewMessage(e.target.value)}
-            value={newMessage}
-          ></textarea>
-          <Button onClick={handleSubmit}>Send</Button>
-        </>
-      {/* ) : (
-        <span>Open a conversation to start a chat.</span> */}
-      {/* )} */}
-    </div>
+    <>
+        {
+          chatMessages?.map(m=>{
+            return <p>{m.message}</p>
+          })
+        }
+
+        <textarea
+        ref={textArea}
+        >
+
+        </textarea>
+        <br></br>
+        <button onClick={handleSubmit}>Send</button>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import LandingPage from './LandingPage'
 import LogIn from './LogIn'
 import Register from './Register'
@@ -16,7 +16,10 @@ import Chat from './chat/Chat'
 function Routes() {
 
 
-  const {accessToken,userData} = useContext(myContext)
+  const {accessToken,userData,chatId} = useContext(myContext)
+  useEffect(() => {
+    console.log(chatId)
+  }, [chatId])
     return (
         <Router>
             <Switch>
@@ -37,7 +40,7 @@ function Routes() {
             </Route>
             <Route exact path="/user/:id" component={UserProfile} />
             <Route exact path="/chat" >
-            {_.isNull(userData)?<Spinner animation="border" role="status" />:<Chat/>}
+            {_.isNull(userData) || _.isNull(chatId)?<Spinner animation="border" role="status" />:<Chat/>}
             </Route>
         </Switch>
         </Router>
