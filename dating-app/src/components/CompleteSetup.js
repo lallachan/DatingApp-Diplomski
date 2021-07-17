@@ -68,8 +68,10 @@ function CompleteSetup() {
     },
     (error, result) => {
       if (result.event == "queues-end") {
-        setImage(result.info.files[0].uploadInfo.url); //path for backend
-        setImageUrl(result.info.files[0].uploadInfo.path);
+        console.log(result)
+        setImage(result.info.files[0].uploadInfo.secure_url); //path for backend
+        setImageUrl(result.info.files[0].uploadInfo.secure_url);
+        
       }
     }
   );

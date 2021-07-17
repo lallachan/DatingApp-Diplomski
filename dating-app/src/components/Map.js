@@ -14,7 +14,7 @@ function Map(props) {
   
     const history = useHistory()
     const {userData,accessToken} = useContext(myContext)
-    const userImage = process.env.REACT_APP_CLOUDINARY_URL  + "/"+ userData.imageUrl
+    const userImage = userData.imageUrl
     const [viewport, setViewport] = useState({
         width: "100%",
         height: "500px",
@@ -95,6 +95,9 @@ function Map(props) {
                 }}/>
                 </Marker>
                 {usersMarkers.map((user,i)=>{
+                   
+                    if(user._id === userData._id) return<></>
+        
 
                     return <Marker
                     key={i}

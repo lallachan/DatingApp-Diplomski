@@ -7,7 +7,7 @@ import { Button } from "react-bootstrap";
 import { io } from "socket.io-client";
 import Mesage from "./Mesage";
 import { useHistory } from "react-router-dom";
-
+import "./Chat.css"
 
 
 function Chat() {
@@ -22,7 +22,6 @@ function Chat() {
   const textArea = useRef();
 
 
-  
 
   useEffect(() => {
 
@@ -73,6 +72,7 @@ function Chat() {
 
   useEffect(() => {
     if(socket!=null){
+      console.log("adding user id=>", userData._id)
       socket.emit("addUser", userData._id);
       socket.on("getUsers", (users) => { })
   
@@ -118,26 +118,28 @@ function Chat() {
   }
 
   return (
-    <>
-        {
-          chatMessages?.map(m=>{
+    <div className="chat">
 
-            {
-              console.log(m)
-              
-            }
-            return <p style={{color:m.senderID==userData._id || m.senderID === undefined?"red":"blue"}}>{m.message}</p>
+        {
+          chatMessages?.map((m,i)=>{
+            if(i == 0 ) return
+          
+            return <><p key={i} className={m.senderID==userData._id || m.senderID === undefined ? "msg":"fmsg"}>{m.message}</p>
+              <div className="clear"></div>
+            </>
           })
         }
-
+      
+        <hr/>
         <textarea
         ref={textArea}
+        className="textarea"
         >
 
         </textarea>
         <br></br>
-        <button onClick={handleSubmit}>Send</button>
-    </>
+        <Button onClick={handleSubmit}>Send</Button>
+    </div>
   );
 }
 
