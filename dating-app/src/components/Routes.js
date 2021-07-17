@@ -39,8 +39,8 @@ function Routes() {
             {_.isNull(userData)?<Spinner animation="border" role="status" />:<Main/>}
             </Route>
             <Route exact path="/user/:id" component={UserProfile} />
-            <Route exact path="/chat" >
-            {_.isNull(userData) || _.isNull(chatId)?<Spinner animation="border" role="status" />:<Chat/>}
+            <Route exact path="/chat/:id" >
+            {_.isNull(chatId)?<Spinner animation="border" role="status" />:<Chat/>}
             </Route>
         </Switch>
         </Router>

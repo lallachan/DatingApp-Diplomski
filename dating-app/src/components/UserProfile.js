@@ -36,7 +36,7 @@ function UserProfile() {
       console.log(res.data);
       setChatId(res.data.chat_id)
       console.log(chatId)
-      history.push("/chat");
+      history.push(`/chat/${chatId}`);
     } catch (err) {
       console.log(err)
       errorHandler(err);

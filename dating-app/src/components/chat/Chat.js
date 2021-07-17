@@ -21,6 +21,9 @@ function Chat() {
 
   const textArea = useRef();
 
+
+  
+
   useEffect(() => {
 
  
@@ -79,6 +82,7 @@ function Chat() {
         let messObj = {
           message:data.text,
           date:Date.now(),
+          senderID: data.senderId
         }
         setArriveMessage(messObj)
       })
@@ -89,7 +93,7 @@ function Chat() {
 
 
   const handleSubmit = async()=>{
-
+    
     const messageM = textArea.current.value
     socket.emit('sendMessage',{
       senderId: userData._id,
@@ -97,7 +101,7 @@ function Chat() {
       text:messageM,
     })
     try {
-      const res = await axios.patch(process.env.REACT_APP_CHAT_ROUTE,{message:messageM},{
+      const res = await axios.patch(process.env.REACT_APP_CHAT_ROUTE,{message:messageM,chat_id:chatId},{
         headers:{
           authorization:accessToken,
           chat_id:chatId
@@ -117,7 +121,12 @@ function Chat() {
     <>
         {
           chatMessages?.map(m=>{
-            return <p>{m.message}</p>
+
+            {
+              console.log(m)
+              
+            }
+            return <p style={{color:m.senderID==userData._id || m.senderID === undefined?"red":"blue"}}>{m.message}</p>
           })
         }
 
