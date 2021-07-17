@@ -10,7 +10,7 @@ import { default as _ } from "lodash";
 function UserProfile() {
   const [userData, setUserData] = useState(null);
   const { id } = useParams();
-  const { accessToken,setChatId,chatId } = useContext(myContext);
+  const { accessToken} = useContext(myContext);
   console.log("access token "  + accessToken)
   const history = useHistory();
 
@@ -33,10 +33,7 @@ function UserProfile() {
        
       );
       console.log("hey")
-      console.log(res.data);
-      setChatId(res.data.chat_id)
-      console.log(chatId)
-      history.push(`/chat/${chatId}`);
+      history.push(`/chat/${res.data.chat_id}`);
     } catch (err) {
       console.log(err)
       errorHandler(err);
