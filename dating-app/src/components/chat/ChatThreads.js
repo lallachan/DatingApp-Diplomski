@@ -13,7 +13,7 @@ function ChatThreads() {
 
     const {accessToken,userData} = useContext(myContext)
     const [threads, setThreads] = useState([])
-    const [id, setId] = useState(null)
+    const [fId, setFId] = useState(null)
     const history = useHistory()
 
     useEffect(async() => {
@@ -29,12 +29,13 @@ function ChatThreads() {
             );
               
             console.log("Chat Threads")
-          
+         
             setThreads(res.data)
             if(userData._id == res.data.user_1){
-                setId(res.data.user_1)
+                setFId(res.data[0].user_1)
+                
             }else{
-                setId(res.data.user_2)
+                setFId(res.data[0].user_2)
             }
 
           } catch (error) {
@@ -43,12 +44,37 @@ function ChatThreads() {
       
     }, [])
 
+
+
+    // useEffect(async () => {
+    //   if(id == undefined){
+    //       try {
+    //         const res = await axios.get(
+    //           process.env.REACT_APP_GET_USER_DATA + `/${id}`,
+    
+    //           {
+    //             headers: {
+    //               authorization: accessToken,
+    //             },
+    //           }
+    //         );
+    //         console.log(res.data);
+            
+    //       } catch (error) {
+    //         errorHandler(error);
+    //       }
+    //   }
+    //   }, [id]);
+
     const changeChat = (id)=>{
         history.push(`/chat/${id}`)
     }
+    
+  
 
     return (
 
+    
         <div className="chatThreads"> 
             {console.log(threads)}
             <h1>Chats</h1>
