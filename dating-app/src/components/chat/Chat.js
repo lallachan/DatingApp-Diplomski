@@ -3,13 +3,13 @@ import myContext from "../contexts/myContext";
 import axios from "axios";
 import { errorHandler } from "../functions/Functions";
 import Conversation from "./Conversation";
-import { Button,Spinner } from "react-bootstrap";
+import { Button,Spinner,Container,Col,Row } from "react-bootstrap";
 import { io } from "socket.io-client";
 import Mesage from "./Mesage";
 import { useHistory, useParams } from "react-router-dom";
 import "./Chat.css"
 import {default as _} from 'lodash'
-
+import ChatThreads from "./ChatThreads"
 function Chat() {
 
 
@@ -60,7 +60,7 @@ function Chat() {
 
 
 
-  }, [])
+  }, [chat_id])
 
   //FETCH FRIEND DATA
 
@@ -145,12 +145,13 @@ function Chat() {
 
   }
 
+
   return (
-    <div className="chat">
+    <Container fluid >
 
-
-       
-
+    <Row>
+    <Col lg={2}><ChatThreads/></Col>
+    <Col lg={6} className="chat">
         {
 
 
@@ -179,7 +180,10 @@ function Chat() {
         </textarea>
         <br></br>
         <Button onClick={handleSubmit}>Send</Button>
-    </div>
+        </Col>
+        <Col lg={1}></Col>
+        </Row>
+    </Container>
   );
 }
 

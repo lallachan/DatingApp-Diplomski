@@ -66,7 +66,7 @@ function Map(props) {
       };
 
 
-      const getUsersInRadius = async (radius = 100)=>{
+      const getUsersInRadius = async (radius = 500)=>{
         try {
            
            const res = await axios.get(process.env.REACT_APP_MAP+"?range="+radius,{
