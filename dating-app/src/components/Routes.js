@@ -20,9 +20,7 @@ function Routes() {
   const {accessToken,userData,chatId,refreshToken} = useContext(myContext)
 
 
-  useEffect(() => {
-    console.log(chatId)
-  }, [chatId])
+
     return (
         <Router>
             <Switch>
@@ -43,10 +41,13 @@ function Routes() {
           {_.isNull(userData) || _.isUndefined(userData)? <Spinner animation="border" />:<MyProfile/>}
           </Route>
 
+          {_.isNull(localStorage.getItem("refreshToken"))? <Redirect to="/"/> :<div>
+          {_.isNull(userData) || _.isUndefined(userData)? <Spinner animation="border" />:<div>
 
+        
           <Route exact path="/main" >
-            {_.isNull(localStorage.getItem("refreshToken"))? <Redirect to="/"/> :
-            _.isNull(userData) || _.isUndefined(userData)? <Spinner animation="border" />:<Main/>}
+           
+         <Main/>
             </Route>
 
 
@@ -57,9 +58,11 @@ function Routes() {
 
 
             <Route exact path="/chat/:id" >
-            {_.isNull(chatId) || _.isNull(userData) || _.isUndefined(accessToken)? <Redirect to="/login" />:<Chat/>}
+              <Chat/>
             </Route>
-
+            </div>}
+            </div>
+}
 
 
         </Switch>
