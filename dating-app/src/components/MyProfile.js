@@ -13,7 +13,7 @@ import "./MyProfile.css"
 function MyProfile() {
 
     const {userData} = useContext(myContext)
-    console.log(userData)
+    
     return (
         <Container fluid>
            <Row>

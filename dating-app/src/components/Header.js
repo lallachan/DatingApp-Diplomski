@@ -10,7 +10,7 @@ import {
   } from "react-bootstrap";
 import myContext from './contexts/myContext';
 import { useHistory } from 'react-router-dom';
-
+import { default as _ } from "lodash";
 function Header() {
 
     const { accessToken,setAccessToken } = useContext(myContext);
@@ -19,13 +19,20 @@ function Header() {
     const history = useHistory()
 
     const LogOut = () => {
+        
+
+
         setAccessToken(null)
         const refreshToken = localStorage.removeItem("refreshToken")
-
-        console.log(accessToken)
-        if(accessToken == "" && refreshToken == ""){
+        
+       
+        if(_.isUndefined(refreshToken)){
+            
             history.push("/")
         }
+
+
+
     }
 
     const myProfile = () => {

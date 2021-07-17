@@ -6,15 +6,29 @@ import myContext from './contexts/myContext';
 import { errorHandler } from './functions/Functions';
 import img from '../images/default-photo.png'
 import { useHistory } from 'react-router-dom';
-
+import {
+  Alert,
+  Button,
+  Col,
+  Container,
+  Row,
+  Spinner
+} from "react-bootstrap";
+import {default as _} from 'lodash'
 
 
 function Map(props) {
 
+
+  
   
     const history = useHistory()
     const {userData,accessToken} = useContext(myContext)
+   
+
     const userImage = userData.imageUrl
+
+
     const [viewport, setViewport] = useState({
         width: "100%",
         height: "500px",
@@ -91,13 +105,13 @@ function Map(props) {
                   zoom = {11}
                 >
                   <img width="40px" src={userImage} onClick={event => {
-                  console.log("hey");
+                 
                 }}/>
                 </Marker>
                 {usersMarkers.map((user,i)=>{
-                   
+
                     if(user._id === userData._id) return<></>
-        
+                   
 
                     return <Marker
                     key={i}
@@ -107,7 +121,7 @@ function Map(props) {
                     onClick={()=>onMarkerClick(user._id)}
                     offsetRight={-50}
                   >
-                    <img width="40px" src={img}  />
+                    <img width="40px" src={user.imageUrl}  />
                     
                   </Marker>
                 })}

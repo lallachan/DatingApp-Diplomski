@@ -41,7 +41,12 @@ function LogIn() {
       })
       console.log(res.data)
       setUserData(res.data)
-      history.push("/completeSetup")
+      if(res.data.completedSetup == true){
+        history.push("/main")
+      }else{
+        history.push("/completeSetup")
+      }
+     
       
       
     } catch (error) {

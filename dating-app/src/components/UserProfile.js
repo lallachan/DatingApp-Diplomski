@@ -86,7 +86,7 @@ function UserProfile() {
           </h2>
           <img
             width="50%"
-            src={process.env.REACT_APP_CLOUDINARY_URL + "/" + userData.imageUrl}
+            src={userData.imageUrl}
           />
 
           <p>{userData.description}</p>

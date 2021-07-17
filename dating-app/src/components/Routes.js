@@ -10,13 +10,14 @@ import { Spinner } from 'react-bootstrap'
 import {default as _} from 'lodash'
 import UserProfile from './UserProfile'
 import Chat from './chat/Chat'
+import MyProfile from './MyProfile'
 
 
 
 function Routes() {
 
 
-  const {accessToken,userData,chatId} = useContext(myContext)
+  const {accessToken,userData,chatId,refreshToken} = useContext(myContext)
 
 
   useEffect(() => {
@@ -38,9 +39,14 @@ function Routes() {
          
           <Route exact path="/completeSetup" component={CompleteSetup} />
 
+          <Route exact path="/myProfile">
+          {_.isNull(userData) || _.isUndefined(userData)? <Spinner animation="border" />:<MyProfile/>}
+          </Route>
+
 
           <Route exact path="/main" >
-            {_.isNull(userData)?<Spinner />:<Main/>}
+            {_.isNull(localStorage.getItem("refreshToken"))? <Redirect to="/"/> :
+            _.isNull(userData) || _.isUndefined(userData)? <Spinner animation="border" />:<Main/>}
             </Route>
 
 
@@ -53,6 +59,7 @@ function Routes() {
             <Route exact path="/chat/:id" >
             {_.isNull(chatId) || _.isNull(userData) || _.isUndefined(accessToken)? <Redirect to="/login" />:<Chat/>}
             </Route>
+
 
 
         </Switch>
