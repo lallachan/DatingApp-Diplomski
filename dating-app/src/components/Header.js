@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { default as _ } from "lodash";
 import axios from 'axios';
 import { errorHandler } from './functions/Functions';
-
+import Timer from "./Timer"
 
 function Header() {
 
@@ -22,30 +22,19 @@ function Header() {
     const history = useHistory()
 
     const [lifes, setLifes] = useState(null)
+    const [timeToFill, setTimeToFill] = useState(null)
 
      //FETCH LIVES OF USER
 
-     useEffect(async() => {
-        try {
-       
-            const res = await axios.get(
-              process.env.REACT_APP_GET_USER_POINTS,
-              {
-                headers: {
-                  authorization: accessToken,
-                },
-              }
-            );
-        
-        console.log("lifes")
-          console.log(res.data.lifes)
-          setLifes(res.data.lifes)
 
-          } catch (error) {
-            errorHandler(error);
-          }
+
+     useEffect(async() => {
+       
+      await fetchHearts()
+          
     }, [])
 
+    
     const LogOut = () => {
         
         setAccessToken(null)
@@ -64,7 +53,33 @@ function Header() {
     }
 
 
-   
+  
+    console.log(timeToFill)
+
+    const fetchHearts = async () => {
+      try {
+       
+        const res = await axios.get(
+          process.env.REACT_APP_GET_USER_POINTS,
+          {
+            headers: {
+              authorization: accessToken,
+            },
+          }
+        );
+    
+      console.log("lifes")
+      console.log(res.data)
+      setLifes(res.data.lifes)
+      setTimeToFill(res.data.nextHeartAt)
+
+      } catch (error) {
+        errorHandler(error);
+      }
+
+
+
+    }
 
 
 
@@ -72,11 +87,12 @@ function Header() {
         <Row className="header">
           <Col lg={10}>Lifes 
           <h1>{lifes}</h1>
+          {timeToFill == null ? null : <Timer date={timeToFill} fetchHearts={fetchHearts}/>}
           </Col>
          
             <Col lg={2} md={12} sm={12}>
             <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="dropdown-basic" className="button" >
+            <Dropdown.Toggle variant="secondary" id="dropdown-basic" className="button" style={{padding:"10px",marginLeft:"120px"}}>
                 {/* Dropdown Button */}
                 <img src={userData.imageUrl} width="30px"/>
             </Dropdown.Toggle>
@@ -84,6 +100,7 @@ function Header() {
             <Dropdown.Menu>
                 <Dropdown.Item onClick={myProfile}>My Profile</Dropdown.Item>
                 <Dropdown.Item href="#/action-2">Notifications</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">My Chats</Dropdown.Item>
                 <Dropdown.Item onClick={LogOut}>Log Out</Dropdown.Item>
             </Dropdown.Menu>
             </Dropdown>

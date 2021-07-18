@@ -1,0 +1,13 @@
+.timer {
+    float: left;
+    padding: 20px;
+    margin-top: -60px;
+    
+}
+
+.key{
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+    color:green;
+}
