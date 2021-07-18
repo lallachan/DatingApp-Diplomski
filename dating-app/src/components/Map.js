@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { accessToken } from 'mapbox-gl';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import ReactMapGL, { Marker,Layer, Popup } from "react-map-gl";
 import myContext from './contexts/myContext';
 import { errorHandler } from './functions/Functions';
@@ -16,7 +16,7 @@ import {
   Row,
   Spinner
 } from "react-bootstrap";
-import {default as _} from 'lodash'
+import {default as _, range} from 'lodash'
 
 
 function Map(props) {
@@ -42,6 +42,8 @@ function Map(props) {
 
 
       const [usersMarkers,setUsersMarkers] = useState([])
+
+      const input = useRef("")
 
       function redraw({project}) {
         const [cx, cy] = project([-122, 37]);
@@ -88,10 +90,30 @@ function Map(props) {
       useEffect(() => {
         getUsersInRadius()
       }, [])
-      
-    return (
-        
 
+      const changeRange = async(range) => {
+
+        try {
+           
+          const res = await axios.get(process.env.REACT_APP_MAP+"?range="+range,{
+              headers:{
+                  "authorization":accessToken
+              }
+          })
+           setUsersMarkers(res.data)
+           
+
+       } catch (error) {
+           errorHandler(error)
+       }
+      
+
+      }
+      
+     
+    return (
+     <>
+      <input type="text" ref={input}/><Button onClick={()=>changeRange(input.current.value)}>Range</Button>
            
               <ReactMapGL
                 {...viewport}
@@ -130,9 +152,10 @@ function Map(props) {
                 })}
                 
               </ReactMapGL>
+              </>
             );
           
-        
+      
         }
     
 
