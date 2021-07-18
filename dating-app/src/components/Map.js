@@ -1,7 +1,7 @@
 import axios from "axios";
-import { accessToken } from "mapbox-gl";
+import { accessToken,Feature } from "mapbox-gl";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import ReactMapGL, { Marker, Layer, Popup, Source } from "react-map-gl";
+import ReactMapGL, { Marker, Layer, Popup, Source, } from "react-map-gl";
 import myContext from "./contexts/myContext";
 import { errorHandler } from "./functions/Functions";
 import img from "../images/default-photo.png";
@@ -26,6 +26,12 @@ function Map(props) {
 
   const userImage = userData.imageUrl;
 
+  const [radius, setRadius] = useState(100)
+
+
+    
+
+
   const [viewport, setViewport] = useState({
     width: "100%",
     height: "500px",
@@ -49,7 +55,10 @@ function Map(props) {
     history.push(`/user/${id}`);
   };
 
-  const getUsersInRadius = async (radius = 500) => {
+
+ 
+
+  const getUsersInRadius = async () => {
     try {
       const res = await axios.get(
         process.env.REACT_APP_MAP + "?range=" + radius,
@@ -79,36 +88,30 @@ function Map(props) {
           },
         }
       );
+      setRadius(range) //TODO CHANGE THIS FIX IT
+ 
       setUsersMarkers(res.data);
     } catch (error) {
       errorHandler(error);
     }
   };
   
+ 
   const geojson = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [
-            userData.lastKnownLocation.coordinates[0],
-            userData.lastKnownLocation.coordinates[1],
-          ],
-        },
-      },
-    ],
+    
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: 
+          [
+            [10,10], [-10, 10], [-10, -10],
+            [10,-10], [10,10]
+          ]
+        
+      }
   };
 
-  const layerStyle = {
-    id: "point",
-    type: "circle",
-    paint: {
-      "circle-radius": 100,
-      "circle-color": "#007cbf",
-    },
-  };
+
 
   return (
     <>
@@ -133,10 +136,29 @@ function Map(props) {
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
         mapStyle="mapbox://styles/fakkkkkk123/ckq6pcalq3jpd17o6c7kiwz2y"
       >
-        {/* <Source id="my-data" type="geojson" data={geojson}>
-          <Layer {...layerStyle}/> 
-        </Source> */}
 
+<Source
+id="bull"
+type='geojson'
+data={geojson}
+>
+  <Layer
+  id="nes"
+  type="fill"
+  source="bull"
+  paint={{
+    'fill-color':'#228b22',
+    'fill-opacity':1,
+  }}
+  >
+
+  </Layer>
+</Source>
+
+
+
+
+        
         <Marker
           latitude={userData.lastKnownLocation.coordinates[0]}
           longitude={userData.lastKnownLocation.coordinates[1]}
