@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { accessToken } from 'mapbox-gl';
 import React, { useContext, useEffect, useState } from 'react'
-import ReactMapGL, { Marker,Layer } from "react-map-gl";
+import ReactMapGL, { Marker,Layer, Popup } from "react-map-gl";
 import myContext from './contexts/myContext';
 import { errorHandler } from './functions/Functions';
 import img from '../images/default-photo.png'
@@ -11,6 +11,8 @@ import {
   Button,
   Col,
   Container,
+  OverlayTrigger,
+  Popover,
   Row,
   Spinner
 } from "react-bootstrap";
@@ -60,8 +62,9 @@ function Map(props) {
       }
 
       const onMarkerClick = (id) => {
+    
         alert('You clicked on marker');
-      
+       
         history.push(`/user/${id}`)
       };
 

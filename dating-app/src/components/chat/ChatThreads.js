@@ -13,7 +13,7 @@ function ChatThreads() {
 
     const {accessToken,userData} = useContext(myContext)
     const [threads, setThreads] = useState([])
-    const [fId, setFId] = useState(null)
+
     const history = useHistory()
 
     useEffect(async() => {
@@ -31,12 +31,7 @@ function ChatThreads() {
             console.log("Chat Threads")
          
             setThreads(res.data)
-            if(userData._id == res.data.user_1){
-                setFId(res.data[0].user_1)
-                
-            }else{
-                setFId(res.data[0].user_2)
-            }
+           
 
           } catch (error) {
             errorHandler(error);
@@ -80,7 +75,7 @@ function ChatThreads() {
             <h1>Chats</h1>
           
         {threads.map(t=>{
-            return<> <Button className="thread" onClick={()=>changeChat(t._id)}>{t._id}</Button>
+            return<> <Button className="thread" onClick={()=>changeChat(t._id)}>{t.firstName}{t.lastName}<img src={t.imageUrl} width="50px"/></Button>
             <br/>
             <hr/>
             </>
