@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import "./Chat.css"
 
 
-function ChatThreads() {
+function ChatThreads(props) {
 
 
     const {accessToken,userData} = useContext(myContext)
@@ -16,6 +16,7 @@ function ChatThreads() {
 
     const history = useHistory()
 
+    const {blocked} = props
     useEffect(async() => {
     
         try {
@@ -75,7 +76,7 @@ function ChatThreads() {
             <h1>Chats</h1>
           
         {threads.map(t=>{
-            return<> <Button className="thread" onClick={()=>changeChat(t._id)}>{t.firstName}{t.lastName}<img src={t.imageUrl} width="50px"/></Button>
+            return<> <Button className="thread" disabled={blocked}  onClick={()=>changeChat(t._id)}>{t.firstName}{t.lastName}<img src={t.imageUrl} width="50px"/></Button>
             <br/>
             <hr/>
             </>

@@ -168,7 +168,7 @@ function Chat() {
     <Container fluid>
       <Row>
         <Col lg={3}>
-          <ChatThreads />
+          <ChatThreads blocked={blocked} />
         </Col>
         <Col lg={6}  className="chat">
           {friendData === null ? null : (

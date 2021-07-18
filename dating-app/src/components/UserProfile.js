@@ -11,7 +11,7 @@ function UserProfile() {
   const [userData, setUserData] = useState(null);
   const { id } = useParams();
   const { accessToken} = useContext(myContext);
-  console.log("access token "  + accessToken)
+
   const history = useHistory();
 
   const handleClick = async () => {
@@ -22,7 +22,7 @@ function UserProfile() {
     //Create chat
 
     try {
-      console.log("sending")
+     
       const res = await axios.post(
         process.env.REACT_APP_CHAT_ROUTE, {recipient_id : id},
         {
@@ -32,18 +32,16 @@ function UserProfile() {
       }
        
       );
-      console.log("hey")
+     
       history.push(`/chat/${res.data.chat_id}`);
     } catch (err) {
-      console.log(err)
+     
       errorHandler(err);
+      alert("You dont have points! :(")
     }
  
     
-     
-
-
-    //TODO FIX
+  
 
 
  
@@ -69,7 +67,7 @@ function UserProfile() {
     }
   }, []);
 
-  console.log(userData);
+  
   return (
     <Container fluid>
       <h1>User Profile</h1>
