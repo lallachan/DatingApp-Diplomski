@@ -5,6 +5,36 @@
     background-color: lightgrey;
     width: 50%;
     margin-top: 20px;
-    height: 500px;
+    height: 700px;
     padding:20px;
+    overflow-y: scroll;
+}
+
+.profilePhoto{
+    text-align: center;
+    padding:"20px";
+}
+
+.description{
+
+}
+
+.textarea{
+    width: 80%;
+    height:50px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+.intro{
+   
+    
+    padding: 10px;
+    font-size: 20px;
+    text-align: left;
+    
 }

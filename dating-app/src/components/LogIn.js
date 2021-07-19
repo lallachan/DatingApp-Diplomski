@@ -89,6 +89,7 @@ const history = useHistory()
               password: "",
             }}
             validationSchema={LogInSchema}
+
             onSubmit={async (values) => {
               try {
                 const res = await axios.post(
@@ -104,9 +105,21 @@ const history = useHistory()
                 
 
               } catch (error) {
+              
                errorHandler(error);
+              
+              
+               //EMAIL NOT VERIFIED
+               alert("Email not verified")
+               //WRONG PASSWORD
+               //WRONG EMAIL
+
+
+               //TODO FIX ERROR AND DISPLAY THEM ON FRONT
               }
              
+              
+
               
             }}
           >
