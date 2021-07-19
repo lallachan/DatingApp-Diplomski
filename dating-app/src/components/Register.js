@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Button, Alert, InputGroup } from "react-bootstrap";
 import img from "../images/banner.jpg";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { errorHandler } from "./functions/Functions";
+import EmailValidation from "./EmailValidation";
 
 
 
@@ -80,7 +81,15 @@ function Register() {
 
     return year + "-" + month + "-" + day
 
+
+
+
   } 
+
+  const [loadEmailValidation, setLoadEmailValidation] = useState(false)
+
+
+  if(loadEmailValidation == true) return <EmailValidation/>
 
   return (
     <div
@@ -161,6 +170,10 @@ function Register() {
               } catch (error) {
                errorHandler(error);
               }
+
+
+              setLoadEmailValidation(true)
+              
 
 
             }}
@@ -402,7 +415,7 @@ function Register() {
                           fontWeight: "bold",
                         }}
                       >
-                        Next
+                        Završi
                       </Button>
                     </div>
                   </Col>

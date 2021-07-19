@@ -155,9 +155,6 @@ data={geojson}
   </Layer>
 </Source>
 
-
-
-
         
         <Marker
           latitude={userData.lastKnownLocation.coordinates[0]}
