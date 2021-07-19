@@ -30,12 +30,15 @@ function MyProfile() {
   const [toggleEditJob, setToggleEditJob] = useState(true);
 
   const [displayTags, setDisplayTags] = useState(false);
-  const [hobbies, setHobbies] = useState([]);
+  const [hobbies, setHobbies] = useState([
+
+  ]);
   const [sexOr, setSexOr] = useState("");
 
   const [jobData, setJobData] = useState("")
 
   const entHobbies = ["TV Series", "Games", "Movies"];
+ 
 
   const editDesc = () => {
     setToggleEditDesc(false);
@@ -199,7 +202,8 @@ function MyProfile() {
           <h3>Gallery</h3>
           {/* <img src={userData.imageUrl} className="gallery"/><br/> */}
           <Button>Add New Photo</Button>
-
+          <br/>
+          <br/>
           <h3>About</h3>
 
           <div className="description">
@@ -247,12 +251,13 @@ function MyProfile() {
               <Button onClick={saveData} variant="success" className="saveBtn">Save Changes</Button>
             ) : null}
           </div>
-
+         
+          <br/>
           <h3>Hobbies</h3>
 
           <h5>Choose some of the hobbies you like.</h5>
 
-            //TODO FIX CATEGORIES
+            {/* //TODO FIX CATEGORIES */}
             {displayTags == true ? (
               <>
                 <select
