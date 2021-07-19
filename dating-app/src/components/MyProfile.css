@@ -5,7 +5,9 @@
 }
 
 
-
+li{
+    float:left;
+}
 
 
 .profile{
@@ -23,13 +25,10 @@
     padding:"20px";
 }
 
-.description{
-
-}
 
 .textarea{
     width: 80%;
-    height:50px;
+   height: 80px;
     padding: 12px 20px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -47,3 +46,19 @@
     
 }
 
+.editBtn{
+    margin-top: -40px;
+    padding: 10px;
+    width: 100px;
+}
+
+.saveBtn {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.categoryBtn {
+    padding: 20px;
+    width: 200px;
+}

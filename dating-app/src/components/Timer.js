@@ -67,7 +67,7 @@ function Timer(props) {
       fetchHearts()
     
     }
-  },[timer])
+  },[]) //TIMER
 
  
         return(

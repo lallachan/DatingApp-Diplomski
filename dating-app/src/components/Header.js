@@ -53,8 +53,6 @@ function Header() {
     }
 
 
-  
-    console.log(timeToFill)
 
     const fetchHearts = async () => {
       try {
