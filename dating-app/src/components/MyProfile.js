@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Alert,
   Button,
@@ -28,11 +28,10 @@ function MyProfile() {
   const [toggleEditDesc, setToggleEditDesc] = useState(true);
   const [toggleEditEdu, setToggleEditEdu] = useState(true);
   const [toggleEditJob, setToggleEditJob] = useState(true);
-
+  const [toggleEditHobbies, setToggleEditHobbies] = useState(false);
+  const [toggleHobbies, setToggleHobbies] = useState(false);
   const [displayTags, setDisplayTags] = useState(false);
-  const [hobbies, setHobbies] = useState([
-
-  ]);
+  const [hobbies, setHobbies] = useState(userData.interests);
   const [sexOr, setSexOr] = useState("");
 
   const [jobData, setJobData] = useState("")
@@ -164,13 +163,41 @@ function MyProfile() {
 
   const showSelect = () => {
     setDisplayTags(true);
+    setToggleHobbies(true)
   };
 
-  const addHobby = (value) => {
-    setHobbies([...hobbies, value]);
+  const addHobby = (category,interest) => {
+    setHobbies([...hobbies,{category,interest}]);
+    console.log(hobbies)
+    
   };
 
-  console.log(hobbies);
+
+  const saveHobbiesData = async() => {
+    try {
+      const res = await axios.patch(
+        process.env.REACT_APP_GET_USER_DATA,
+        { interests: hobbies},
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (error) {
+      errorHandler(error);
+    }
+
+    window.location.reload();
+  }
+
+  useEffect(() => {
+    
+    console.log(hobbies)
+
+  }, [hobbies])
+  
 
   return (
     <Container fluid>
@@ -184,16 +211,17 @@ function MyProfile() {
             </Button>
           </div>
 
-          <div className="intro">
+         
             {" "}
-            <p>
+            <p className="name">
               {userData.firstName} {userData.lastName} , AGE
             </p>
+            <h3>City</h3>
             <p>
               {userData.city},{userData.zip}
             </p>
             <p></p>
-          </div>
+        
           <h3>I'm interested in</h3>
           <p style={{ fontSize: "20px" }}>
             {getSexOr(userData.sexualOrientation)}
@@ -218,7 +246,10 @@ function MyProfile() {
             <Button onClick={editEdu} className="editBtn">Edit</Button>
 
             {toggleEditEdu == false ? (
+              <>
               <Button onClick={saveEduData} variant="success" className="saveBtn">Save Changes</Button>
+              <Button onClick={()=>setToggleEditEdu(true)} variant="danger" className="saveBtn" style={{marginLeft:"5px"}}>Cancel</Button>
+              </>
             ) : null}
           </div>
           <div className="description">
@@ -234,7 +265,10 @@ function MyProfile() {
             <Button onClick={editJob} className="editBtn">Edit</Button>
 
             {toggleEditJob == false ? (
+              <>
               <Button onClick={saveJobData} variant="success" className="saveBtn">Save Changes</Button>
+              <Button onClick={()=>setToggleEditJob(true)} variant="danger" className="saveBtn" style={{marginLeft:"5px"}}>Cancel</Button>
+              </>
             ) : null}
           </div>
           <div className="description">
@@ -248,17 +282,39 @@ function MyProfile() {
             </textarea>{" "}
             <Button onClick={editDesc} className="editBtn">Edit</Button>
             {toggleEditDesc == false ? (
+              <>
               <Button onClick={saveData} variant="success" className="saveBtn">Save Changes</Button>
+              <Button onClick={()=>setToggleEditDesc(true)} variant="danger" className="saveBtn" style={{marginLeft:"5px"}}>Cancel</Button>
+              </>
             ) : null}
           </div>
          
           <br/>
           <h3>Hobbies</h3>
 
-          <h5>Choose some of the hobbies you like.</h5>
+          <div>
+          {hobbies.map(h=>{
+            return <p className="hobbies">
+              {h.interest}
+              </p>
+          })}
+        
+          </div>
+          <br/>
+          <Button className="editBtn" onClick={()=>setToggleEditHobbies(true)}>Edit</Button>
+          {toggleEditHobbies == true ?
+          <>
+          <Button onClick={saveHobbiesData} variant="success" className="saveBtn" style={{marginTop:"-35px",marginLeft:"5px"}}>Save Changes</Button> 
+          <Button onClick={()=>setToggleEditHobbies(false)} variant="danger" className="saveBtn" style={{marginTop:"-35px",marginLeft:"5px"}}>Cancel</Button>
+         </> : null}
+         
+          <br/>
 
-            {/* //TODO FIX CATEGORIES */}
-            {displayTags == true ? (
+           
+         
+
+          {/* //TODO FIX CATEGORIES */}
+          {displayTags == true ? (
               <>
                 <select
                   ref={selectRef}
@@ -273,14 +329,25 @@ function MyProfile() {
                     return <option value={hobbie}>{hobbie}</option>;
                   })}
                 </select>
-                <Button onClick={() => addHobby(selectRef.current.value)}>
+                <Button onClick={() => addHobby("Entertainment",selectRef.current.value)}>
                   Add
                 </Button>
               </>
             ) : (
               <></>
             )}
+
+
+           
+
           <Row>
+
+
+
+
+          {toggleEditHobbies == true ?  
+          <>
+          <h5>Choose some of the hobbies you like.</h5>
           <ol className="categories">
             <li>
               <Button
@@ -294,7 +361,8 @@ function MyProfile() {
 
           
 
-            <p>{hobbies}</p>
+           
+
             <br />
             <br />
 
@@ -317,7 +385,8 @@ function MyProfile() {
             <li>
               <Button variant="secondary"  className="categoryBtn">Other</Button>
             </li>
-          </ol>
+          </ol></> : null}  
+          
           </Row>
           <div style={{ clear: "both" }}></div>
         </div>

@@ -62,3 +62,19 @@ li{
     padding: 20px;
     width: 200px;
 }
+
+.hobbies{
+    background-color: white;
+    padding: 20px;
+    border-radius: 30px;
+    width: 20%;
+    display: inline-block;
+    margin-right: 5px;
+    text-align: center;
+    
+}
+
+.name{
+    font-weight: bold;
+    font-size: 30px;
+}
