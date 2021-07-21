@@ -185,7 +185,7 @@ const history = useHistory()
                 </div>
                 <hr></hr>
                 {/* //Todo forgot password */}
-                <Alert variant="danger">{error!=null?error:null}</Alert>
+              {error!=null?<Alert variant="danger">{error}</Alert>:null}
                 <div style={{ marginTop: "20px", textAlign: "center" }}>
                   <a
                     href="#"

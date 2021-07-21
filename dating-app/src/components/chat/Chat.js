@@ -22,6 +22,9 @@ function Chat() {
 
   const [friendData, setFriendData] = useState(null);
 
+  
+
+
   const textArea = useRef();
 
   const { id: chat_id } = useParams();

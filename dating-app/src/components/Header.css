@@ -8,3 +8,9 @@
    
     margin-top: 20px;
 }
+
+.badge{
+    background-color: red;
+    border-radius: 50%;
+    
+}
