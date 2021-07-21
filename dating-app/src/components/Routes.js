@@ -17,7 +17,7 @@ import MyProfile from './MyProfile'
 function Routes() {
 
 
-  const {accessToken,userData,chatId,refreshToken} = useContext(myContext)
+  const {accessToken,userData,socket,refreshToken} = useContext(myContext)
 
 
 
@@ -38,11 +38,11 @@ function Routes() {
           <Route exact path="/completeSetup" component={CompleteSetup} />
 
           <Route exact path="/myProfile">
-          {_.isNull(userData) || _.isUndefined(userData)? <Spinner animation="border" />:<MyProfile/>}
+          {_.isNull(userData) || _.isUndefined(userData) || _.isNull(socket)? <Spinner animation="border" />:<MyProfile/>}
           </Route>
 
           {_.isNull(localStorage.getItem("refreshToken"))? <Redirect to="/"/> :<div>
-          {_.isNull(userData) || _.isUndefined(userData)? <Spinner animation="border" />:<div>
+          {_.isNull(userData) || _.isUndefined(userData)||_.isNull(socket)? <Spinner animation="border" />:<div>
 
         
           <Route exact path="/main" >

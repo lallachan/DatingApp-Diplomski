@@ -17,13 +17,14 @@ import Timer from "./Timer"
 
 function Header() {
 
-    const { accessToken,setAccessToken,userData } = useContext(myContext);
+    const { accessToken,setAccessToken,userData,socket } = useContext(myContext);
    
     const history = useHistory()
 
     const [lifes, setLifes] = useState(null)
     const [timeToFill, setTimeToFill] = useState(null)
-
+    const [notifications,setNotifications] = useState([])
+    const [arrivalNotification,setArrivalNotification] = useState(null)
      //FETCH LIVES OF USER
 
 
@@ -33,6 +34,24 @@ function Header() {
       await fetchHearts()
           
     }, [])
+
+
+    useEffect(()=>{
+      socket.on('getNotification',(data)=>{
+        setArrivalNotification(data)
+      })
+    },[])
+
+    useEffect(()=>{
+      console.log(notifications)
+    },[notifications])
+
+    useEffect(()=>{
+      if(arrivalNotification!=null){
+        setNotifications([...notifications,arrivalNotification])
+      }
+
+    },[arrivalNotification])
 
     
     const LogOut = () => {
@@ -83,6 +102,11 @@ function Header() {
 
     return (
         <Row className="header">
+          <Col>
+            {notifications.map(n=>{
+              return <span>sender =>{n.senderId} , msg => {n.text}, chatID=>{n.chatId}</span>
+            })}
+          </Col>
           <Col lg={10}>Lifes 
           <h1>{lifes}</h1>
           {timeToFill == null ? null : <Timer date={timeToFill} fetchHearts={fetchHearts}/>}

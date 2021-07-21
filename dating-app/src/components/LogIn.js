@@ -23,6 +23,8 @@ function LogIn() {
   const { accessToken, setAccessToken, refreshToken, setRefreshToken,userData,setUserData ,refreshAccessToken} =
     useContext(myContext);
 
+  const [error, setError] = useState(null)
+
   const LogInSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email")
@@ -106,11 +108,12 @@ const history = useHistory()
 
               } catch (error) {
               
-               errorHandler(error);
-              
+               const err = errorHandler(error);
+               console.log(err)
+              setError(err)
               
                //EMAIL NOT VERIFIED
-               alert("Email not verified")
+              
                //WRONG PASSWORD
                //WRONG EMAIL
 
@@ -182,6 +185,7 @@ const history = useHistory()
                 </div>
                 <hr></hr>
                 {/* //Todo forgot password */}
+                <Alert variant="danger">{error!=null?error:null}</Alert>
                 <div style={{ marginTop: "20px", textAlign: "center" }}>
                   <a
                     href="#"

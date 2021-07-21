@@ -6,6 +6,9 @@ import Routes from "./components/Routes"
 import axios from "axios"
 import { errorHandler } from './components/functions/Functions';
 import { useHistory } from 'react-router-dom';
+import { io } from 'socket.io-client';
+import _ from 'lodash';
+import { Spinner } from 'react-bootstrap';
 
 function App() {
   
@@ -14,7 +17,8 @@ function App() {
   const [refreshToken,setRefreshToken] = useState(localStorage.getItem('refreshToken'))
   const [userData,setUserData] = useState(null)
   const [chatId, setChatId] = useState(null)
-  
+  const [socket,setSocket] = useState(null)
+
   const {Provider} = myContext
 
   const history = useHistory()
@@ -22,11 +26,20 @@ function App() {
   //TODO CHECK REFRESH TOKEN (if false redirect on login)
 
   useEffect(async() => {
+  setSocket(io("ws://localhost:8900"));
    await getAcessToken()
  
      
   
  }, [])
+
+
+  useEffect(()=>{
+    if(! _.isNull(userData) && !_.isUndefined(userData)){
+      socket.emit("addUser", userData._id);
+    }
+  },[userData])
+
   
   const getUserData = async (access = accessToken)=>{
     try{
@@ -40,6 +53,7 @@ function App() {
         }
       );
       setUserData(res.data)
+      
      
     
     }
@@ -99,9 +113,10 @@ function App() {
   
   return (
     <div>
-      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData,chatId,setChatId}}>
+      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData,chatId,setChatId,socket}}>
 
-      <Routes />
+      {_.isNull(socket) || _.isNull(userData)? <Spinner></Spinner>:  <Routes />}
+    
       </Provider>
       
     </div>

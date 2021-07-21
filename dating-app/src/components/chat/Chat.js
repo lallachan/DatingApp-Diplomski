@@ -11,11 +11,11 @@ import "./Chat.css";
 import { default as _ } from "lodash";
 import ChatThreads from "./ChatThreads";
 function Chat() {
-  const { userData, chatId, accessToken, setChatId } = useContext(myContext);
+  const { userData, chatId, accessToken,socket, setChatId } = useContext(myContext);
   const [chatMessages, setChatMessages] = useState([]);
   const [arriveMessage, setArriveMessage] = useState(null);
   const [reciverID, setReciverID] = useState(null);
-  const [socket, setSocket] = useState(null);
+
   const [oldReciverID, setOldReciverID] = useState(reciverID);
   const [blocked, setBlocked] = useState(false);
   const [userWhoBlocked, setUserWhoBlocked] = useState(null);
@@ -53,7 +53,6 @@ function Chat() {
           errorHandler(err);
         });
 
-      setSocket(io("ws://localhost:8900"));
     } catch (error) {
       errorHandler(error);
     }
@@ -98,7 +97,7 @@ function Chat() {
 
   useEffect(() => {
     if (socket != null) {
-      socket.emit("addUser", userData._id);
+      
       socket.on("getUsers", (users) => {});
 
       socket.on("getMessage", (data) => {
@@ -142,6 +141,7 @@ function Chat() {
       senderId: userData._id,
       receiverId: reciverID,
       text: messageM,
+      chatId:chat_id
     });
     try {
       const res = await axios.patch(
@@ -156,6 +156,15 @@ function Chat() {
       );
       setChatMessages([...chatMessages, { message: messageM }]);
       delete textArea.current.value;
+
+      //OVO NETREBA JER VEĆ RADIM SENDMESSAGE
+      // socket.emit('sendNotification',{
+      //   senderId: userData._id,
+      //   receiverId: reciverID,
+      //   text: "You got a new message from "+friendData.firstName+ " "+friendData.lastName,
+      // })
+
+
     } catch (error) {
       errorHandler(error);
     }
