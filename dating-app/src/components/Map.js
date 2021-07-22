@@ -19,6 +19,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { default as _, range } from "lodash";
+import Cards from "./Cards";
 
 function Map(props) {
   const history = useHistory();
@@ -115,6 +116,7 @@ function Map(props) {
 
   return (
     <>
+    
       <InputGroup className="mb-3" style={{ width: "30%" }}>
         <Button
           variant="outline-secondary"
@@ -129,8 +131,9 @@ function Map(props) {
           ref={input}
         />
       </InputGroup>
-
+     
       <ReactMapGL
+     
         {...viewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
@@ -181,6 +184,7 @@ data={geojson}
           );
         })}
       </ReactMapGL>
+      <Cards users={usersMarkers}/>
     </>
   );
 }

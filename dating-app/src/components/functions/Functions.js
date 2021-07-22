@@ -31,3 +31,16 @@ export const errorHandler = (error) => {
       }
 }
 
+
+export const getSexOr = (sex) => {
+  if (sex == 0) {
+    return "males";
+  } else if (sex == 1) {
+    return "females";
+  } else if (sex == 2) {
+    return "both";
+  } else {
+    return "";
+  }
+};
+
