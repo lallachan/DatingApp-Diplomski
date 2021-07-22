@@ -16,6 +16,8 @@ import "./MyProfile.css";
 import { Formik, Field, Form, useFormik } from "formik";
 import { errorHandler } from "./functions/Functions";
 import axios from "axios";
+import { default as _, filter } from "lodash";
+import Hobbies from "./Hobbies";
 
 function MyProfile() {
   const { userData, accessToken } = useContext(myContext);
@@ -33,12 +35,16 @@ function MyProfile() {
   const [displayTags, setDisplayTags] = useState(false);
   const [hobbies, setHobbies] = useState(userData.interests);
   const [sexOr, setSexOr] = useState("");
-  const [selectHobbies, setSelectHobbies] = useState([])
-  const [selectCategories, setSelectCategories] = useState(null)
+  const [selectHobbies, setSelectHobbies] = useState([]);
+  const [selectCategories, setSelectCategories] = useState(null);
   const [jobData, setJobData] = useState("");
 
+  const [selectValue, setSelectValue] = useState("Choose hobbies")
+
+  const selectHobbieRef = useRef(null)
+
   const entHobbies = ["TV Series", "Games", "Movies", "Board Games"];
-  const healFitHobbies = ["Workout","Dieting"];
+  const healFitHobbies = ["Workout", "Dieting"];
   const foodHobbies = ["Cooking", "Eating Out", "Drinks", "Brewing Beer"];
   const readLearnHobbies = ["Programming", "Science", "Reading"];
   const OutdoorHobbies = [
@@ -173,44 +179,8 @@ function MyProfile() {
     }
   };
 
-  const showSelect = () => {
-    setDisplayTags(true);
-    setToggleHobbies(true);
-  };
-
-
-
-
-
-  const addHobby = (category, interest) => {
-    setHobbies([...hobbies, { category, interest }]);
-    console.log(hobbies);
-  };
-
-  const saveHobbiesData = async () => {
-    try {
-      console.log({ interests: hobbies })
-      const res = await axios.patch(
-        process.env.REACT_APP_GET_USER_DATA,
-        { interests: hobbies.map(i=>{return{
-          category:i.category,
-          interest:i.interest
-        }})},
-        {
-          headers: {
-            authorization: accessToken,
-          },
-        }
-      );
-      console.log(res.data);
-     setHobbies(res.data.data.interests);
-     window.location.reload();
-    } catch (error) {
-      errorHandler(error);
-    }
-
-
-  };
+  
+  
 
   useEffect(() => {
     console.log(hobbies);
@@ -343,141 +313,13 @@ function MyProfile() {
           </div>
           <br />
           <h3>Hobbies</h3>
-          <div>
-            {hobbies.map((h) => {
-              return <p className="hobbies">{h.interest}</p>;
-            })}
-          </div>
-          <br />
-          <Button
-            className="editBtn"
-            onClick={() => setToggleEditHobbies(true)}
-          >
-            Edit
-          </Button>
-
-          {toggleEditHobbies == true ? (
-            <>
-              <Button
-                onClick={saveHobbiesData}
-                variant="success"
-                className="saveBtn"
-                style={{ marginTop: "-35px", marginLeft: "5px" }}
-              >
-                Save Changes
-              </Button>
-              <Button
-                onClick={() => setToggleEditHobbies(false)}
-                variant="danger"
-                className="saveBtn"
-                style={{ marginTop: "-35px", marginLeft: "5px" }}
-              >
-                Cancel
-              </Button>
-            </>
-          ) : null}
-          <br />
+         
+         <Hobbies hobbies={userData.interests}/>
+          
           {/* //TODO FIX CATEGORIES */}
-          {displayTags == true ? (
-            <>
-              <select
-                ref={selectRef}
-                className="form-select"
-                aria-label="Default select example"
-              >
-                <option disabled selected>
-                  Choose hobbies
-                </option>
 
-                {selectHobbies.map((hobbie, i) => {
-                  return <option value={hobbie}>{hobbie}</option>;
-                })}
-              </select>
-              <Button
-                onClick={() =>
-                  addHobby(selectCategories, selectRef.current.value)
-                }
-              >
-                Add
-              </Button>
-            </>
-          ) : (
-            <></>
-          )}
-          <Row>
-            {toggleEditHobbies == true ? (
-              <>
-                <h5>Choose some of the hobbies you like.</h5>
 
-                <ol className="categories">
-                  <li>
-                    <Button
-                      style={{ backgroundColor: "#FF69B4", border: "none" }}
-                      className="categoryBtn"
-                      onClick={()=>{setSelectCategories("Entertainment");setSelectHobbies(entHobbies);showSelect()}}
-                    >
-                      Entertainment
-                    </Button>
-                  </li>
-
-                  <br />
-                  <br />
-
-                  <li>
-                    <Button
-                      variant="warning"
-                      className="categoryBtn"
-                      onClick={()=>{setSelectCategories("Health/Fitness");setSelectHobbies(healFitHobbies);showSelect()}}
-                    >
-                      {" "}
-                      Health/Fitness
-                    </Button>
-                  </li>
-
-                  <li>
-                    <Button
-                      variant="danger"
-                      className="categoryBtn"
-                      onClick={()=>{setSelectCategories("Food");setSelectHobbies(foodHobbies);showSelect()}}
-                    >
-                      Food
-                    </Button>
-                  </li>
-
-                  <li>
-                    <Button
-                      variant="info"
-                      className="categoryBtn"
-                      onClick={()=>{setSelectCategories("Reading/Learning");setSelectHobbies(readLearnHobbies);showSelect()}}
-                    >
-                      Reading/Learning
-                    </Button>
-                  </li>
-
-                  <li>
-                    <Button
-                      variant="success"
-                      className="categoryBtn"
-                      onClick={()=>{setSelectCategories("Outdoor Activities");setSelectHobbies(OutdoorHobbies);showSelect()}}
-                    >
-                      Outdoor Activies
-                    </Button>
-                  </li>
-
-                  <li>
-                    <Button
-                      variant="secondary"
-                      className="categoryBtn"
-                      // onClick={showSelect}
-                    >
-                      Other
-                    </Button>
-                  </li>
-                </ol>
-              </>
-            ) : null}
-          </Row>
-          <div style={{ clear: "both" }}></div>
+        
         </div>
       </Row>
     </Container>

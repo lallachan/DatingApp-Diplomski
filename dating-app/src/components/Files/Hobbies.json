@@ -1,0 +1,32 @@
+{
+    "hobbies": {
+        "Entertainment": [
+            "TV Series",
+            "Games",
+            "Movies",
+            "Board Games"
+        ]
+    ,
+    "Health/Fitness": [
+        "Workout",
+        "Dieting"
+    ],
+    "Food" : [
+        "Cooking", "Eating Out", "Drinks", "Brewing Beer"
+    ],
+    "Reading/Learning" : [
+        "Programming", "Science", "Reading"
+    ],
+    "Outdoor Activities" : [
+        "Hiking",
+        "Sports",
+        "Football",
+        "Basketball",
+        "Swimming",
+        "Camping"
+    ]
+    },
+    "hobbieColor":[
+        "#FF1493","#FF8C00","#DC143C","#1E90FF","#006400"
+    ]
+}
