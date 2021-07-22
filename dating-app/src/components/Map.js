@@ -20,6 +20,7 @@ import {
 } from "react-bootstrap";
 import { default as _, range } from "lodash";
 import Cards from "./Cards";
+import Filters from "./Filters";
 
 function Map(props) {
   const history = useHistory();
@@ -30,8 +31,7 @@ function Map(props) {
   const [radius, setRadius] = useState(100)
 
 
-    
-
+  
 
   const [viewport, setViewport] = useState({
     width: "100%",
@@ -164,6 +164,7 @@ data={geojson}
           longitude={userData.lastKnownLocation.coordinates[1]}
           offsetLeft={-50}
           zoom={11}
+    
         >
           <img width="40px" src={userImage} onClick={(event) => {}} />
         </Marker>
@@ -184,7 +185,8 @@ data={geojson}
           );
         })}
       </ReactMapGL>
-      <Cards users={usersMarkers}/>
+      <Cards users={usersMarkers} setViewport={setViewport}/>
+      <Filters  />
     </>
   );
 }

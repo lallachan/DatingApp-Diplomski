@@ -1,0 +1,12 @@
+.filters{
+    padding: 10px;
+    overflow-y: scroll;
+    height:500px;
+    width: 300px;
+    position: relative;
+    margin-top: -500px;
+    z-index: 1;
+    margin-left: 500px;
+    background-color: white;
+}
+
