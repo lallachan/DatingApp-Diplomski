@@ -186,7 +186,7 @@ data={geojson}
         })}
       </ReactMapGL>
       <Cards users={usersMarkers} setViewport={setViewport}/>
-      <Filters  />
+      <Filters setMarkers={setUsersMarkers} />
     </>
   );
 }
