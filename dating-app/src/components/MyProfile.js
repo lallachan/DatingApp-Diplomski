@@ -33,11 +33,23 @@ function MyProfile() {
   const [displayTags, setDisplayTags] = useState(false);
   const [hobbies, setHobbies] = useState(userData.interests);
   const [sexOr, setSexOr] = useState("");
+  const [selectHobbies, setSelectHobbies] = useState([])
+  const [selectCategories, setSelectCategories] = useState(null)
+  const [jobData, setJobData] = useState("");
 
-  const [jobData, setJobData] = useState("")
-
-  const entHobbies = ["TV Series", "Games", "Movies"];
- 
+  const entHobbies = ["TV Series", "Games", "Movies", "Board Games"];
+  const healFitHobbies = ["Workout","Dieting"];
+  const foodHobbies = ["Cooking", "Eating Out", "Drinks", "Brewing Beer"];
+  const readLearnHobbies = ["Programming", "Science", "Reading"];
+  const OutdoorHobbies = [
+    "Hiking",
+    "Sports",
+    "Football",
+    "Basketball",
+    "Swimming",
+    "Camping",
+  ];
+  const otherHobbies = [];
 
   const editDesc = () => {
     setToggleEditDesc(false);
@@ -163,21 +175,27 @@ function MyProfile() {
 
   const showSelect = () => {
     setDisplayTags(true);
-    setToggleHobbies(true)
-  };
-
-  const addHobby = (category,interest) => {
-    setHobbies([...hobbies,{category,interest}]);
-    console.log(hobbies)
-    
+    setToggleHobbies(true);
   };
 
 
-  const saveHobbiesData = async() => {
+
+
+
+  const addHobby = (category, interest) => {
+    setHobbies([...hobbies, { category, interest }]);
+    console.log(hobbies);
+  };
+
+  const saveHobbiesData = async () => {
     try {
+      console.log({ interests: hobbies })
       const res = await axios.patch(
         process.env.REACT_APP_GET_USER_DATA,
-        { interests: hobbies},
+        { interests: hobbies.map(i=>{return{
+          category:i.category,
+          interest:i.interest
+        }})},
         {
           headers: {
             authorization: accessToken,
@@ -185,19 +203,18 @@ function MyProfile() {
         }
       );
       console.log(res.data);
+     setHobbies(res.data.data.interests);
+     window.location.reload();
     } catch (error) {
       errorHandler(error);
     }
 
-    window.location.reload();
-  }
+
+  };
 
   useEffect(() => {
-    
-    console.log(hobbies)
-
-  }, [hobbies])
-  
+    console.log(hobbies);
+  }, [hobbies]);
 
   return (
     <Container fluid>
@@ -209,33 +226,27 @@ function MyProfile() {
             <Button style={{ marginTop: "10px" }} onClick={showWidget}>
               Change Profile Photo
             </Button>
-          </div>
-
-         
-            {" "}
-            <p className="name">
-              {userData.firstName} {userData.lastName} , AGE
-            </p>
-            <h3>City</h3>
-            <p>
-              {userData.city},{userData.zip}
-            </p>
-            <p></p>
-        
+          </div>{" "}
+          <p className="name">
+            {userData.firstName} {userData.lastName} , AGE
+          </p>
+          <h3>City</h3>
+          <p>
+            {userData.city},{userData.zip}
+          </p>
+          <p></p>
           <h3>I'm interested in</h3>
           <p style={{ fontSize: "20px" }}>
             {getSexOr(userData.sexualOrientation)}
           </p>
-
           <h3>Gallery</h3>
           {/* <img src={userData.imageUrl} className="gallery"/><br/> */}
           <Button>Add New Photo</Button>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <h3>About</h3>
-
           <div className="description">
-          <textarea
+            <textarea
               placeholder="Add Education"
               className="textarea"
               disabled={toggleEditEdu}
@@ -243,17 +254,31 @@ function MyProfile() {
             >
               {userData.education}
             </textarea>{" "}
-            <Button onClick={editEdu} className="editBtn">Edit</Button>
-
+            <Button onClick={editEdu} className="editBtn">
+              Edit
+            </Button>
             {toggleEditEdu == false ? (
               <>
-              <Button onClick={saveEduData} variant="success" className="saveBtn">Save Changes</Button>
-              <Button onClick={()=>setToggleEditEdu(true)} variant="danger" className="saveBtn" style={{marginLeft:"5px"}}>Cancel</Button>
+                <Button
+                  onClick={saveEduData}
+                  variant="success"
+                  className="saveBtn"
+                >
+                  Save Changes
+                </Button>
+                <Button
+                  onClick={() => setToggleEditEdu(true)}
+                  variant="danger"
+                  className="saveBtn"
+                  style={{ marginLeft: "5px" }}
+                >
+                  Cancel
+                </Button>
               </>
             ) : null}
           </div>
           <div className="description">
-          <textarea
+            <textarea
               placeholder="Add Job"
               className="textarea"
               disabled={toggleEditJob}
@@ -261,13 +286,26 @@ function MyProfile() {
             >
               {userData.job}
             </textarea>{" "}
-
-            <Button onClick={editJob} className="editBtn">Edit</Button>
-
+            <Button onClick={editJob} className="editBtn">
+              Edit
+            </Button>
             {toggleEditJob == false ? (
               <>
-              <Button onClick={saveJobData} variant="success" className="saveBtn">Save Changes</Button>
-              <Button onClick={()=>setToggleEditJob(true)} variant="danger" className="saveBtn" style={{marginLeft:"5px"}}>Cancel</Button>
+                <Button
+                  onClick={saveJobData}
+                  variant="success"
+                  className="saveBtn"
+                >
+                  Save Changes
+                </Button>
+                <Button
+                  onClick={() => setToggleEditJob(true)}
+                  variant="danger"
+                  className="saveBtn"
+                  style={{ marginLeft: "5px" }}
+                >
+                  Cancel
+                </Button>
               </>
             ) : null}
           </div>
@@ -280,113 +318,164 @@ function MyProfile() {
             >
               {userData.description}
             </textarea>{" "}
-            <Button onClick={editDesc} className="editBtn">Edit</Button>
+            <Button onClick={editDesc} className="editBtn">
+              Edit
+            </Button>
             {toggleEditDesc == false ? (
               <>
-              <Button onClick={saveData} variant="success" className="saveBtn">Save Changes</Button>
-              <Button onClick={()=>setToggleEditDesc(true)} variant="danger" className="saveBtn" style={{marginLeft:"5px"}}>Cancel</Button>
+                <Button
+                  onClick={saveData}
+                  variant="success"
+                  className="saveBtn"
+                >
+                  Save Changes
+                </Button>
+                <Button
+                  onClick={() => setToggleEditDesc(true)}
+                  variant="danger"
+                  className="saveBtn"
+                  style={{ marginLeft: "5px" }}
+                >
+                  Cancel
+                </Button>
               </>
             ) : null}
           </div>
-         
-          <br/>
+          <br />
           <h3>Hobbies</h3>
-
           <div>
-          {hobbies.map(h=>{
-            return <p className="hobbies">
-              {h.interest}
-              </p>
-          })}
-        
+            {hobbies.map((h) => {
+              return <p className="hobbies">{h.interest}</p>;
+            })}
           </div>
-          <br/>
-          <Button className="editBtn" onClick={()=>setToggleEditHobbies(true)}>Edit</Button>
-          {toggleEditHobbies == true ?
-          <>
-          <Button onClick={saveHobbiesData} variant="success" className="saveBtn" style={{marginTop:"-35px",marginLeft:"5px"}}>Save Changes</Button> 
-          <Button onClick={()=>setToggleEditHobbies(false)} variant="danger" className="saveBtn" style={{marginTop:"-35px",marginLeft:"5px"}}>Cancel</Button>
-         </> : null}
-         
-          <br/>
+          <br />
+          <Button
+            className="editBtn"
+            onClick={() => setToggleEditHobbies(true)}
+          >
+            Edit
+          </Button>
 
-           
-         
-
+          {toggleEditHobbies == true ? (
+            <>
+              <Button
+                onClick={saveHobbiesData}
+                variant="success"
+                className="saveBtn"
+                style={{ marginTop: "-35px", marginLeft: "5px" }}
+              >
+                Save Changes
+              </Button>
+              <Button
+                onClick={() => setToggleEditHobbies(false)}
+                variant="danger"
+                className="saveBtn"
+                style={{ marginTop: "-35px", marginLeft: "5px" }}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : null}
+          <br />
           {/* //TODO FIX CATEGORIES */}
           {displayTags == true ? (
-              <>
-                <select
-                  ref={selectRef}
-                  class="form-select"
-                  aria-label="Default select example"
-                >
-                  <option disabled selected>
-                    Choose hobbies
-                  </option>
-
-                  {entHobbies.map((hobbie, i) => {
-                    return <option value={hobbie}>{hobbie}</option>;
-                  })}
-                </select>
-                <Button onClick={() => addHobby("Entertainment",selectRef.current.value)}>
-                  Add
-                </Button>
-              </>
-            ) : (
-              <></>
-            )}
-
-
-           
-
-          <Row>
-
-
-
-
-          {toggleEditHobbies == true ?  
-          <>
-          <h5>Choose some of the hobbies you like.</h5>
-          <ol className="categories">
-            <li>
-              <Button
-                style={{ backgroundColor: "#FF69B4", border: "none" }}
-                className="categoryBtn"
-                onClick={showSelect}
+            <>
+              <select
+                ref={selectRef}
+                className="form-select"
+                aria-label="Default select example"
               >
-                Entertainment
+                <option disabled selected>
+                  Choose hobbies
+                </option>
+
+                {selectHobbies.map((hobbie, i) => {
+                  return <option value={hobbie}>{hobbie}</option>;
+                })}
+              </select>
+              <Button
+                onClick={() =>
+                  addHobby(selectCategories, selectRef.current.value)
+                }
+              >
+                Add
               </Button>
-            </li>
+            </>
+          ) : (
+            <></>
+          )}
+          <Row>
+            {toggleEditHobbies == true ? (
+              <>
+                <h5>Choose some of the hobbies you like.</h5>
 
-          
+                <ol className="categories">
+                  <li>
+                    <Button
+                      style={{ backgroundColor: "#FF69B4", border: "none" }}
+                      className="categoryBtn"
+                      onClick={()=>{setSelectCategories("Entertainment");setSelectHobbies(entHobbies);showSelect()}}
+                    >
+                      Entertainment
+                    </Button>
+                  </li>
 
-           
+                  <br />
+                  <br />
 
-            <br />
-            <br />
+                  <li>
+                    <Button
+                      variant="warning"
+                      className="categoryBtn"
+                      onClick={()=>{setSelectCategories("Health/Fitness");setSelectHobbies(healFitHobbies);showSelect()}}
+                    >
+                      {" "}
+                      Health/Fitness
+                    </Button>
+                  </li>
 
-            <li>
-              <Button variant="warning"  className="categoryBtn"> Health/Fitness</Button>
-            </li>
+                  <li>
+                    <Button
+                      variant="danger"
+                      className="categoryBtn"
+                      onClick={()=>{setSelectCategories("Food");setSelectHobbies(foodHobbies);showSelect()}}
+                    >
+                      Food
+                    </Button>
+                  </li>
 
-            <li>
-              <Button variant="danger"  className="categoryBtn">Food</Button>
-            </li>
+                  <li>
+                    <Button
+                      variant="info"
+                      className="categoryBtn"
+                      onClick={()=>{setSelectCategories("Reading/Learning");setSelectHobbies(readLearnHobbies);showSelect()}}
+                    >
+                      Reading/Learning
+                    </Button>
+                  </li>
 
-            <li>
-              <Button variant="info"  className="categoryBtn">Reading/Learning</Button>
-            </li>
+                  <li>
+                    <Button
+                      variant="success"
+                      className="categoryBtn"
+                      onClick={()=>{setSelectCategories("Outdoor Activities");setSelectHobbies(OutdoorHobbies);showSelect()}}
+                    >
+                      Outdoor Activies
+                    </Button>
+                  </li>
 
-            <li>
-              <Button variant="success"  className="categoryBtn">Outdoor Activies</Button>
-            </li>
-
-            <li>
-              <Button variant="secondary"  className="categoryBtn">Other</Button>
-            </li>
-          </ol></> : null}  
-          
+                  <li>
+                    <Button
+                      variant="secondary"
+                      className="categoryBtn"
+                      // onClick={showSelect}
+                    >
+                      Other
+                    </Button>
+                  </li>
+                </ol>
+              </>
+            ) : null}
           </Row>
           <div style={{ clear: "both" }}></div>
         </div>
