@@ -36,22 +36,25 @@ function Routes() {
         <Route exact path="/completeSetup" component={CompleteSetup} />
         
         <Route exact path="/myProfile">
-          {_.isNull(userData) || _.isUndefined(userData) || _.isNull(socket) ? (
+          {_.isNull(userData) || _.isUndefined(userData) || _.isNull(socket) ? 
             <Spinner animation="border" />
-          ) : (
+           : 
             <MyProfile />
-          )}
+          }
         </Route>
 
-        {_.isNull(localStorage.getItem("refreshToken")) ? (
+        {_.isNull(localStorage.getItem("refreshToken")) ? 
           <Redirect to="/" />
-        ) : (
+         : 
           <div>
+           { console.log(_.isNull(socket))}
             {_.isNull(userData) ||
             _.isUndefined(userData) ||
-            _.isNull(socket) ? (
+            _.isNull(socket) ? 
+
+            
               <Spinner animation="border" />
-            ) : (
+             : 
               <div>
                 <Route exact path="/main">
                   <Main />
@@ -63,9 +66,9 @@ function Routes() {
                   <Chat />
                 </Route>
               </div>
-            )}
+            }
           </div>
-        )}
+        }
       </Switch>
     </Router>
   );

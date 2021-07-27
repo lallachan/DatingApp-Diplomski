@@ -29,9 +29,8 @@ function App() {
 
  
   useEffect(async() => {
-  if(loggedIn === true){
+  if(localStorage.getItem("refreshToken") != null){
     setSocket(io("ws://localhost:8900"));
-   
     await getAcessToken()
   }
   
