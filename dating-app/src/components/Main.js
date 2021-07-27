@@ -24,7 +24,7 @@ function Main() {
         <Container fluid>
         
         <Row><Header/></Row>
-        <Row style={{textAlign:"center",marginTop:"30px"}}><h1>Welcome Back!</h1></Row>
+       
         <br/>
       
         <Map/>

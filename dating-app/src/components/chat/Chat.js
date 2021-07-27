@@ -11,7 +11,8 @@ import "./Chat.css";
 import { default as _ } from "lodash";
 import ChatThreads from "./ChatThreads";
 function Chat() {
-  const { userData, chatId, accessToken,socket, setChatId } = useContext(myContext);
+  const { userData, chatId, accessToken, socket, setChatId } =
+    useContext(myContext);
   const [chatMessages, setChatMessages] = useState([]);
   const [arriveMessage, setArriveMessage] = useState(null);
   const [reciverID, setReciverID] = useState(null);
@@ -21,9 +22,35 @@ function Chat() {
   const [userWhoBlocked, setUserWhoBlocked] = useState(null);
 
   const [friendData, setFriendData] = useState(null);
+  const [image, setImage] = useState(null);
 
-  
+  ///WIDGET
 
+  let widget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: "dbfwwnhat",
+      uploadPreset: "jydos0sa",
+      folder: "users",
+      //  cropping:true,
+      name: "hey",
+    },
+    (error, result) => {
+      if (result.event == "queues-end") {
+        setImage(result.info.files[0].uploadInfo.secure_url); //path for backend
+      
+        sendImage(result.info.files[0].uploadInfo.secure_url)
+      }
+    }
+  );
+
+  function showWidget() {
+    widget.open();
+  }
+
+  const uploadImage = () => {
+    showWidget()
+   
+  }
 
   const textArea = useRef();
 
@@ -49,13 +76,12 @@ function Chat() {
             setReciverID(user_1);
           }
           setChatMessages(res.data.messages);
-          console.log(res.data)
-          setBlocked(res.data.blockChat)
+          console.log(res.data);
+          setBlocked(res.data.blockChat);
         })
         .catch((err) => {
           errorHandler(err);
         });
-
     } catch (error) {
       errorHandler(error);
     }
@@ -100,7 +126,7 @@ function Chat() {
 
   useEffect(() => {
     if (socket != null) {
-      
+     
       socket.on("getUsers", (users) => {});
 
       socket.on("getMessage", (data) => {
@@ -109,6 +135,7 @@ function Chat() {
           message: data.text,
           date: Date.now(),
           senderID: data.senderId,
+          imageUrl : data.imageUrl
         };
         setArriveMessage(messObj);
       });
@@ -138,13 +165,48 @@ function Chat() {
     }
   };
 
+
+  const sendImage = async(imgUrl) => {
+   
+    socket.emit("sendMessage", {
+      senderId: userData._id,
+      receiverId: reciverID,
+      text: "m",
+      chatId: chat_id,
+      imageUrl: imgUrl
+    });
+    try {
+      const res = await axios.patch(
+        process.env.REACT_APP_CHAT_ROUTE,
+        { message: "m", imageUrl: imgUrl, chat_id: chat_id },
+        {
+          headers: {
+            authorization: accessToken,
+            chat_id: chat_id,
+          },
+        }
+      );
+      setChatMessages([...chatMessages, { message: "m", imageUrl : imgUrl }]);
+      delete textArea.current.value;
+
+      //OVO NETREBA JER VEĆ RADIM SENDMESSAGE
+      // socket.emit('sendNotification',{
+      //   senderId: userData._id,
+      //   receiverId: reciverID,
+      //   text: "You got a new message from "+friendData.firstName+ " "+friendData.lastName,
+      // })
+    } catch (error) {
+      errorHandler(error);
+    }
+  }
+
   const handleSubmit = async () => {
     const messageM = textArea.current.value;
     socket.emit("sendMessage", {
       senderId: userData._id,
       receiverId: reciverID,
       text: messageM,
-      chatId:chat_id
+      chatId: chat_id,
     });
     try {
       const res = await axios.patch(
@@ -166,23 +228,21 @@ function Chat() {
       //   receiverId: reciverID,
       //   text: "You got a new message from "+friendData.firstName+ " "+friendData.lastName,
       // })
-
-
     } catch (error) {
       errorHandler(error);
     }
   };
 
-  if(_.isNull(userData) || _.isUndefined(userData)) return <Spinner/>
-  
-  if(_.isNull(friendData) || _.isUndefined(friendData)) return <Spinner/>
+  if (_.isNull(userData) || _.isUndefined(userData)) return <Spinner />;
+
+  if (_.isNull(friendData) || _.isUndefined(friendData)) return <Spinner />;
   return (
     <Container fluid>
       <Row>
         <Col lg={3}>
           <ChatThreads blocked={blocked} />
         </Col>
-        <Col lg={6}  className="chat">
+        <Col lg={6} className="chat">
           {friendData === null ? null : (
             <h1 className="headline">
               Chat sa {friendData.firstName}
@@ -211,15 +271,23 @@ function Chat() {
                     <img src={friendData.imageUrl} width="20px" />
                   ) : null}
 
-                  {m.message}
+                  {/* {m.message} */}
+                  
+                
+                  {m.imageUrl != undefined ? <img src={m.imageUrl}  style={{borderRadius:"0px",width:"100%",marginRight:"300px"}}/>  : m.message}
+                 
+                 
+                  
+                  
                 </p>
 
                 <div className="clear"></div>
+
+               
               </>
             );
           })}
 
-          
           {blocked == true ? (
             <Alert variant="danger">
               {userWhoBlocked == userData._id
@@ -230,9 +298,27 @@ function Chat() {
           ) : null}
 
           <hr />
-          <textarea ref={textArea} className="textarea"></textarea>
-          <br></br>
-          <Button onClick={handleSubmit} disabled={blocked}>Send</Button>
+          <textarea ref={textArea} className="textarea">
+
+          </textarea>
+
+          <Button
+            variant="secondary"
+            style={{
+              backgroundColor: "lightgrey",
+              marginRight: "10px",
+              border: "none",
+            }}
+            onClick={showWidget}
+          >
+            <img
+              src="https://cdn.iconscout.com/icon/free/png-256/gallery-187-902099.png"
+              width="30px"
+            />
+          </Button>
+          <Button onClick={handleSubmit} disabled={blocked}>
+            Send
+          </Button>
         </Col>
         <Col lg={1}></Col>
       </Row>

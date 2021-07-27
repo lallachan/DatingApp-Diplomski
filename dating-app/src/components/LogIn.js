@@ -20,7 +20,7 @@ import { useHistory } from "react-router-dom";
 
 
 function LogIn() {
-  const { accessToken, setAccessToken, refreshToken, setRefreshToken,userData,setUserData ,refreshAccessToken} =
+  const { accessToken, setAccessToken, refreshToken, setRefreshToken,userData,setUserData ,refreshAccessToken,setLoggedIn} =
     useContext(myContext);
 
   const [error, setError] = useState(null)
@@ -104,7 +104,7 @@ const history = useHistory()
                 setRefreshToken(data.refresh);
                 setAccessToken(data.access)
                 getUserData(data.access)
-                
+                setLoggedIn(true)
 
               } catch (error) {
               

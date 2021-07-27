@@ -29,7 +29,7 @@ function ChatThreads(props) {
               }
             );
               
-            console.log("Chat Threads")
+          
          
             setThreads(res.data)
            
@@ -42,25 +42,7 @@ function ChatThreads(props) {
 
 
 
-    // useEffect(async () => {
-    //   if(id == undefined){
-    //       try {
-    //         const res = await axios.get(
-    //           process.env.REACT_APP_GET_USER_DATA + `/${id}`,
-    
-    //           {
-    //             headers: {
-    //               authorization: accessToken,
-    //             },
-    //           }
-    //         );
-    //         console.log(res.data);
-            
-    //       } catch (error) {
-    //         errorHandler(error);
-    //       }
-    //   }
-    //   }, [id]);
+  
 
     const changeChat = (id)=>{
         history.push(`/chat/${id}`)
@@ -72,7 +54,7 @@ function ChatThreads(props) {
 
     
         <div className="chatThreads"> 
-            {console.log(threads)}
+            
             <h1>Chats</h1>
           
         {threads.map(t=>{

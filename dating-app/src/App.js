@@ -5,10 +5,11 @@ import myContext from './components/contexts/myContext';
 import Routes from "./components/Routes"
 import axios from "axios"
 import { errorHandler } from './components/functions/Functions';
-import { useHistory } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import _ from 'lodash';
 import { Spinner } from 'react-bootstrap';
+import LandingPage from './components/LandingPage';
 
 function App() {
   
@@ -18,22 +19,27 @@ function App() {
   const [userData,setUserData] = useState(null)
   const [chatId, setChatId] = useState(null)
   const [socket,setSocket] = useState(null)
-
+  const [loggedIn,setLoggedIn] = useState(false)
+  
   const {Provider} = myContext
 
   const history = useHistory()
  
   //TODO CHECK REFRESH TOKEN (if false redirect on login)
 
-  useEffect(async() => {
-  setSocket(io("ws://localhost:8900"));
-   await getAcessToken()
  
-     
+  useEffect(async() => {
+  if(loggedIn === true){
+    setSocket(io("ws://localhost:8900"));
+   
+    await getAcessToken()
+  }
   
- }, [])
+ }, [loggedIn])
 
+  
 
+ 
   useEffect(()=>{
     if(! _.isNull(userData) && !_.isUndefined(userData)){
       socket.emit("addUser", userData._id);
@@ -54,13 +60,12 @@ function App() {
       );
       setUserData(res.data)
       
-     
-    
     }
     catch(error){
       errorHandler(error)
     }
   }
+
   const getAcessToken = async ()=>{
     
     //CHECK IF REFRESH TOKEN 
@@ -87,35 +92,27 @@ function App() {
         //if error 444 call get access
         
       }
-      
-    
-   
-      
-     
+          
    }
   }
 
   useEffect(async () => {
      //CHECK IF REFRESH TOKEN 
      if(refreshToken != null){
-
       setTimeout(await getAcessToken, 60*900000); //900000
      }
   }, [accessToken])
   
-
-
-
- 
-
-
-
+  console.log(socket)
   
   return (
     <div>
-      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData,chatId,setChatId,socket}}>
-
-      {_.isNull(socket) || _.isNull(userData)? <Spinner></Spinner>:  <Routes />}
+      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData,chatId,setChatId,socket,loggedIn,setLoggedIn}}>
+     
+      {/* {_.isNull(socket) || _.isNull(userData) ? <Spinner></Spinner>:  <Routes />}
+       */}
+     
+       <Routes/>
     
       </Provider>
       

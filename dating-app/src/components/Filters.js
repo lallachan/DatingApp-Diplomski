@@ -73,7 +73,6 @@ function Filters(props) {
      
         
     }
-
     return (
         <div className="filters">
             <h3>Filter Users</h3>

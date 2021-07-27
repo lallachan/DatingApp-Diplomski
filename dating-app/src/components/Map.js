@@ -117,7 +117,7 @@ function Map(props) {
   return (
     <>
     
-      <InputGroup className="mb-3" style={{ width: "30%" }}>
+      {/* <InputGroup className="mb-3" style={{ width: "30%" }}>
         <Button
           variant="outline-secondary"
           id="button-addon1"
@@ -130,7 +130,7 @@ function Map(props) {
           aria-describedby="basic-addon1"
           ref={input}
         />
-      </InputGroup>
+      </InputGroup> */}
      
       <ReactMapGL
      
