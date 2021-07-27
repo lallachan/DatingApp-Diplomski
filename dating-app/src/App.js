@@ -36,8 +36,6 @@ function App() {
   
  }, [loggedIn])
 
-  
-
  
   useEffect(()=>{
     if(! _.isNull(userData) && !_.isUndefined(userData)){

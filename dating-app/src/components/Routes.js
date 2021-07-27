@@ -47,7 +47,7 @@ function Routes() {
           <Redirect to="/" />
          : 
           <div>
-           { console.log(_.isNull(socket))}
+          
             {_.isNull(userData) ||
             _.isUndefined(userData) ||
             _.isNull(socket) ? 

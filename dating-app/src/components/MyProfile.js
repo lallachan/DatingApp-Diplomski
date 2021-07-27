@@ -18,9 +18,10 @@ import { errorHandler } from "./functions/Functions";
 import axios from "axios";
 import { default as _, filter } from "lodash";
 import Hobbies from "./Hobbies";
+import Gallery from "./Gallery";
 
 function MyProfile() {
-  const { userData, accessToken } = useContext(myContext);
+  const { userData, accessToken,setUserData } = useContext(myContext);
   const descRef = useRef(userData.description);
   const eduRef = useRef(userData.education);
   const jobRef = useRef(userData.job);
@@ -31,6 +32,8 @@ function MyProfile() {
   const sexes = ["Males","Females","Both"]
   const selectRef = useRef();
   const [imageUrl, setImageUrl] = useState(userData.imageUrl);
+
+  const [toggleGallery, setToggleGallery] = useState(false)
 
   const [toggleEditDesc, setToggleEditDesc] = useState(true);
   const [toggleEditEdu, setToggleEditEdu] = useState(true);
@@ -44,6 +47,7 @@ function MyProfile() {
   const [selectHobbies, setSelectHobbies] = useState([]);
   const [selectCategories, setSelectCategories] = useState(null);
   const [jobData, setJobData] = useState("");
+  
 
   const [selectValue, setSelectValue] = useState("Choose hobbies")
 
@@ -107,9 +111,14 @@ function MyProfile() {
         setImageUrl(result.info.files[0].uploadInfo.secure_url);
 
         saveImage(result.info.files[0].uploadInfo.secure_url);
+
+       
       }
     }
   );
+
+
+  
 
   function showWidget() {
     widget.open();
@@ -133,6 +142,10 @@ function MyProfile() {
 
     window.location.reload();
   };
+
+  
+
+  
 
   const saveEduData = async () => {
     try {
@@ -214,11 +227,16 @@ function MyProfile() {
       window.location.reload();
   }
   
-  
 
   useEffect(() => {
     console.log(hobbies);
   }, [hobbies]);
+
+
+  const changeProfilePhoto = () => {
+    showWidget()
+  }
+
 
   return (
     <Container fluid>
@@ -227,7 +245,7 @@ function MyProfile() {
           <div className="profilePhoto">
             <img src={imageUrl} width="50%" />
             <br />
-            <Button style={{ marginTop: "10px" }} onClick={showWidget}>
+            <Button style={{ marginTop: "10px" }} onClick={changeProfilePhoto}>
               Change Profile Photo
             </Button>
           </div>{" "}
@@ -288,8 +306,17 @@ function MyProfile() {
             ) : null}
           </p>
           <h3>Gallery</h3>
-          {/* <img src={userData.imageUrl} className="gallery"/><br/> */}
-          <Button>Add New Photo</Button>
+          
+
+            <Gallery />
+
+         
+          
+          
+        
+          <br/> <br/>
+         
+          
           <br />
           <br />
           <h3>About</h3>
