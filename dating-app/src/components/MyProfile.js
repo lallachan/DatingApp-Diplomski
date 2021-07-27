@@ -24,6 +24,11 @@ function MyProfile() {
   const descRef = useRef(userData.description);
   const eduRef = useRef(userData.education);
   const jobRef = useRef(userData.job);
+
+  const ref1 = useRef()
+  const ref2 = useRef()
+  const ref3 = useRef()
+  const sexes = ["Males","Females","Both"]
   const selectRef = useRef();
   const [imageUrl, setImageUrl] = useState(userData.imageUrl);
 
@@ -31,6 +36,7 @@ function MyProfile() {
   const [toggleEditEdu, setToggleEditEdu] = useState(true);
   const [toggleEditJob, setToggleEditJob] = useState(true);
   const [toggleEditHobbies, setToggleEditHobbies] = useState(false);
+  const [toggleEditSexOr, setToggleEditSexOr] = useState(true);
   const [toggleHobbies, setToggleHobbies] = useState(false);
   const [displayTags, setDisplayTags] = useState(false);
   const [hobbies, setHobbies] = useState(userData.interests);
@@ -63,6 +69,10 @@ function MyProfile() {
 
   const editEdu = () => {
     setToggleEditEdu(false);
+  };
+
+  const editSexOr = () => {
+    setToggleEditSexOr(false);
   };
 
   const editJob = () => {
@@ -179,6 +189,30 @@ function MyProfile() {
     }
   };
 
+
+  const saveSexOrData = async () => {
+    let ele = document.getElementsByName('gender');
+      
+      const checked = [...ele].filter(radio => radio.checked)[0].value
+
+      try {
+        const res = await axios.patch(process.env.REACT_APP_GET_USER_DATA,{sexualOrientation:Number(sexes.indexOf(checked))},
+        {
+            headers:{
+                'authorization': accessToken
+              }
+        }
+        )
+        console.log(res.data)
+       
+       
+        
+      } catch (error) {
+        errorHandler(error);
+      }
+
+      window.location.reload();
+  }
   
   
 
@@ -207,7 +241,51 @@ function MyProfile() {
           <p></p>
           <h3>I'm interested in</h3>
           <p style={{ fontSize: "20px" }}>
-            {getSexOr(userData.sexualOrientation)}
+          <textarea
+              placeholder="Add Sex in which you are interested in"
+              className="textarea"
+              disabled={toggleEditSexOr}
+              ref={eduRef}
+            >
+               {getSexOr(userData.sexualOrientation)}
+            </textarea>{" "}
+            <Button  className="editBtn" onClick={editSexOr}>
+              Edit
+            </Button>
+            {toggleEditSexOr == false ? (
+              <>
+
+              <h5>Add Your Sexual Orientation</h5>
+
+              <Row>
+               
+
+                <div>
+                <input type="radio" value="Males" name="gender" ref={ref1}/> {sexes[0]}
+                <input type="radio" value="Females" name="gender" ref={ref2}/> {sexes[1]}
+                <input type="radio" value="Both" name="gender" ref={ref3} /> {sexes[2]}
+              </div>
+
+                
+              </Row>
+
+                <Button
+                  onClick={saveSexOrData}
+                  variant="success"
+                  className="saveBtn"
+                >
+                  Save Changes
+                </Button>
+                <Button
+                  onClick={() => setToggleEditSexOr(true)}
+                  variant="danger"
+                  className="saveBtn"
+                  style={{ marginLeft: "5px" }}
+                >
+                  Cancel
+                </Button>
+              </>
+            ) : null}
           </p>
           <h3>Gallery</h3>
           {/* <img src={userData.imageUrl} className="gallery"/><br/> */}
