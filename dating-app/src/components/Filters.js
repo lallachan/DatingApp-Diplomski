@@ -44,7 +44,7 @@ function Filters(props) {
                 sex : radioVal,
                 interests : mapHobbies.map(i=>{return {category:'1',interest:i}})
           }
-         console.log(obj)
+      
             const res = await axios.post(
               process.env.REACT_APP_MAP,
               obj,
@@ -77,17 +77,20 @@ function Filters(props) {
         <div className="filters">
             <h3>Filter Users</h3>
             <h5>Range</h5>
+           
             <select
             ref={rangeRef}>
                 {ranges.map(r=>{
                     return <option value={r}>{r} km</option>
                 })}
             </select>
+            <br/><br/>
             <h5>Age</h5>
             <input type="number" ref={minAgeRef}/> Min Age
             <input type="number" ref={maxAgeRef}/> Max Age
+            <br/><br/>
             <h5>Sex</h5>
-            
+           
             <div class="form-check" style={{marginLeft:"5px"}} onChange={(e)=>handleRChange(e)}>
             <p>
             <input class="form-check-input" type="radio" name="flexRadioDefault" value={0} id="flexRadioDefault1" onChange={(e)=>handleRChange(e)}/>
@@ -108,8 +111,9 @@ function Filters(props) {
             </label>
             </p>
             </div>
+            <br/>
             <h5>My Hobbies</h5>
-                {console.log(mapHobbies)}
+              
             {userData.interests.map(i=>{
                 return <p style={{marginLeft:"20px"}}  
                 onChange={(e)=>handleChange(e,i)}

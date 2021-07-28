@@ -21,7 +21,7 @@ import Timer from "./Timer";
 import notImg from "../images/Notifications.png";
 
 function Header() {
-  const { accessToken, setAccessToken, userData, socket } =
+  const { accessToken, setAccessToken, userData, socket,setUserPoints } =
     useContext(myContext);
 
   const history = useHistory();
@@ -76,6 +76,7 @@ function Header() {
 
       console.log("lifes");
       console.log(res.data);
+      setUserPoints(res.data)
       setLifes(res.data.lifes);
       setTimeToFill(res.data.nextHeartAt);
       setNotifications(res.data.notifications)

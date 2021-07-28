@@ -1,19 +1,44 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import "./Cards.css"
 import myContext from './contexts/myContext';
-import { getSexOr } from "./functions/Functions";
+import { errorHandler, getSexOr } from "./functions/Functions";
+import axios from "axios";
+
 
 function Cards(props) {
     const {users,setViewport} = props
 
-    const {userData} = useContext(myContext)
+    const {userData,accessToken,userPoints,setUserPoints} = useContext(myContext)
+    console.log(userPoints)
     const history = useHistory()
-
+   
+    
     const viewProfile = (id) => {
         history.push(`/user/${id}`);
     }
+
+
+    const likeUser = async(id) => {
+      try {
+        const res = await axios.get(process.env.REACT_APP_LIKE_USER + `/${id}`,
+        {
+            headers:{
+                'authorization': accessToken
+              }
+        }
+        )
+        console.log(res.data)
+        setUserPoints(res.data)
+       
+        
+      } catch (error) {
+        errorHandler(error);
+      }
+    }
+
+
     return (
         <div className="cards">
             <h3 style={{textAlign:"center",color:"white"}}>Users on Map</h3>
@@ -40,7 +65,11 @@ function Cards(props) {
 
                 <p style={{margin:"0 auto"}}>
                   <Button  className="btn1" variant="primary" onClick={()=>viewProfile(user._id)}>View Profile</Button>
-                    <Button className="btn1"  variant="primary">Like</Button></p>
+                    <Button className="btn1"  variant="primary" onClick={()=>likeUser(user._id)} disabled={
+                      userPoints?.liked.includes(user._id) ? true : false
+                    }>Like
+                 
+                    </Button></p>
                     </div>
                    
                   

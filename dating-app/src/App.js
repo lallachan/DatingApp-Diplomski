@@ -17,6 +17,7 @@ function App() {
   const [accessToken,setAccessToken] = useState()
   const [refreshToken,setRefreshToken] = useState(localStorage.getItem('refreshToken'))
   const [userData,setUserData] = useState(null)
+  const [userPoints,setUserPoints] = useState(null)
   const [chatId, setChatId] = useState(null)
   const [socket,setSocket] = useState(null)
   const [loggedIn,setLoggedIn] = useState(false)
@@ -104,7 +105,9 @@ function App() {
   
   return (
     <div>
-      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData,chatId,setChatId,socket,loggedIn,setLoggedIn}}>
+      <Provider value={{accessToken,setAccessToken,refreshToken,setRefreshToken,userData,setUserData,chatId,setChatId,socket,loggedIn,setLoggedIn,
+      userPoints,setUserPoints
+      }}>
      
       {/* {_.isNull(socket) || _.isNull(userData) ? <Spinner></Spinner>:  <Routes />}
        */}
