@@ -143,7 +143,7 @@ function Header() {
               console.log(notifications)
               return (
                 <Dropdown.Item style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId)}>
-                  {n.type}
+                  
                   {n.text}
                 </Dropdown.Item>
               );

@@ -30,17 +30,20 @@ function Map(props) {
 
   const [radius, setRadius] = useState(100)
 
-
+  
   
 
   const [viewport, setViewport] = useState({
-    width: "100%",
+    width: "50%",
     height: "500px",
     latitude: userData.lastKnownLocation.coordinates[0],
     longitude: userData.lastKnownLocation.coordinates[1],
-
+  
     zoom: 13,
+
   });
+
+  
 
   const [usersMarkers, setUsersMarkers] = useState([]);
 
@@ -138,6 +141,8 @@ function Map(props) {
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
         mapStyle="mapbox://styles/fakkkkkk123/ckq6pcalq3jpd17o6c7kiwz2y"
+       
+        style={{marginLeft:"750px"}}
       >
 
 <Source

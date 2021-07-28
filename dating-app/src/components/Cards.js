@@ -45,7 +45,7 @@ function Cards(props) {
             {users.map(user=>{
                 if(user._id == userData._id) return
                 return <div className="card" onClick={()=>setViewport({
-                    width: "100%",
+                    width: "50%",
                     height: "500px",
                     latitude: user.lastKnownLocation.coordinates[0],
                     longitude: user.lastKnownLocation.coordinates[1],
