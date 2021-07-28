@@ -85,6 +85,38 @@ function Header() {
     }
   };
 
+  const setSeenNotification = async(n_id,type,senderId) => {
+    const txt = type=='0'?process.env.REACT_APP_GET_CHAT_NOTIFICATION:process.env.REACT_APP_GET_NOTIFICATION
+
+    const goToPage = (senderId) => {
+      if(type == 0){
+        ///GO TO CHAT
+      }
+      else if(type == 1){
+        history.push(`user/${senderId}`)
+      }
+    }
+
+    
+
+    try {
+      const res = await axios.get(txt + `${n_id}`, 
+        {
+        headers: {
+          authorization: accessToken,
+        },
+      });
+
+     
+      console.log(res.data);
+      goToPage(senderId)
+      
+    } catch (error) {
+      errorHandler(error);
+    }
+
+  }
+
   return (
     <Row className="header">
       <Col lg={5}>
@@ -108,9 +140,11 @@ function Header() {
 
           <Dropdown.Menu>
             {notifications?.map((n) => {
+              console.log(notifications)
               return (
-                <Dropdown.Item>
-                  sender =>{n.senderId} , msg => {n.text}, chatID=>{n.chatId}
+                <Dropdown.Item style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId)}>
+                  {n.type}
+                  {n.text}
                 </Dropdown.Item>
               );
             })}
