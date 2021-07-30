@@ -6,12 +6,11 @@ import { errorHandler, getSexOr } from "./functions/Functions";
 import { Spinner, Container, Button, Row } from "react-bootstrap";
 import { default as _ } from "lodash";
 import "./MyProfile.css";
-import Gallery from "./Gallery.js";
 
 function UserProfile() {
   const [friendData, setFriendData] = useState(null);
   const { id } = useParams();
-  const { accessToken, userData } = useContext(myContext);
+  const { accessToken, userPoints, setUserPoints } = useContext(myContext);
 
   const history = useHistory();
 
@@ -33,10 +32,12 @@ function UserProfile() {
         }
       );
 
+      console.log(res.data);
       history.push(`/chat/${res.data.chat_id}`);
     } catch (err) {
+      console.log(err);
       errorHandler(err);
-      alert("You dont have points! :(");
+      // alert("You dont have points! :(");
     }
   };
 
@@ -60,6 +61,23 @@ function UserProfile() {
     }
   }, []);
 
+  const likeUser = async (id) => {
+    try {
+      const res = await axios.get(
+        process.env.REACT_APP_LIKE_USER + `/${friendData._id}`,
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        }
+      );
+      console.log(res.data);
+      setUserPoints(res.data);
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
+
   return (
     <Container fluid>
       {_.isNull(friendData) ? (
@@ -68,13 +86,27 @@ function UserProfile() {
         <React.Fragment>
           <Row>
             <div className="profile">
+            <Button size="lg" variant="primary" onClick={handleClick}>
+                Chat Now
+              </Button>
+              <Button
+                size="lg"
+                variant="primary"
+                onClick={() => likeUser(friendData._id)}
+                disabled={
+                  userPoints?.liked.includes(friendData._id) ? true : false
+                }
+              >
+                Like
+              </Button>
               <div className="profilePhoto">
                 <img src={friendData?.imageUrl} width="50%" />
-                
+
                 <br />
               </div>{" "}
               <p className="name">
-                {friendData.firstName} {friendData.lastName} ,  {friendData.age} , {friendData.gender}
+                {friendData.firstName} {friendData.lastName} , {friendData.age}{" "}
+                , {friendData.gender}
               </p>
               <h3>City</h3>
               <p>
@@ -92,34 +124,60 @@ function UserProfile() {
                 <p>No images in gallery</p>
               ) : (
                 friendData.gallery.map((img) => {
-                  return <p>{img.imageUrl}</p>;
+                  return (
+                    <img
+                      src={img.imageUrl}
+                      style={{
+                        borderRadius: "0px",
+                        width: "30%",
+                        marginRight: "10px",
+                      }}
+                    />
+                  );
                 })
               )}
               <h3>About</h3>
               <div className="description">
-                {friendData.desc == null? <p>No description added</p> : <p>{friendData.desc}</p>}
-            
+                {friendData.desc == null ? (
+                  <p>No description added</p>
+                ) : (
+                  <p>{friendData.desc}</p>
+                )}
               </div>
               <div className="description">
                 <h3>Education</h3>
-                {friendData.education == null? <p>No education added</p> : <p>{friendData.education}</p>}
-               
+                {friendData.education == null ? (
+                  <p>No education added</p>
+                ) : (
+                  <p>{friendData.education}</p>
+                )}
               </div>
               <div className="description">
                 <h3>Job</h3>
-                {friendData.job == null? <p>No job added</p> : <p>{friendData.job}</p>}
-              
+                {friendData.job == null ? (
+                  <p>No job added</p>
+                ) : (
+                  <p>{friendData.job}</p>
+                )}
               </div>
+
+
               <br />
               <h3>Hobbies</h3>
-              {friendData.gallery == "" ? (
-                <p>No hobbies yet to show</p>
-              ) : (
-                friendData.interests.map((i) => {
-                  return <li>{i.interest}</li>;
-                })
-              )}
-              <Button onClick={handleClick}>Chat Now</Button>
+
+
+            
+               
+                {friendData.gallery == "" ? (
+                  <p>No hobbies yet to show</p>
+                ) : (
+                  friendData.interests.map((i) => {
+                    return <li className="hobbies">{i.interest}</li>;
+                  })
+                )}
+             
+              
+            
             </div>
           </Row>
         </React.Fragment>

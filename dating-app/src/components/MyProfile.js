@@ -422,7 +422,7 @@ function MyProfile() {
          
          <Hobbies hobbies={userData.interests}/>
           
-          {/* //TODO FIX CATEGORIES */}
+         
 
 
         

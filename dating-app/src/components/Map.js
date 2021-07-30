@@ -28,7 +28,7 @@ function Map(props) {
 
   const userImage = userData.imageUrl;
 
-  const [radius, setRadius] = useState(100)
+  const [radius, setRadius] = useState(500)
 
   
   
