@@ -1,4 +1,5 @@
 import axios from "axios";
+import { isNull } from "lodash";
 import React, { useContext, useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import myContext from "./contexts/myContext";
@@ -71,7 +72,16 @@ function Gallery() {
     } catch (error) {
       errorHandler(error);
     }
+
+    window.location.reload();
   };
+
+  const deleteImage = (i) => {
+    if(toggleGallery == true){
+      const arr = galleryPhotos.filter((img,indx)=> indx != i )
+      setGalleryPhotos(arr)
+    }
+  }
 
   return (
     <div>
@@ -83,12 +93,18 @@ function Gallery() {
         Edit
       </Button>
       <div>
-        {galleryPhotos.map((img) => {
+        {galleryPhotos.map((img,i) => {
           return (
+            <>
+            
             <img
               src={img.imageUrl}
               style={{ borderRadius: "0px", width: "30%", marginRight: "10px" }}
+              onClick={()=>deleteImage(i)}
+              
             />
+          
+            </>
           );
         })}
       </div>

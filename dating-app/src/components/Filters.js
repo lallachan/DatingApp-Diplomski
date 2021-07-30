@@ -1,9 +1,11 @@
 import axios from 'axios'
+import { range } from 'lodash'
 import React, { useContext, useRef, useState } from 'react'
 import { Button, Dropdown, FormControl, InputGroup } from 'react-bootstrap'
 import myContext from './contexts/myContext'
 import "./Filters.css"
 import { errorHandler } from './functions/Functions'
+import { default as _ } from "lodash";
 
 function Filters(props) {
 
@@ -34,6 +36,9 @@ function Filters(props) {
 
 
     const filterUsers = async() => {
+
+       
+
         try {
             const obj = {
                 range:rangeRef.current.value,
