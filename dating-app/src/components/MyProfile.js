@@ -250,8 +250,9 @@ function MyProfile() {
             </Button>
           </div>{" "}
           <p className="name">
-            {userData.firstName} {userData.lastName} , AGE
+            {userData.firstName} {userData.lastName} , {userData.age} , {userData.gender}
           </p>
+       
           <h3>City</h3>
           <p>
             {userData.city},{userData.zip}
