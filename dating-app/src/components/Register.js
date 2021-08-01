@@ -113,7 +113,7 @@ function Register() {
         <Col
           id="background"
           lg={8}
-          md={6}
+          md={8}
           sm={12}
           style={{
             padding: "50px",
@@ -185,7 +185,7 @@ function Register() {
             {({ errors, touched, values }) => (
               <Form>
                 <Row width="100%">
-                  <Col style={{ padding: "10px" }}>
+                  <Col lg={6} md={12} sm={12} style={{ padding: "10px" }}>
                     <label
                       htmlFor="firstName"
                       style={{ color: "white", fontSize: "20px" }}
