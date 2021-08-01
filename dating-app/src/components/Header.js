@@ -53,6 +53,10 @@ function Header() {
     }
   }, [arrivalNotification]);
 
+  useEffect(() => {
+  
+  }, [lifes])
+
   const LogOut = () => {
     setAccessToken(null);
     const refreshToken = localStorage.removeItem("refreshToken");
@@ -80,6 +84,7 @@ function Header() {
       setLifes(res.data.lifes);
       setTimeToFill(res.data.nextHeartAt);
       setNotifications(res.data.notifications)
+ 
     } catch (error) {
       errorHandler(error);
     }
@@ -117,6 +122,25 @@ function Header() {
 
   }
 
+  const decrease = async() => {
+    try {
+      const res = await axios.patch(
+        "http://localhost:3000/api/v1/userPoints/decrease",
+        {  },
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        }
+      );
+      console.log(res.data);
+      
+      setUserPoints(res.data)
+    } catch (error) {
+      errorHandler(error);
+    }
+  }
+
   return (
     <Row className="header">
       <Col lg={5}>
@@ -128,7 +152,7 @@ function Header() {
       </Col>
 
       <Col lg={5}>
-        
+        <Button onClick={decrease}>Decrease</Button>
       </Col>
 
       <Col lg={2} md={2} sm={2}>
