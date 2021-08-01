@@ -208,6 +208,10 @@ function Chat() {
       text: messageM,
       chatId: chat_id,
     });
+    console.log(  {senderId: userData._id,
+      receiverId: reciverID,
+      text: messageM,
+      chatId: chat_id})
     try {
       const res = await axios.patch(
         process.env.REACT_APP_CHAT_ROUTE,
@@ -222,12 +226,7 @@ function Chat() {
       setChatMessages([...chatMessages, { message: messageM }]);
       delete textArea.current.value;
 
-      //OVO NETREBA JER VEĆ RADIM SENDMESSAGE
-      // socket.emit('sendNotification',{
-      //   senderId: userData._id,
-      //   receiverId: reciverID,
-      //   text: "You got a new message from "+friendData.firstName+ " "+friendData.lastName,
-      // })
+    
     } catch (error) {
       errorHandler(error);
     }
@@ -271,7 +270,7 @@ function Chat() {
                     <img src={friendData.imageUrl} width="20px" />
                   ) : null}
 
-                  {/* {m.message} */}
+               
                   
                 
                   {m.imageUrl != undefined ? <img src={m.imageUrl}  style={{borderRadius:"0px",width:"100%",marginRight:"300px"}}/>  : m.message}

@@ -42,6 +42,9 @@ function Timer(props) {
       sekundi: sekundi,
     });
     
+    if(clockDuration.seconds()<0){
+      fetchHearts()
+    }
   }
 
   useEffect(() => {
@@ -67,7 +70,7 @@ function Timer(props) {
       fetchHearts()
     
     }
-  },[date]) //TIMER
+  },[]) //TIMER
 
  
         return(

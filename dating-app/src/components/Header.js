@@ -30,12 +30,15 @@ function Header() {
   const [timeToFill, setTimeToFill] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [arrivalNotification, setArrivalNotification] = useState(null);
-
+  const [chatNotification, setChatNotifications] = useState(null)
+  const [hasNewNotifications, setHasNewNotifications] = useState(false)
   //FETCH LIVES OF USER
 
   useEffect(async () => {
     await fetchHearts();
   }, []);
+
+
 
   useEffect(() => {
     socket.on("getNotification", (data) => {
@@ -84,18 +87,18 @@ function Header() {
       setLifes(res.data.lifes);
       setTimeToFill(res.data.nextHeartAt);
       setNotifications(res.data.notifications)
- 
+      setChatNotifications(res.data.chat_notifications)
     } catch (error) {
       errorHandler(error);
     }
   };
 
-  const setSeenNotification = async(n_id,type,senderId) => {
+  const setSeenNotification = async(n_id,type,senderId,chat_id) => {
     const txt = type=='0'?process.env.REACT_APP_GET_CHAT_NOTIFICATION:process.env.REACT_APP_GET_NOTIFICATION
 
     const goToPage = (senderId) => {
       if(type == 0){
-        ///GO TO CHAT
+        history.push(`chat/${chat_id}`)
       }
       else if(type == 1){
         history.push(`user/${senderId}`)
@@ -136,6 +139,8 @@ function Header() {
       console.log(res.data);
       
       setUserPoints(res.data)
+      setLifes(res.data.lifes);
+      setTimeToFill(res.data.nextHeartAt);
     } catch (error) {
       errorHandler(error);
     }
@@ -159,18 +164,26 @@ function Header() {
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             Notifications
-            {/* <span className="badge">1</span> */}
+            {hasNewNotifications == true ? <span className="badge">1</span> : null}
+            
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
             {notifications?.map((n) => {
-              console.log(notifications)
+              
               return (
                 <Dropdown.Item style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId)}>
-                  
+                 
                   {n.text}
                 </Dropdown.Item>
               );
+            })}
+            {chatNotification?.map(n=>{
+
+              return  (<Dropdown.Item style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId,n.chat_id)}>
+               
+              {n.text}
+            </Dropdown.Item>)
             })}
           </Dropdown.Menu>
         </Dropdown>
