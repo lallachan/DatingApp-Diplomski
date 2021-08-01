@@ -24,7 +24,7 @@ import Filters from "./Filters";
 
 function Map(props) {
   const history = useHistory();
-  const { userData, accessToken } = useContext(myContext);
+  const { userData, accessToken,setUserData } = useContext(myContext);
 
   const userImage = userData.imageUrl;
 
@@ -115,7 +115,41 @@ function Map(props) {
       }
   };
 
-
+const getCurrentLocation = () => {
+  if ("geolocation" in navigator) {
+        console.log("Available");
+      } else {
+        console.log("Not Available");
+      }
+  
+      navigator.geolocation.getCurrentPosition(async function (position) {
+        console.log("Latitude is :", position.coords.latitude);
+        console.log("Longitude is :", position.coords.longitude);
+  
+        try {
+         
+          const res = await axios.patch(
+            process.env.REACT_APP_USER_LOCATION,
+            {
+              latitude : position.coords.latitude,
+              longitude: position.coords.longitude
+            
+            },
+            {
+              headers: {
+                authorization: accessToken,
+              },
+            }
+          );
+          console.log(res.data);
+          setUserData(res.data)
+         
+        } catch (error) {
+          errorHandler(error);
+        }
+        
+      });
+}
 
   return (
     <>
@@ -134,6 +168,8 @@ function Map(props) {
           ref={input}
         />
       </InputGroup> */}
+
+
      
       <ReactMapGL
      
@@ -144,6 +180,8 @@ function Map(props) {
        
         style={{marginLeft:"750px"}}
       >
+
+    <Button variant="primary" onClick={()=>getCurrentLocation()} style={{marginLeft:"50px"}}>Get my current location</Button>
 
 <Source
 id="bull"
