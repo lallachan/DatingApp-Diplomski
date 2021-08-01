@@ -16,6 +16,7 @@ import { default as _ } from "lodash";
 import UserProfile from "./UserProfile";
 import Chat from "./chat/Chat";
 import MyProfile from "./MyProfile";
+import SendEmailForgotPass from "./SendEmailForgotPass";
 
 function Routes() {
   const { accessToken, userData, socket, refreshToken } = useContext(myContext);
@@ -34,6 +35,8 @@ function Routes() {
         </Route>
 
         <Route exact path="/completeSetup" component={CompleteSetup} />
+
+        <Route exact path="/forgotPassword" component={SendEmailForgotPass} />
         
         <Route exact path="/myProfile">
           {_.isNull(userData) || _.isUndefined(userData) || _.isNull(socket) ? 

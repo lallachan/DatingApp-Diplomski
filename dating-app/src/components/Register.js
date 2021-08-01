@@ -112,16 +112,16 @@ function Register() {
       >
         <Col
           id="background"
-          lg={4}
+          lg={8}
           md={6}
           sm={12}
           style={{
             padding: "50px",
             marginTop: "80px",
             // backgroundColor: "#007893",
-            background : "rgba(0, 120, 147,0.2)",
+            background : "#007893",
             overflowY: "scroll",
-            height: "70vh",
+            height: "80vh",
           }}
         >
           <h1
@@ -228,6 +228,10 @@ function Register() {
                       <Alert variant="warning">{errors.email}</Alert>
                     ) : null}
 
+<br></br>
+                    <hr></hr>
+                    <br></br>
+
                     <label
                       htmlFor="lastName"
                       style={{ color: "white", fontSize: "20px" }}
@@ -258,12 +262,14 @@ function Register() {
                       <Alert variant="warning">{errors.confirmPassword}</Alert>
                     ) : null}
 
-                    <br></br>
-                    <hr></hr>
-                    <br></br>
+                   
 
+                    </Col>
+
+                    <Col style={{marginTop:"9px"}}>
+                    
                     <label
-                      htmlFor="lastName"
+                      htmlFor="city"
                       style={{ color: "white", fontSize: "20px" }}
                     >
                       City
@@ -406,7 +412,7 @@ function Register() {
                       <Button
                         type="submit"
                         variant="outline-light"
-                        size="md"
+                        size="lg"
                         style={{
                           width: "50%",
                           padding: "10px",
@@ -418,7 +424,10 @@ function Register() {
                         Završi
                       </Button>
                     </div>
-                  </Col>
+                    </Col>
+
+                  
+              
                 </Row>
               </Form>
             )}

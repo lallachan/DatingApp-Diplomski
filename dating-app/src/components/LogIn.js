@@ -190,6 +190,7 @@ const history = useHistory()
                   <a
                     href="#"
                     style={{ textDecoration: "none", color: "white" }}
+                    onClick={()=>history.push("/forgotPassword")}
                   >
                     Forgot Password?
                   </a>

@@ -19,6 +19,8 @@ import axios from "axios";
 import { default as _, filter } from "lodash";
 import Hobbies from "./Hobbies";
 import Gallery from "./Gallery";
+import ChangePassword from "./ChangePassword";
+import Header from "./Header"
 
 function MyProfile() {
   const { userData, accessToken,setUserData } = useContext(myContext);
@@ -48,6 +50,7 @@ function MyProfile() {
   const [selectCategories, setSelectCategories] = useState(null);
   const [jobData, setJobData] = useState("");
   
+  const [toggleChangePass, setToggleChangePass] = useState(false)
 
   const [selectValue, setSelectValue] = useState("Choose hobbies")
 
@@ -241,6 +244,9 @@ function MyProfile() {
   return (
     <Container fluid>
       <Row>
+        <Header/>
+      </Row>
+      <Row>
         <div className="profile">
           <div className="profilePhoto">
             <img src={imageUrl} width="50%" />
@@ -421,9 +427,13 @@ function MyProfile() {
           <h3>Hobbies</h3>
          
          <Hobbies hobbies={userData.interests}/>
-          
-         
+          <br/><br/>
+         <Button variant="secondary" onClick={()=>setToggleChangePass(!toggleChangePass)}>Change my Password</Button>
 
+          {toggleChangePass == true ? 
+          
+            <ChangePassword/> : null
+        }
 
         
         </div>
