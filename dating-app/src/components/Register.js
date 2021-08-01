@@ -131,7 +131,11 @@ function Register() {
               fontSize: "3rem",
               textAlign: "center",
               marginTop: "-30px",
+              fontFamily:"sarina"
+              
             }}
+
+            
           >
             Register
           </h1>
