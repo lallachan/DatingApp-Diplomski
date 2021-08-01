@@ -59,8 +59,9 @@ function Cards(props) {
                     <p>{user.job}</p>
                     <p>{user.description}</p>
                   <p>{user.city},{user.zip}</p>
-                  <p>{user.interests.map(i=>{
-                      return <li>{i.interest}</li>
+                  <p>{user.interests?.map(i=>{
+                      return <li
+                      >{i.interest}</li>
                   })}</p>
 
                 <p style={{margin:"0 auto"}}>

@@ -37,18 +37,45 @@ function Filters(props) {
 
     const filterUsers = async() => {
 
-       
+        const obj = {
+            range:rangeRef.current.value
+        }
+
+        if(!_.isNull(radioVal)){
+            obj["sex"] = radioVal
+        }
+
+        if(! _.isEmpty(mapHobbies)){
+            obj["interests"] = mapHobbies.map(i=>{return {category:'1',interest:i}})
+        }
+
+        if(! minAgeRef.current.value == "" && maxAgeRef.current.value == "")
+
+        {
+            obj["age"] = {
+                            min:minAgeRef.current.value,
+                            max:maxAgeRef.current.value
+                        }
+        }
+
+
+        console.log(obj)
+
 
         try {
-            const obj = {
-                range:rangeRef.current.value,
-                age:{
-                    min:minAgeRef.current.value,
-                    max:maxAgeRef.current.value
-                },
-                sex : radioVal,
-                interests : mapHobbies.map(i=>{return {category:'1',interest:i}})
-          }
+
+
+
+
+        //     const obj = {
+        //         range:rangeRef.current.value,
+        //         age:{
+        //             min:minAgeRef.current.value,
+        //             max:maxAgeRef.current.value
+        //         },
+        //         sex : radioVal,
+        //         interests : mapHobbies.map(i=>{return {category:'1',interest:i}})
+        //   }
       
             const res = await axios.post(
               process.env.REACT_APP_MAP,
