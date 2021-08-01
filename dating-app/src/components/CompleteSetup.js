@@ -152,45 +152,72 @@ function CompleteSetup() {
     
   }
 
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      console.log("Available");
-    } else {
-      console.log("Not Available");
-    }
+  // useEffect(() => {
+  //   if ("geolocation" in navigator) {
+  //     console.log("Available");
+  //   } else {
+  //     console.log("Not Available");
+  //   }
 
-    navigator.geolocation.getCurrentPosition(async function (position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
+  //   navigator.geolocation.getCurrentPosition(async function (position) {
+  //     console.log("Latitude is :", position.coords.latitude);
+  //     console.log("Longitude is :", position.coords.longitude);
 
-      try {
+  //     try {
        
-        const res = await axios.patch(
-          process.env.REACT_APP_USER_LOCATION,
-          {
-            latitude : position.coords.latitude,
-            longitude: position.coords.longitude
+  //       const res = await axios.patch(
+  //         process.env.REACT_APP_USER_LOCATION,
+  //         {
+  //           latitude : position.coords.latitude,
+  //           longitude: position.coords.longitude
           
-          },
-          {
-            headers: {
-              authorization: accessToken,
-            },
-          }
-        );
-        console.log(res.data);
+  //         },
+  //         {
+  //           headers: {
+  //             authorization: accessToken,
+  //           },
+  //         }
+  //       );
+  //       console.log(res.data);
        
-      } catch (error) {
-        errorHandler(error);
-      }
+  //     } catch (error) {
+  //       errorHandler(error);
+  //     }
       
-    });
+  //   });
 
-    //IF DOESNT WANT LOCATION SEND FALSE
+  //   //IF DOESNT WANT LOCATION SEND FALSE
 
 
-  }, []);
+  // }, []);
 
+  // const sendLocation = async() => {
+  //   try {
+       
+  //     const res = await axios.patch(
+  //       process.env.REACT_APP_USER_LOCATION,
+  //       {
+  //         latitude : false,
+  //         longitude: false
+        
+  //       },
+  //       {
+  //         headers: {
+  //           authorization: accessToken,
+  //         },
+  //       }
+  //     );
+  //     console.log(res.data);
+     
+  //   } catch (error) {
+  //     errorHandler(error);
+  //   }
+  // }
+
+
+  // if(_.isUndefined(userData.lastKnownLocation)) sendLocation()
+
+  
   function UploadImage() {
     return (
       <React.Fragment>

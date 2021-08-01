@@ -157,7 +157,7 @@ function Header() {
       </Col>
 
       <Col lg={5}>
-        <Button onClick={decrease}>Decrease</Button>
+        {/* <Button onClick={decrease}>Decrease</Button> */}
       </Col>
 
       <Col lg={2} md={2} sm={2}>
