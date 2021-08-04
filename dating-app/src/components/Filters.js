@@ -44,8 +44,10 @@ function Filters(props) {
         return { category: "1", interest: i };
       });
     }
-
-    if (!minAgeRef.current.value == "" && maxAgeRef.current.value == "") {
+ 
+    
+    if (!minAgeRef.current.value == "" && !maxAgeRef.current.value == "") {
+      console.log(minAgeRef.current.value)
       obj["age"] = {
         min: minAgeRef.current.value,
         max: maxAgeRef.current.value,
@@ -53,7 +55,7 @@ function Filters(props) {
     }
 
     console.log(obj);
-
+    
 
     if(Object.keys(obj).length == 1 && Object.keys(obj)[0] == "range"){
 
