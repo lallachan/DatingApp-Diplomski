@@ -23,6 +23,7 @@ function LandingRegister() {
         </Col>
         <Row>
         <Col>
+        <div id="register_user"></div>
         <Register/>
         </Col>
         </Row>

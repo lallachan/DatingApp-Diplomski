@@ -54,8 +54,8 @@ function LandingPage() {
         <Col style={{padding:"20px"}} lg={10}>
          
        
-          <Button variant="outline-light"  style={{padding:"20px",border:"2px solid white",backgroundColor:"#578BB8",marginTop:"20px"}}>
-          <Link to="/register" style={{textDecoration:"none",color:"white",}}>Register</Link></Button>
+          <Button  style={{padding:"20px",backgroundColor:"#578BB8",marginTop:"20px",color:"white",border:"none"}}>
+          <a style={{textDecoration:"none",color:"white"}} href="#register_user">Register</a></Button>
         </Col>
       </Row>
 

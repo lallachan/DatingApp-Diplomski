@@ -7,24 +7,22 @@ import axios from "axios";
 import { errorHandler } from "./functions/Functions";
 import EmailValidation from "./EmailValidation";
 
-
-
 function Register() {
   const RegisterShema = Yup.object().shape({
     firstName: Yup.string().min(2).max(60).required("Ime je obavezno."),
     lastName: Yup.string().min(2).max(60).required("Prezime je obavezno."),
     email: Yup.string()
-      .email("Invalid email")
+      .email("Kriva email adresa.")
       .required("Email adresa je obavezna."),
     password: Yup.string()
-      .required("Please enter your password")
+      .required("Molim vas unesite svoju lozinku.")
       .matches(
         /^.*(?=.{8,})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-        "Password must contain at least 8 characters, one uppercase and one number"
+        "Lozinka se mora sastojati od barem 8 znakova, jedno veliko slovo i jedan broj."
       ),
     confirmPassword: Yup.string()
-      .required("Please confirm your password")
-      .oneOf([Yup.ref("password"), null], "Passwords don't match."),
+      .required("Molim vas potvrdite svoju lozinku.")
+      .oneOf([Yup.ref("password"), null], "Loiznke se ne podudaraju."),
     gender: Yup.string().required("Spol je obavezan."),
 
     day: Yup.string().required("Unesite dan."),
@@ -55,7 +53,7 @@ function Register() {
     "Studeni",
     "Prosinac",
   ];
-  
+
   const years = [];
   for (let i = 1; i <= 31; i++) {
     days.push(i);
@@ -69,118 +67,97 @@ function Register() {
     alert(name);
   };
 
-  const reformatDate = (day,month,year) => {
+  const reformatDate = (day, month, year) => {
+    month = months.indexOf(month) + 1;
 
-    month = (months.indexOf(month))+1
-  
-    if(month < 10){
-      month = "0" + month
+    if (month < 10) {
+      month = "0" + month;
     }
 
-   
+    return year + "-" + month + "-" + day;
+  };
 
-    return year + "-" + month + "-" + day
+  const [loadEmailValidation, setLoadEmailValidation] = useState(false);
 
-
-
-
-  } 
-
-  const [loadEmailValidation, setLoadEmailValidation] = useState(false)
-
-
-  if(loadEmailValidation == true) return <EmailValidation/>
+  if (loadEmailValidation == true) return <EmailValidation />;
 
   return (
-    <div
-     
-      
-    >
-      <Row
-        style={{
-          justifyContent: "center",
-          width: "100%",
-          padding: "0",
-          margin: "0",
+    <div>
+      <Formik
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          gender: "",
+          day: "",
+          month: "",
+          year: "",
+          city: "",
+          zip: "",
+        }}
+        validationSchema={RegisterShema}
+        onSubmit={async (values) => {
+          values.dob = reformatDate(values.day, values.month, values.year);
+          console.log(values);
+          delete values.day;
+          delete values.month;
+          delete values.year;
+          delete values.confirmPassword;
+
+          // await new Promise((r) => setTimeout(r, 500));
+          // alert(JSON.stringify(values, null, 2));
+
+          try {
+            const res = await axios.post(
+              process.env.REACT_APP_REGISTER_USER,
+              values
+            );
+            console.log(res.data);
+          } catch (error) {
+            errorHandler(error);
+          }
+
+          setLoadEmailValidation(true);
         }}
       >
-        <Col
-          id="background"
-          lg={10}
-          md={8}
-          sm={12}
-          style={{
-            padding: "20px",
-            marginTop: "80px",
-            // backgroundColor: "#007893",
-            background : "#578BB8",
-          
-          }}
-        >
-          <h1
-            style={{
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "3rem",
-              textAlign: "left",
-            }}
+        {({ errors, touched, values }) => (
+          <Form>
+            <Row
+              width="100%"
+              id="register_user"
+              style={{
+                justifyContent: "center",
+                width: "100%",
+                padding: "0",
+                margin: "0",
+                marginTop: "50px",
+              }}
+            >
+              <Col
+                lg={6}
+                md={6}
+                sm={12}
+                style={{
+                  padding: "10px",
+                  background: "#578BB8",
+                  marginTop: "-20px",
+                }}
+              >
+                <h1
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "3rem",
+                    textAlign: "left",
+                  }}
+                >
+                  Registriraj se
+                </h1>
 
-            
-          >
-            Registriraj se
-          </h1>
-
-          <Formik
-            initialValues={{
-              firstName: "",
-              lastName: "",
-              email: "",
-              password: "",
-              gender: "",
-              day: "",
-              month: "",
-              year: "",
-              city: "",
-              zip: "",
-            }}
-            validationSchema={RegisterShema}
-            onSubmit={async (values) => {
-              values.dob = reformatDate(values.day,values.month,values.year)
-              console.log(values);
-              delete values.day;
-              delete values.month;
-              delete values.year;
-              delete values.confirmPassword;
-
-              // await new Promise((r) => setTimeout(r, 500));
-              // alert(JSON.stringify(values, null, 2));
-
-              try {
-                const res = await axios.post(
-                  process.env.REACT_APP_REGISTER_USER,
-                  values
-                );
-                console.log(res.data)
-              } catch (error) {
-               errorHandler(error);
-              }
-
-
-              setLoadEmailValidation(true)
-              
-
-
-            }}
-          >
-            {({ errors, touched, values }) => (
-              <Form>
                 <Row width="100%">
-
-       
-                  <Col lg={8} md={12} sm={12} style={{ padding: "10px",marginRight:"100px" }}>
-                 
-
-                    
+                  <Col lg={6}>
+                    {" "}
                     <label
                       htmlFor="firstName"
                       style={{ color: "white", fontSize: "20px" }}
@@ -191,16 +168,21 @@ function Register() {
                       name="firstName"
                       type="text"
                       className="form-control form-group"
-                      style={{width:"50%"}}
-                      style={{backgroundColor:"#A8CEED",border:"none"}}
+                      style={{ width: "50%" }}
+                      style={{ backgroundColor: "#A8CEED", border: "none" }}
+                       
+                        
+                      
                     />
                     {errors.firstName && touched.firstName ? (
                       <Alert variant="warning">{errors.firstName}</Alert>
                     ) : null}
-
+                  </Col>
+                  <Col lg={6}>
                     <label
                       htmlFor="lastName"
                       style={{ color: "white", fontSize: "20px" }}
+                      
                     >
                       Prezime
                     </label>
@@ -208,74 +190,85 @@ function Register() {
                       name="lastName"
                       type="text"
                       className="form-control form-group"
-                      style={{backgroundColor:"#A8CEED",border:"none"}}
+                      style={{ backgroundColor: "#A8CEED", border: "none" }}
+                     
+
                     />
                     {errors.lastName && touched.lastName ? (
                       <Alert variant="warning">{errors.lastName}</Alert>
                     ) : null}
+                  </Col>
+                </Row>
 
-                   
-                    <label
-                      htmlFor="email"
-                      style={{ color: "white", fontSize: "20px" }}
-                    >
-                      Email adresa
-                    </label>
-                    <Field
-                      name="email"
-                      type="email"
-                      className="form-control form-group"
-                      style={{backgroundColor:"#A8CEED",border:"none"}}
-                    />
-                    {errors.email && touched.email ? (
-                      <Alert variant="warning">{errors.email}</Alert>
-                    ) : null}
+                <label
+                  htmlFor="email"
+                  style={{ color: "white", fontSize: "20px" }}
+                >
+                  Email adresa
+                </label>
+                <Field
+                  name="email"
+                  type="email"
+                  className="form-control form-group"
+                  style={{ backgroundColor: "#A8CEED", border: "none" }}
+                />
+                {errors.email && touched.email ? (
+                  <Alert variant="warning">{errors.email}</Alert>
+                ) : null}
 
-                   
+                <label
+                  htmlFor="lastName"
+                  style={{ color: "white", fontSize: "20px" }}
+                >
+                  Lozinka
+                </label>
+                <Field
+                  name="password"
+                  type="password"
+                  className="form-control form-group"
+                  style={{ backgroundColor: "#A8CEED", border: "none" }}
+                />
+                {errors.password && touched.password ? (
+                  <Alert variant="warning">{errors.password}</Alert>
+                ) : null}
 
-                    <label
-                      htmlFor="lastName"
-                      style={{ color: "white", fontSize: "20px" }}
-                    >
-                      Lozinka
-                    </label>
-                    <Field
-                      name="password"
-                      type="password"
-                      className="form-control form-group"
-                      style={{backgroundColor:"#A8CEED",border:"none"}}
-                    />
-                    {errors.password && touched.password ? (
-                      <Alert variant="warning">{errors.password}</Alert>
-                    ) : null}
+                <label
+                  htmlFor="lastName"
+                  style={{ color: "white", fontSize: "20px" }}
+                >
+                  Potvrdi Lozinku
+                </label>
+                <Field
+                  name="confirmPassword"
+                  type="password"
+                  className="form-control form-group"
+                  style={{ backgroundColor: "#A8CEED", border: "none" }}
+                />
+                {errors.confirmPassword && touched.confirmPassword ? (
+                  <Alert variant="warning">{errors.confirmPassword}</Alert>
+                ) : null}
+              </Col>
 
-                    <label
-                      htmlFor="lastName"
-                      style={{ color: "white", fontSize: "20px" }}
-                    >
-                      Potvrdi Lozinku
-                    </label>
-                    <Field
-                      name="confirmPassword"
-                      type="password"
-                      className="form-control form-group"
-                      style={{backgroundColor:"#A8CEED",border:"none"}}
-                    />
-                    {errors.confirmPassword && touched.confirmPassword ? (
-                      <Alert variant="warning">{errors.confirmPassword}</Alert>
-                    ) : null}
-
-                    </Col>
-
-                   
-                  
-                  
-
-                    <Col style={{marginTop:"9px"}} lg={3}>
-                    
+              <Col
+                style={{
+                  marginTop: "9px",
+                  background: "#578BB8",
+                  marginLeft: "20px",
+                  marginTop: "-20px",
+                }}
+                lg={3}
+                md={3}
+                sm={12}
+              >
+                <Row width="100%" style={{ marginTop: "73px" }}>
+                  <Col lg={8}>
                     <label
                       htmlFor="city"
-                      style={{ color: "white", fontSize: "20px" }}
+                      style={{
+                        color: "white",
+                        fontSize: "20px",
+                        display: "inline-block",
+                      }}
                     >
                       Grad
                     </label>
@@ -283,12 +276,13 @@ function Register() {
                       name="city"
                       type="text"
                       className="form-control form-group"
-                      style={{backgroundColor:"#A8CEED",border:"none"}}
+                      style={{ backgroundColor: "#A8CEED", border: "none" }}
                     />
                     {errors.city && touched.city ? (
                       <Alert variant="warning">{errors.city}</Alert>
                     ) : null}
-
+                  </Col>
+                  <Col lg={4}>
                     <label
                       htmlFor="lastName"
                       style={{ color: "white", fontSize: "20px" }}
@@ -301,147 +295,144 @@ function Register() {
                       type="number"
                       pattern="[A-Za-z]{3}"
                       className="form-control form-group"
-                      style={{backgroundColor:"#A8CEED",border:"none"}}
+                      style={{ backgroundColor: "#A8CEED", border: "none" }}
                     />
                     {errors.zip && touched.zip ? (
                       <Alert variant="warning">{errors.zip}</Alert>
                     ) : null}
-
-                    <label
-                      htmlFor="dob"
-                      style={{ color: "white", fontSize: "20px" }}
-                    >
-                      Datum rođenja
-                    </label>
-                    <br></br>
-                    <Field
-                      name="day"
-                      id="day"
-                      type="string"
-                      as="select"
-                      className="my-select"
-                      value={values.day}
-                      style={{ padding: "10px", borderRadius: "5px" }}
-                      
-                    >
-                      <option value="" style={{ display: "none" }}>
-                        Dan
-                      </option>
-
-                      {days.map((day) => {
-                        return <option value={day}>{day}</option>;
-                      })}
-                    </Field>
-                    {errors.day && touched.day ? (
-                      <Alert variant="warning">{errors.day}</Alert>
-                    ) : null}
-
-                    <Field
-                      name="month"
-                      data-dropup-auto="false"
-                      id="month"
-                      type="string"
-                      as="select"
-                      className="my-select"
-                      value={values.month}
-                      style={{ padding: "10px", borderRadius: "5px" }}
-                    >
-                      <option value="" style={{ display: "none" }}>
-                        Mjesec
-                      </option>
-
-                      {months.map((month) => {
-                        return <option value={month}>{month}</option>;
-                      })}
-                    </Field>
-                    {errors.month && touched.month ? (
-                      <Alert variant="warning">{errors.month}</Alert>
-                    ) : null}
-
-                    <Field
-                      data-dropup-auto="false"
-                      name="year"
-                      id="year"
-                      type="string"
-                      as="select"
-                      className="my-select"
-                      value={values.year}
-                      style={{ padding: "10px", borderRadius: "5px" }}
-                    >
-                      <option value="" style={{ display: "none" }}>
-                        Godina
-                      </option>
-
-                      {years.map((year) => {
-                        return <option value={year}>{year}</option>;
-                      })}
-                    </Field>
-                    {errors.year && touched.year ? (
-                      <Alert variant="warning">{errors.year}</Alert>
-                    ) : null}
-
-                    <br></br>
-                    <br></br>
-                    <label
-                      htmlFor="gender"
-                      style={{ color: "white", fontSize: "20px" }}
-                    >
-                      Spol
-                    </label>
-                    <div
-                      role="group"
-                      aria-labelledby="my-radio-group"
-                      style={{ color: "white" }}
-                    >
-                      <div>
-                        <label>
-                          <Field type="radio" name="gender" value="Male" />
-                          Male
-                        </label>
-                      </div>
-                      <div>
-                        <label>
-                          <Field type="radio" name="gender" value="Female" />
-                          Female
-                        </label>
-                      </div>
-                      <div>
-                        <label>
-                          <Field type="radio" name="gender" value="Other" />
-                          Other
-                        </label>
-                      </div>
-                    </div>
-                    {errors.gender && touched.gender ? (
-                      <Alert variant="warning">{errors.gender}</Alert>
-                    ) : null}
-
-                    <div style={{ textAlign: "center", marginTop: "30px" }}>
-                      <Button
-                        type="submit"
-                       
-                        size="lg"
-                        style={{
-                          width: "50%",
-                          padding: "10px",
-                          fontWeight: "bold",
-                          backgroundColor:"#DF314D",
-                          border:"none"
-                        }}
-                      >
-                        Prijavi se
-                      </Button>
-                    </div>
-                    </Col>
-
-                  
-              
+                  </Col>
                 </Row>
-              </Form>
-            )}
-          </Formik>
-        </Col>
-      </Row>
+
+                <label
+                  htmlFor="dob"
+                  style={{ color: "white", fontSize: "20px" }}
+                >
+                  Datum rođenja
+                </label>
+                <br></br>
+                <Field
+                  name="day"
+                  id="day"
+                  type="string"
+                  as="select"
+                  className="my-select"
+                  value={values.day}
+                  style={{ padding: "10px", borderRadius: "5px" }}
+                >
+                  <option value="" style={{ display: "none" }}>
+                    Dan
+                  </option>
+
+                  {days.map((day) => {
+                    return <option value={day}>{day}</option>;
+                  })}
+                </Field>
+                {errors.day && touched.day ? (
+                  <Alert variant="warning">{errors.day}</Alert>
+                ) : null}
+
+                <Field
+                  name="month"
+                  data-dropup-auto="false"
+                  id="month"
+                  type="string"
+                  as="select"
+                  className="my-select"
+                  value={values.month}
+                  style={{ padding: "10px", borderRadius: "5px" }}
+                >
+                  <option value="" style={{ display: "none" }}>
+                    Mjesec
+                  </option>
+
+                  {months.map((month) => {
+                    return <option value={month}>{month}</option>;
+                  })}
+                </Field>
+                {errors.month && touched.month ? (
+                  <Alert variant="warning">{errors.month}</Alert>
+                ) : null}
+
+                <Field
+                  data-dropup-auto="false"
+                  name="year"
+                  id="year"
+                  type="string"
+                  as="select"
+                  className="my-select"
+                  value={values.year}
+                  style={{ padding: "10px", borderRadius: "5px" }}
+                >
+                  <option value="" style={{ display: "none" }}>
+                    Godina
+                  </option>
+
+                  {years.map((year) => {
+                    return <option value={year}>{year}</option>;
+                  })}
+                </Field>
+                {errors.year && touched.year ? (
+                  <Alert variant="warning">{errors.year}</Alert>
+                ) : null}
+
+                <br></br>
+                <br></br>
+                <label
+                  htmlFor="gender"
+                  style={{ color: "white", fontSize: "20px" }}
+                >
+                  Spol
+                </label>
+                <div
+                  role="group"
+                  aria-labelledby="my-radio-group"
+                  style={{ color: "white" }}
+                >
+                  <div>
+                    <label>
+                      <Field type="radio" name="gender" value="Male" />
+                      Male
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <Field type="radio" name="gender" value="Female" />
+                      Female
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <Field type="radio" name="gender" value="Other" />
+                      Other
+                    </label>
+                  </div>
+                </div>
+                {errors.gender && touched.gender ? (
+                  <Alert variant="warning">{errors.gender}</Alert>
+                ) : null}
+
+                <div style={{ textAlign: "center" }}>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    style={{
+                      width: "50%",
+                      padding: "10px",
+                      fontWeight: "bold",
+                      backgroundColor: "#DF314D",
+                      border: "none",
+                      marginBottom:"20px"
+
+                    }}
+                  >
+                    Prijavi se
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }
