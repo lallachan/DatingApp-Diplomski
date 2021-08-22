@@ -12,19 +12,20 @@ function UserReviews() {
     <Container 
     fluid
     style={{
-        
-        height: "100vh",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
         backgroundColor:"#A8CEED",
+       
         
         
       }}
       className="page-holder bg-cover"
     >
     
-    
+    <Row>
+    <Col style={{marginTop:"50px"}}>
     <h1 className="reviews">Pitali smo korisnike</h1> 
+    </Col>
+    </Row>
+   
       
     <Row style={{width:"100%",justifyContent:"center",textAlign:"center"}}>
 
