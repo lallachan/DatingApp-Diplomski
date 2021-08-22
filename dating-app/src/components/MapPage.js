@@ -17,7 +17,7 @@ function MapPage() {
     >
       <Row >
         <Col lg={12} style={{textAlign:"center"}}>
-          <h1 style={{color:"#DF314D",marginTop:"-50px"}}>Pronađi svoju srodnu dušu na mapi.Možda je samo od tebe 2km!?</h1>
+          <h1 style={{color:"#DF314D",marginTop:"-50px",fontWeight:"bold"}}>Pronađi svoju srodnu dušu na mapi.Možda je samo od tebe 2km!?</h1>
         </Col>
       </Row>
     </Container>

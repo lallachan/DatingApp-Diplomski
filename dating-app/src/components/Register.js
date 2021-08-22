@@ -177,7 +177,7 @@ function Register() {
                 <Row width="100%">
 
        
-                  <Col lg={8} md={12} sm={12} style={{ padding: "10px" }}>
+                  <Col lg={8} md={12} sm={12} style={{ padding: "10px",marginRight:"100px" }}>
                  
 
                     
@@ -192,6 +192,7 @@ function Register() {
                       type="text"
                       className="form-control form-group"
                       style={{width:"50%"}}
+                      style={{backgroundColor:"#A8CEED",border:"none"}}
                     />
                     {errors.firstName && touched.firstName ? (
                       <Alert variant="warning">{errors.firstName}</Alert>
@@ -207,6 +208,7 @@ function Register() {
                       name="lastName"
                       type="text"
                       className="form-control form-group"
+                      style={{backgroundColor:"#A8CEED",border:"none"}}
                     />
                     {errors.lastName && touched.lastName ? (
                       <Alert variant="warning">{errors.lastName}</Alert>
@@ -223,6 +225,7 @@ function Register() {
                       name="email"
                       type="email"
                       className="form-control form-group"
+                      style={{backgroundColor:"#A8CEED",border:"none"}}
                     />
                     {errors.email && touched.email ? (
                       <Alert variant="warning">{errors.email}</Alert>
@@ -240,6 +243,7 @@ function Register() {
                       name="password"
                       type="password"
                       className="form-control form-group"
+                      style={{backgroundColor:"#A8CEED",border:"none"}}
                     />
                     {errors.password && touched.password ? (
                       <Alert variant="warning">{errors.password}</Alert>
@@ -255,18 +259,19 @@ function Register() {
                       name="confirmPassword"
                       type="password"
                       className="form-control form-group"
+                      style={{backgroundColor:"#A8CEED",border:"none"}}
                     />
                     {errors.confirmPassword && touched.confirmPassword ? (
                       <Alert variant="warning">{errors.confirmPassword}</Alert>
                     ) : null}
 
-                   
-
                     </Col>
+
+                   
                   
                   
 
-                    <Col style={{marginTop:"9px"}}>
+                    <Col style={{marginTop:"9px"}} lg={3}>
                     
                     <label
                       htmlFor="city"
@@ -278,6 +283,7 @@ function Register() {
                       name="city"
                       type="text"
                       className="form-control form-group"
+                      style={{backgroundColor:"#A8CEED",border:"none"}}
                     />
                     {errors.city && touched.city ? (
                       <Alert variant="warning">{errors.city}</Alert>
@@ -295,6 +301,7 @@ function Register() {
                       type="number"
                       pattern="[A-Za-z]{3}"
                       className="form-control form-group"
+                      style={{backgroundColor:"#A8CEED",border:"none"}}
                     />
                     {errors.zip && touched.zip ? (
                       <Alert variant="warning">{errors.zip}</Alert>
@@ -315,6 +322,7 @@ function Register() {
                       className="my-select"
                       value={values.day}
                       style={{ padding: "10px", borderRadius: "5px" }}
+                      
                     >
                       <option value="" style={{ display: "none" }}>
                         Dan
