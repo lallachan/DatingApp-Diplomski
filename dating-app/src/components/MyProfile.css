@@ -16,9 +16,9 @@ li{
     background-color: lightgrey;
     width: 50%;
     margin-top: 20px;
-    height: 700px;
+    
     padding:20px;
-    overflow-y: scroll;
+
     border:3px solid royalblue;
 }
 

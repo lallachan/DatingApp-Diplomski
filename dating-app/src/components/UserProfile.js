@@ -104,6 +104,7 @@ function UserProfile() {
 
                 <br />
               </div>{" "}
+              {console.log(friendData)}
               <p className="name">
                 {friendData.firstName} {friendData.lastName} , {friendData.age}{" "}
                 , {friendData.gender}

@@ -93,14 +93,8 @@ function Register() {
 
   return (
     <div
-      classNameName="page-holder bg-cover"
-      style={{
-        background: `url(${img})`,
-
-        height: "100vh",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+     
+      
     >
       <Row
         style={{
@@ -112,16 +106,15 @@ function Register() {
       >
         <Col
           id="background"
-          lg={8}
+          lg={10}
           md={8}
           sm={12}
           style={{
-            padding: "50px",
+            padding: "20px",
             marginTop: "80px",
             // backgroundColor: "#007893",
-            background : "#007893",
-            overflowY: "scroll",
-            height: "80vh",
+            background : "#578BB8",
+          
           }}
         >
           <h1
@@ -129,15 +122,12 @@ function Register() {
               color: "white",
               fontWeight: "bold",
               fontSize: "3rem",
-              textAlign: "center",
-              marginTop: "-30px",
-              fontFamily:"sarina"
-              
+              textAlign: "left",
             }}
 
             
           >
-            Register
+            Registriraj se
           </h1>
 
           <Formik
@@ -185,18 +175,23 @@ function Register() {
             {({ errors, touched, values }) => (
               <Form>
                 <Row width="100%">
-                  <Col lg={6} md={12} sm={12} style={{ padding: "10px" }}>
+
+       
+                  <Col lg={8} md={12} sm={12} style={{ padding: "10px" }}>
+                 
+
+                    
                     <label
                       htmlFor="firstName"
                       style={{ color: "white", fontSize: "20px" }}
                     >
-                      First Name
+                      Ime
                     </label>
                     <Field
                       name="firstName"
                       type="text"
                       className="form-control form-group"
-                      // style={{background:"transparent",border:"2px solid white"}}
+                      style={{width:"50%"}}
                     />
                     {errors.firstName && touched.firstName ? (
                       <Alert variant="warning">{errors.firstName}</Alert>
@@ -206,7 +201,7 @@ function Register() {
                       htmlFor="lastName"
                       style={{ color: "white", fontSize: "20px" }}
                     >
-                      Last Name
+                      Prezime
                     </label>
                     <Field
                       name="lastName"
@@ -217,11 +212,12 @@ function Register() {
                       <Alert variant="warning">{errors.lastName}</Alert>
                     ) : null}
 
+                   
                     <label
-                      htmlFor="lastName"
+                      htmlFor="email"
                       style={{ color: "white", fontSize: "20px" }}
                     >
-                      Email
+                      Email adresa
                     </label>
                     <Field
                       name="email"
@@ -232,15 +228,13 @@ function Register() {
                       <Alert variant="warning">{errors.email}</Alert>
                     ) : null}
 
-<br></br>
-                    <hr></hr>
-                    <br></br>
+                   
 
                     <label
                       htmlFor="lastName"
                       style={{ color: "white", fontSize: "20px" }}
                     >
-                      Password
+                      Lozinka
                     </label>
                     <Field
                       name="password"
@@ -255,7 +249,7 @@ function Register() {
                       htmlFor="lastName"
                       style={{ color: "white", fontSize: "20px" }}
                     >
-                      Confirm Password
+                      Potvrdi Lozinku
                     </label>
                     <Field
                       name="confirmPassword"
@@ -269,6 +263,8 @@ function Register() {
                    
 
                     </Col>
+                  
+                  
 
                     <Col style={{marginTop:"9px"}}>
                     
@@ -276,7 +272,7 @@ function Register() {
                       htmlFor="city"
                       style={{ color: "white", fontSize: "20px" }}
                     >
-                      City
+                      Grad
                     </label>
                     <Field
                       name="city"
@@ -415,17 +411,17 @@ function Register() {
                     <div style={{ textAlign: "center", marginTop: "30px" }}>
                       <Button
                         type="submit"
-                        variant="outline-light"
+                       
                         size="lg"
                         style={{
                           width: "50%",
                           padding: "10px",
-                          border: "3px solid white",
-                          fontFamily: "Helvetica",
                           fontWeight: "bold",
+                          backgroundColor:"#DF314D",
+                          border:"none"
                         }}
                       >
-                        Završi
+                        Prijavi se
                       </Button>
                     </div>
                     </Col>

@@ -1,51 +1,72 @@
 import React from "react";
-import img from "../images/banner.jpg";
-import { Row, Button, Col } from "react-bootstrap";
-import logo from "../images/logo.webp";
+import cover from "../images/CoverPhoto.jpeg";
+import { Row, Button, Col, Container } from "react-bootstrap";
+
 import {Link} from "react-router-dom"
 import "./LandingPage.css"
+
+import LogIn from "./LogIn"
+
+import logo from "../images/logo_transparent.svg"
+import LandingRegister from "./LandingRegister";
+import MapPage from "./MapPage";
+import UserReviews from "./UserReviews";
+import Footer from "./Footer";
+
+
 function LandingPage() {
 
-  //FIX LINKS COLORS
 
   return (
-    <div
+    <Container
+    fluid
+    
       style={{
-        background: `url(${img})`,
+        background: `url(${cover})`,
         height: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        
       }}
       className="page-holder bg-cover"
     >
-      <Row style={{ textAlign: "right", width: "100%" }}>
-      <Col style={{textAlign:"left",color:"white",padding:"20px",marginLeft:"20px",fontSize:"30px"}}>BOK</Col>
-        <Col style={{padding:"20px"}}>
+      <Row style={{ textAlign: "right", width: "100%"}}>
+       
+      <Col lg={2}><img src={logo} style={{marginLeft:"80px",width:"100%"}} /></Col>
+        <Col style={{padding:"20px"}} lg={10}>
          
-          <Button variant="outline-light" style={{borderRadius:"1px",padding:"10px",border:"2px solid white",marginRight:"10px"}}>
-          <Link to="/login" style={{textDecoration:"none",color:"white"}}>Login</Link>
-           </Button>
-          <Button variant="outline-light"  style={{borderRadius:"1px",padding:"10px",border:"2px solid white"}}>
-          <Link to="/register" style={{textDecoration:"none",color:"white"}}>Register</Link></Button>
+       
+          <Button variant="outline-light"  style={{padding:"20px",border:"2px solid white",backgroundColor:"#578BB8",marginTop:"20px"}}>
+          <Link to="/register" style={{textDecoration:"none",color:"white",}}>Register</Link></Button>
         </Col>
       </Row>
 
-      {/* <Row style={{width:"100%",margin:"100px auto",textAlign:"center",justifyContent:"center",height:"200px"}}>
+    
+      <Row style={{width:"100%",textAlign:"center",justifyContent:"center",marginTop:"-50px",marginBottom:"300px"}}>
       
-      </Row> */}
+      <Col className="loginBox" lg={4}>
+      <h1 className="title">Dobrodošli u FindMe!</h1>
+      <h4 className="subtitle">Ulogiraj se i pronađi srodnu dušu u samo nekoliko klikova!</h4>
 
-      <Row style={{width:"100%",textAlign:"center",justifyContent:"center",marginTop:"-50px"}}>
-      <h1 style={{fontSize:"10em",marginTop:"130px",color:"#FFF3CD",fontFamily:"Roboto"}}>Find love near you</h1>
-        <Col>
-        <h1 style={{color:"white",fontFamily:"Roboto",fontSize:"70px"}}>Join us today!</h1>
-        <br></br>
-        <Button variant="outline-light" size="lg" style={{borderRadius:"1px",padding:"10px",border:"2px solid white",padding:"20px",width:"10%"}}>
-        <Link to="/register" style={{textDecoration:"none",color:"white"}}>Register</Link></Button>
-        
-        </Col>
+      <LogIn/>
+
+      </Col>
+
+      <Col lg={6}>
+      
+      </Col>
        
       </Row>
-    </div>
+
+      <LandingRegister/>
+      <MapPage/>
+      <UserReviews/>
+      <Footer/>
+
+    </Container>
+
+
+  
   );
 }
 

@@ -1,8 +1,19 @@
-button {
 
+
+.loginBox {
+  width: 50%;
+  margin-top: 150px;
+  text-align: left;
+  background: white;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
 }
 
-/* button:hover{
-    background-color: #FFF3CD !important;
-    
-} */
+.title{
+    color:white;
+    margin-top: 10px;
+}
+
+.subtitle {
+    color:white;
+}
