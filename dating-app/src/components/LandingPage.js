@@ -12,10 +12,28 @@ import LandingRegister from "./LandingRegister";
 import MapPage from "./MapPage";
 import UserReviews from "./UserReviews";
 import Footer from "./Footer";
+import { useState } from "react";
+
+import {FaArrowCircleUp} from 'react-icons/fa';
 
 
 function LandingPage() {
 
+  const [showScroll, setShowScroll] = useState(false)
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400){
+      setShowScroll(true)
+    } else if (showScroll && window.pageYOffset <= 400){
+      setShowScroll(false)
+    }
+  };
+
+  const scrollTop = () =>{
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  };
+
+  window.addEventListener('scroll', checkScrollTop)
 
   return (
     <Container
@@ -47,6 +65,11 @@ function LandingPage() {
       <Col className="loginBox" lg={4}>
       <h1 className="title">Dobrodošli u FindMe!</h1>
       <h4 className="subtitle">Ulogiraj se i pronađi srodnu dušu u samo nekoliko klikova!</h4>
+
+
+
+      <FaArrowCircleUp className="scrollTop" onClick={scrollTop} style={{height: 40,color:"#DF314D", display: showScroll ? 'flex' : 'none'}}/>
+
 
       <LogIn/>
 
