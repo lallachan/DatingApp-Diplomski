@@ -17,6 +17,7 @@ import UserProfile from "./UserProfile";
 import Chat from "./chat/Chat";
 import MyProfile from "./MyProfile";
 import SendEmailForgotPass from "./SendEmailForgotPass";
+import Page from "./Page";
 
 function Routes() {
   const { accessToken, userData, socket, refreshToken } = useContext(myContext);
@@ -25,7 +26,7 @@ function Routes() {
     <Router>
       <Switch>
         <Route exact path="/">
-          <LandingPage />
+          <Page />
         </Route>
         <Route path="/login">
           <LogIn />

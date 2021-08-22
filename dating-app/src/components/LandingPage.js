@@ -58,10 +58,6 @@ function LandingPage() {
        
       </Row>
 
-      <LandingRegister/>
-      <MapPage/>
-      <UserReviews/>
-      <Footer/>
 
     </Container>
 
