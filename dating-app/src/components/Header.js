@@ -11,6 +11,7 @@ import {
   Badge,
   Nav,
   Navbar,
+  
 } from "react-bootstrap";
 import myContext from "./contexts/myContext";
 import { useHistory } from "react-router-dom";
@@ -157,10 +158,16 @@ function Header() {
 
 
         <Col lg={2} md={2} sm={2} >
-          <img src={logo} style={{ width: "60%",}} />
+          <img  src={logo} style={{ width: "60%",}} onClick={()=>history.push("/main")} />
         </Col>
 
-        <Col lg={8} md={2} sm={2}></Col>
+        <Col lg={8} md={2} sm={2}>
+
+        
+
+  
+
+        </Col>
 
      
         <Col lg={2} md={8} sm={8} >
@@ -186,11 +193,20 @@ function Header() {
             </Col>
 
             <Col lg={4} md={4} sm={4}>
-              <img src={userData.imageUrl} className="userPhoto"/>
+            <div class="dropdown">
+            <img src={userData.imageUrl} className="userPhoto"/>
+        <div class="dropdown-content">
+        <p className="dropdown-item" onClick={myProfile}>My Profile</p>
+        <p className="dropdown-item">My Chats</p>
+        <p className="dropdown-item" onClick={LogOut}>Log Out</p>
+
+        </div>
+      </div>
+      
+              
           </Col>
 
-
-
+         
         </Row>
 
 
