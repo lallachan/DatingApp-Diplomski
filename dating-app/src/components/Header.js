@@ -158,16 +158,20 @@ function Header() {
 
 
         <Col lg={2} md={2} sm={2} >
-          <img  src={logo} style={{ width: "60%",}} onClick={()=>history.push("/main")} />
+          <img  src={logo} style={{ width: "60%",}} onClick={()=>history.push("/main")} /><span className="title-app">FindMe</span>
         </Col>
+
+        
+
+       
 
         <Col lg={8} md={2} sm={2} style={{textAlign:"right"}}>
          
-        <Col lg={2}>
+        {/* <Col lg={2}>
         <Button onClick={()=>decrease()}> decrease</Button>
          
         </Col>
-        
+         */}
       
         <Col style={{marginLeft:"90px"}}>
         {timeToFill == null ? null : (
@@ -204,9 +208,11 @@ function Header() {
             </Col>
 
             <Col lg={2} md={2} sm={2} style={{marginLeft:"50px"}}>
+
+           {/* //TODO ADD BADGE FOR UNSEEN NOTIFICATIONS */}
               
             <div class="dropdown">
-            <FaBell id="notBell" />
+            <FaBell id="notBell" /> 
             <div class="dropdown-notification">
             {notifications?.map((n) => {
               
@@ -229,7 +235,7 @@ function Header() {
           </div>
       
               
-            <FaBell id="notBell" />
+           
             </Col>
 
             <Col lg={4} md={4} sm={4}>

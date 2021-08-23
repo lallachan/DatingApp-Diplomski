@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
-import { Button } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import "./Cards.css"
 import myContext from './contexts/myContext';
 import { errorHandler, getSexOr } from "./functions/Functions";
 import axios from "axios";
-
+import { default as _ } from "lodash";
+import { FaHeart } from 'react-icons/fa';
 
 function Cards(props) {
     const {users,setViewport} = props
@@ -40,38 +41,64 @@ function Cards(props) {
 
 
     return (
-        <div className="cards">
-            <h3 style={{textAlign:"center",color:"white"}}>Users on Map</h3>
+        <div  className="cards">
+            <h3 style={{color:"white"}}>Korisnici na mapi</h3>
+            
             {users.map(user=>{
                 if(user._id == userData._id) return
-                return <div className="card" onClick={()=>setViewport({
-                    width: "50%",
-                    height: "500px",
+                return <Row style={{margin:"0",padding:"0",marginTop:"20px"}} className="card" onClick={()=>setViewport({
+                  width: "100%",
+                  height: "90vh",
                     latitude: user.lastKnownLocation.coordinates[0],
                     longitude: user.lastKnownLocation.coordinates[1],
                     zoom: 15,
                   })}>
                     <br/>
-                    <img src={user.imageUrl} width="30%" style={{margin:"0 auto"}}/>
-                    <p>{user.firstName} {user.lastName}</p>
-                   <p>{user.sexualOrientation == null ? null : "Looking for : " + getSexOr(user.sexualOrientation)}</p>
-                    <p>{user.education}</p>
-                    <p>{user.job}</p>
-                    <p>{user.description}</p>
-                  <p>{user.city},{user.zip}</p>
-                  <p>{user.interests?.map(i=>{
-                      return <li
-                      >{i.interest}</li>
-                  })}</p>
-
-                <p style={{margin:"0 auto"}}>
-                  <Button  className="btn1" variant="primary" onClick={()=>viewProfile(user._id)}>View Profile</Button>
-                    <Button className="btn1"  variant="primary" onClick={()=>likeUser(user._id)} disabled={
+                    <Row style={{marginTop:"10px"}}>
+                    <Col lg={4}>
+                    <img src={user.imageUrl} width="30%" id="rounded-image"/>
+                    <Button className="user-button" onClick={()=>viewProfile(user._id)}>Pogledaj Profil</Button>
+                   
+                    {/* <FaHeart className="like" /> */}
+                 
+                    <Button className="btn1"  variant="primary" style={{width:"50%",marginTop:"10px",marginLeft:"10px"}} onClick={()=>likeUser(user._id)} disabled={
                       userPoints?.liked.includes(user._id) ? true : false
                     }>Like
                  
-                    </Button></p>
-                    </div>
+                    </Button>
+                    </Col>
+
+                    <Col lg={8}>
+                    <h1 className="user-name">{user.firstName} {user.lastName} ,{user.age},{user.gender}</h1>
+                    
+                    <h3 className="user-city">{user.city},{user.zip}</h3>
+                    {/* //DISTANCE 2km od tebe */}<p style={{color:"#578BB8",fontWeight:"bold"}}>2 km od mene</p>
+                    <h5>O meni</h5>
+                    <p>{_.isNull(user.description) ? user.description : "Nema opisa"}</p>
+                    <p>{user.interests?.map(i=>{
+                      return <li className="user-interest"
+                      >{i.interest}</li>
+                  })}</p>
+                    </Col>
+
+                  
+
+                    
+
+                   
+                   
+
+                    </Row>
+
+                   
+                
+                   
+               
+
+                
+               
+                   
+                    </Row>
                    
                   
                       

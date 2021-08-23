@@ -1,21 +1,28 @@
 
 .cards{
-    background-color: blueviolet;
-    padding: 10px;
+    background-color: #578BB8;
+    padding: 20px;
     overflow-y: scroll;
-    height:500px;
-    width: 500px;
-    position: relative;
-    margin-top: -500px;
+    height:450px;
+    width: 30%;
+    position: absolute;
+    bottom:0;
+    left:60px;
+    margin-top: -100px;
     z-index: 1;
+    margin-bottom: 50px;
     
 }
 
 .card{
     background-color: white;
+    border-radius: 0px;
     width: 100%;
+    height: 250px;
     margin-bottom: 10px;
     padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 50px;
 }
 
 .btn1{
@@ -27,3 +34,73 @@
     
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #F59391; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+  #rounded-image{
+    border-radius: 50%;
+    object-fit: cover;
+    width:130px;
+    height:130px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.user-name{
+    color:#707070;
+    font-weight: bold;
+    font-size: 1.5rem;
+
+}
+
+.user-city{
+    color:#707070;
+    font-size: 1.2rem;
+}
+
+.user-interest{
+    list-style: none;
+    background-color: #F59391;
+    padding:8px;
+    margin-right: 5px;
+    color:white;
+    border-radius: 10px;
+}
+
+.user-button{
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 0;
+    background-color: #578BB8;
+    border:none;
+    padding:10px;
+}
+
+.user-button:hover{
+    background-color: #F59391;
+}
+
+.like{
+    font-size: 2rem;
+    color:#F59391;
+    margin-top: 5px;
+    margin-left: 10px;
+}

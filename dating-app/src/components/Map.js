@@ -22,6 +22,8 @@ import { default as _, range } from "lodash";
 import Cards from "./Cards";
 import Filters from "./Filters";
 
+import "./Map.css"
+
 function Map(props) {
   const history = useHistory();
   const { userData, accessToken, setUserData } = useContext(myContext);
@@ -144,13 +146,14 @@ function Map(props) {
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
         mapStyle="mapbox://styles/fakkkkkk123/ckq6pcalq3jpd17o6c7kiwz2y"
+        style={{ position: "absolute"}}
       >
         <Button
           variant="primary"
           onClick={() => getCurrentLocation()}
-          style={{ float: "right", borderRadius: "0px",backgroundColor:"#578BB8" }}
+          style={{ float: "right", borderRadius: "0px",backgroundColor:"#578BB8",border:"none" }}
         >
-          Get my current location
+          Dohvati moju trenutnu lokaciju
         </Button>
         <div style={{ clear: "both" }}></div>
         <Source id="bull" type="geojson" data={geojson}>
@@ -171,7 +174,7 @@ function Map(props) {
           offsetLeft={-50}
           zoom={11}
         >
-          <img width="40px" src={userImage} onClick={(event) => {}} />
+          <img width="80px" src={userImage} onClick={(event) => {}} />
         </Marker>
         {usersMarkers.map((user, i) => {
           if (user._id === userData._id) return <></>;
@@ -185,13 +188,14 @@ function Map(props) {
               onClick={() => onMarkerClick(user._id)}
               offsetRight={-50}
             >
-              <img width="40px" src={user.imageUrl} />
+              <img width="40px" src={user.imageUrl} id="mapPhoto"/>
             </Marker>
           );
         })}
       </ReactMapGL>
-      {/* <Cards users={usersMarkers} setViewport={setViewport}/>
-      <Filters setMarkers={setUsersMarkers} /> */}
+
+      <Cards users={usersMarkers} setViewport={setViewport}/>
+      <Filters setMarkers={setUsersMarkers} />
     </>
   );
 }

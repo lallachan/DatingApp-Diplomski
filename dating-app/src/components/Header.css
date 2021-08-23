@@ -83,3 +83,11 @@
     margin-left: -100px;
     border:2px solid #578BB8;
   }
+
+  .title-app{
+    font-size: 1.5rem;
+    font-family: Merriweather;
+    color:grey;
+    margin-left: -50px;
+    font-weight: bold;
+  }
