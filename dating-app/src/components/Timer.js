@@ -14,32 +14,32 @@ function Timer(props) {
     const futureDate = moment(date);
     const today = moment();
     const clockDuration = duration(futureDate.diff(today));
-    let dana = Math.floor(clockDuration.asDays());
-    let sati = clockDuration.hours();
-    let minuta = clockDuration.minutes();
-    let sekundi = clockDuration.seconds();
+    // let dana = Math.floor(clockDuration.asDays());
+    // let sati = clockDuration.hours();
+    let min = clockDuration.minutes();
+    let sec = clockDuration.seconds();
 
-    if (Math.floor(clockDuration.asDays()) < 0){
-         dana = 0;
-    }
+    // if (Math.floor(clockDuration.asDays()) < 0){
+    //      dana = 0;
+    // }
 
-    if (clockDuration.hours() < 0){
-         sati = 0;
-    }
+    // if (clockDuration.hours() < 0){
+    //      sati = 0;
+    // }
 
     if (clockDuration.minutes() < 0){
-         minuta = 0;
+         min = 0;
     }
 
     if (clockDuration.seconds() < 0){
-         sekundi = 0;
+         sec = 0;
     }
 
     setTimer({
-      dana: dana,
-      sati: sati,
-      minuta: minuta,
-      sekundi: sekundi,
+      // dana: dana,
+      // sati: sati,
+      min: min,
+      sec: sec,
     });
     
     if(clockDuration.seconds()<0){
@@ -79,18 +79,18 @@ function Timer(props) {
                
             
                 {Object.keys(timer).map((key, i) => (
-                    <span className="timer">
+                    <span className="timer" >
                         <span className="key">
                             {timer[key]}
                         </span>
                         <span>
-                            {key.toUpperCase()}
+                            {key.toLowerCase()}
                         </span>
                     </span>
 
                     
                 ))}
-              <div style={{clear:"both"}}/>
+            
      
             </Container>
         )

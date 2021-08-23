@@ -161,18 +161,30 @@ function Header() {
           <img  src={logo} style={{ width: "60%",}} onClick={()=>history.push("/main")} />
         </Col>
 
-        <Col lg={8} md={2} sm={2}>
-
+        <Col lg={8} md={2} sm={2} style={{textAlign:"right"}}>
+         
+        <Col lg={2}>
+        <Button onClick={()=>decrease()}> decrease</Button>
+         
+        </Col>
         
-
-  
-
+      
+        <Col style={{marginLeft:"90px"}}>
+        {timeToFill == null ? null : (
+          <Timer date={timeToFill}  fetchHearts={fetchHearts} style={{marginTop:"-30px"}} />
+        )}
+        </Col>
+       
         </Col>
 
      
-        <Col lg={2} md={8} sm={8} >
+        <Col lg={2} md={8} sm={8}>
 
-        <Row>
+        <Row>      
+
+      
+        
+     
 
         <Col lg={2} md={2} sm={2}>
               <img
@@ -182,10 +194,13 @@ function Header() {
                   marginTop: "20px",
                 }}
               />
-            </Col>
+            <span>
 
+            </span>
+            </Col>
+            
             <Col lg={1} style={{marginTop:"20px"}}>
-              <h1 id="numberOfHearts">5</h1>
+              <h1 id="numberOfHearts">{lifes}</h1>
             </Col>
 
             <Col lg={2} md={2} sm={2} style={{marginLeft:"50px"}}>
