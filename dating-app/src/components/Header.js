@@ -204,7 +204,32 @@ function Header() {
             </Col>
 
             <Col lg={2} md={2} sm={2} style={{marginLeft:"50px"}}>
-              <FaBell id="notBell" />
+              
+            <div class="dropdown">
+            <FaBell id="notBell" />
+            <div class="dropdown-notification">
+            {notifications?.map((n) => {
+              
+              return (
+                <p style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId)}>
+                 
+                  {n.text}
+                </p>
+              );
+            })}
+            {chatNotification?.map(n=>{
+
+              return  (<p style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId,n.chat_id)}>
+               
+              {n.text}
+            </p>)
+            })}
+
+            </div>
+          </div>
+      
+              
+            <FaBell id="notBell" />
             </Col>
 
             <Col lg={4} md={4} sm={4}>
