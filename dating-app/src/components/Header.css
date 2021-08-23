@@ -1,16 +1,36 @@
 .header {
-    background-color: #F0F8FF;
-    height:80px;
+    background-color: white;
+    height:90px;
     width: 100%;
 }
 
-.button {
-   
+
+#numberOfHearts {
+    display: inline;
+    color:#578BB8;
     margin-top: 20px;
+   
+
 }
 
-.badge{
-    background-color: red;
-    border-radius: 50%;
-    
+
+#notBell {
+    color:#578BB8;
+    font-size: 2.5rem;
+    margin-top: 25px;
+    margin-left: -20px;
+   
 }
+
+.userPhoto {
+    border-radius: 50%;
+    object-fit: cover;
+    width:60px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+    margin-top: 15px;
+   
+}
+

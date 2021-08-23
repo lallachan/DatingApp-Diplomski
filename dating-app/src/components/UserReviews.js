@@ -45,7 +45,7 @@ function UserReviews() {
           <i class="fas fa-star">5 stars</i>
         </Col>
 
-        <Col lg={2} className="userBox">
+        <Col lg={2} className="userBox" style={{backgroundColor:"#DF314D"}}>
         <img src={boy} id="profilePhoto"/>
           <h1>Sven Tadić</h1>
           <p>
