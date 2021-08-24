@@ -3,7 +3,7 @@ import myContext from "../contexts/myContext";
 import axios from "axios";
 import { errorHandler } from "../functions/Functions";
 import Conversation from "./Conversation";
-import { Button, Spinner, Container, Col, Row, Alert } from "react-bootstrap";
+import { Button, Spinner, Container, Col, Row, Alert, FormControl } from "react-bootstrap";
 import { io } from "socket.io-client";
 import Mesage from "./Mesage";
 import { useHistory, useParams } from "react-router-dom";
@@ -12,6 +12,7 @@ import { default as _ } from "lodash";
 import ChatThreads from "./ChatThreads";
 import pattern from "../../images/pattern.jpg"
 import Header from "../Header.js"
+import {FaCamera} from 'react-icons/fa';
 
 function Chat() {
   const { userData, chatId, accessToken, socket, setChatId } =
@@ -254,16 +255,108 @@ function Chat() {
 
       <Row>
 
-      <Col lg={4} md={12} sm={10} className="aboutMe">
+      <Col lg={4} md={12} sm={10} className="conversations">
 
-      <h1 className="conversation-title">Razgovori</h1>
+      <h2 className="conversation-title">Razgovori</h2>
 
       <ChatThreads blocked={blocked} />
 
       </Col>
 
-      <Col lg={7} md={7} sm={10} className="chatBox"></Col>
+      <Col lg={7} md={7} sm={10} className="chatBox">
 
+      <Row>
+
+      <Col className="conversation-title" style={{fontSize:"1rem"}}>
+      {friendData === null ? null : (
+          <h2 className="headline">
+            {friendData.firstName} {friendData.lastName}
+          </h2>
+        )}
+      </Col>
+      <Col><Button id="blockButton">Blokiraj</Button></Col>
+      </Row>
+
+
+      <Row>
+
+        <Col>
+        {chatMessages?.map((m, i) => {
+            if (i == 0) return;
+
+            return (
+              <>
+                <Col
+                  key={i}
+                  
+                >
+                  {_.isUndefined(friendData) || _.isNull(friendData) ? (
+                    <Spinner animation="border" />
+                  ) : m.senderID != userData._id && m.senderID != undefined ? (
+                    <Row>
+
+                      <Col>
+                      <img src={friendData.imageUrl} className="userPhotoImage" /><br/>
+                      </Col>
+                      <div style={{clear:"both"}}></div>
+                      </Row>
+                  
+
+                  ) : null}
+                  
+                
+
+                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={m.imageUrl}  />  : <span
+                 className={
+                  m.senderID == userData._id || m.senderID === undefined
+                    ? "msg"
+                    : "fmsg"
+                }
+                 >{m.message }<span className="timeMessageFriend">8:23</span></span>}</Col>
+                 
+                 
+                  
+                  
+                </Col>
+
+                <div className="clear"></div>
+
+               
+              </>
+            );
+          })}
+        </Col>
+
+      </Row>
+
+
+      <Row style={{backgroundColor:"#578BB8",marginTop:"40px"}}>
+
+        <Col lg={2}>
+        <Button className="uploadPhotoButton" onClick={showWidget}><FaCamera/></Button>
+        </Col>
+
+        <Col lg={10}>
+       
+
+        <FormControl
+        ref={textArea}
+        className="messageBox"
+      aria-describedby="basic-addon2"
+    />
+      <Button onClick={handleSubmit} disabled={blocked} className="sendButton">
+            Send
+          </Button>
+
+
+        </Col>
+
+    
+
+      </Row>
+
+      </Col>
+     
 
       </Row>
 

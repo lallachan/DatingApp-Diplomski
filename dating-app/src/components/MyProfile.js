@@ -67,6 +67,28 @@ function MyProfile() {
 
   const selectHobbieRef = useRef(null)
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  const handleCloseEduJob = () => setShowEduJob(false);
+  const handleShowEduJob = () => setShowEduJob(true);
+
+
+  const handleClosePass = () => setShowPassword(false);
+  const handleShowPass = () => setShowPassword(true);
+  
+  
+
+  const handleCloseGallery = () => setShowGallery(false);
+  const handleShowGallery = () => setShowGallery(true);
+
+  const handleCloseHobbies = () => setShowHobbies(false);
+  const handleShowHobbies = () => setShowHobbies(true);
+
+  const handleCloseSlideShow = () => setShowSlideShow(false);
+  const handleShowSlideShow = () => setShowSlideShow(true);
+
   const entHobbies = ["TV Series", "Games", "Movies", "Board Games"];
   const healFitHobbies = ["Workout", "Dieting"];
   const foodHobbies = ["Cooking", "Eating Out", "Drinks", "Brewing Beer"];
@@ -149,13 +171,14 @@ function MyProfile() {
           },
         }
       );
-      console.log(res.data);
-      console.log("hej")
+     
+      setUserData(res.data)
+      // setShow(false)
     } catch (error) {
       errorHandler(error);
     }
 
-    window.location.reload();
+    // window.location.reload();
   };
 
   const saveData = async () => {
@@ -238,27 +261,7 @@ function MyProfile() {
   const [showHobbies, setShowHobbies] = useState(false);
   const [showSlideShow, setShowSlideShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-
-  const handleCloseEduJob = () => setShowEduJob(false);
-  const handleShowEduJob = () => setShowEduJob(true);
-
-
-  const handleClosePass = () => setShowPassword(false);
-  const handleShowPass = () => setShowPassword(true);
   
-  
-
-  const handleCloseGallery = () => setShowGallery(false);
-  const handleShowGallery = () => setShowGallery(true);
-
-  const handleCloseHobbies = () => setShowHobbies(false);
-  const handleShowHobbies = () => setShowHobbies(true);
-
-  const handleCloseSlideShow = () => setShowSlideShow(false);
-  const handleShowSlideShow = () => setShowSlideShow(true);
   
   
 
