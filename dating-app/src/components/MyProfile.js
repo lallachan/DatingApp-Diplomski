@@ -342,10 +342,10 @@ function MyProfile() {
     </Modal.Body>
     <Modal.Footer>
       <Button variant="secondary" onClick={handleClose}>
-        Close
+        Zatvori
       </Button>
       <Button variant="primary" onClick={saveData} style={{backgroundColor:"#578BB8",border:"none"}}>
-        Save Changes
+        Spremi promjene
       </Button>
     </Modal.Footer>
   </Modal>
@@ -396,10 +396,10 @@ function MyProfile() {
     </Modal.Body>
     <Modal.Footer>
       <Button variant="secondary" onClick={handleCloseEduJob}>
-        Close
+        Zatvori
       </Button>
       <Button variant="primary" onClick={saveEduJobData} style={{backgroundColor:"#578BB8",border:"none"}}>
-        Save Changes
+        Spremi promjene
       </Button>
     </Modal.Footer>
   </Modal>
@@ -426,10 +426,10 @@ function MyProfile() {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClosePass}>
-          Close
+          Zatvori
         </Button>
         <Button variant="primary" onClick={handleClosePass} style={{backgroundColor:"#578BB8",border:"none"}}>
-          Save Changes
+          Spremi promjene
         </Button>
       </Modal.Footer>
     </Modal>
@@ -468,10 +468,10 @@ function MyProfile() {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCloseGallery}>
-          Close
+          Zatvori
         </Button>
         <Button variant="primary" onClick={handleCloseGallery} style={{backgroundColor:"#578BB8",border:"none"}}>
-          Save Changes
+          Spremi promjene
         </Button>
       </Modal.Footer>
     </Modal>
@@ -528,10 +528,10 @@ function MyProfile() {
     </Modal.Body>
     <Modal.Footer>
       <Button variant="secondary" onClick={handleCloseHobbies}>
-        Close
+        Zatvori
       </Button>
       <Button variant="primary" onClick={saveData} style={{backgroundColor:"#578BB8",border:"none"}}>
-        Save Changes
+        Spremi promjene
       </Button>
     </Modal.Footer>
   </Modal>

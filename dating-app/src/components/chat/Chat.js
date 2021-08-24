@@ -10,6 +10,9 @@ import { useHistory, useParams } from "react-router-dom";
 import "./Chat.css";
 import { default as _ } from "lodash";
 import ChatThreads from "./ChatThreads";
+import pattern from "../../images/pattern.jpg"
+import Header from "../Header.js"
+
 function Chat() {
   const { userData, chatId, accessToken, socket, setChatId } =
     useContext(myContext);
@@ -236,9 +239,37 @@ function Chat() {
 
   if (_.isNull(friendData) || _.isUndefined(friendData)) return <Spinner />;
   return (
-    <Container fluid>
+    <Container fluid
+    style={{
+      background: `url(${pattern})`,
+      height: "100vh",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    
+    }}
+    >
+      <Row><Header/></Row>
+
+
+
       <Row>
-        <Col lg={3}>
+
+      <Col lg={4} md={12} sm={10} className="aboutMe">
+
+      <h1 className="conversation-title">Razgovori</h1>
+
+      <ChatThreads blocked={blocked} />
+
+      </Col>
+
+      <Col lg={7} md={7} sm={10} className="chatBox"></Col>
+
+
+      </Row>
+
+
+
+        {/* <Col lg={3}>
           <ChatThreads blocked={blocked} />
         </Col>
         <Col lg={6} className="chat">
@@ -320,7 +351,7 @@ function Chat() {
           </Button>
         </Col>
         <Col lg={1}></Col>
-      </Row>
+      </Row> */}
     </Container>
   );
 }

@@ -53,17 +53,17 @@ function ChatThreads(props) {
     return (
 
     
-        <div className="chatThreads"> 
+        <div style={{marginTop:"20px"}}> 
             
-            <h1>Chats</h1>
+          
           
         {threads.map(t=>{
-            return<> <Button className="thread" disabled={blocked}  onClick={()=>changeChat(t._id)}>{t.firstName}{t.lastName}<img src={t.imageUrl} width="50px"/></Button>
-            <br/>
+            return<><img src={t.imageUrl} className="myProfilePhotoThumbNail"/> <span className="thread" disabled={blocked}  className="nameUser" onClick={()=>changeChat(t._id)}>{t.firstName}  {t.lastName}</span>
+          
             <hr/>
             </>
         })}
-
+       
 
         </div>
     )

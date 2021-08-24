@@ -64,3 +64,8 @@ img{
 .headline{
     margin:0 auto;
 }
+
+.conversation-title{
+    color:#578BB8;
+    font-size: 2rem;
+}
