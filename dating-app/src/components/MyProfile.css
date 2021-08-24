@@ -83,9 +83,10 @@ li{
 
 .aboutMe{
     background-color: white;
-    margin-top: 20px;
+    margin-top: 50px;
     margin-left: 60px;
     border:2px solid #578BB8;
+
 }
 
 .talk{
@@ -164,7 +165,7 @@ li{
 .nextMe{
     background-color: white;
     border:2px solid #578BB8;
-    margin-top: 20px;
+    margin-top: 50px;
     margin-left: 50px;
     
 }
@@ -202,7 +203,8 @@ li{
 }
 
 .chatBox {
-    background-color: #A8CEED;
+    /* background-color: #A8CEED; */
+    background: rgba(158, 199, 233, 0.5);
     margin-top: 50px;
     margin-left: 50px;
     border:2px solid #578BB8;

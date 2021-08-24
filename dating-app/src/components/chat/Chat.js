@@ -164,6 +164,7 @@ function Chat() {
       console.log(res.data);
       setBlocked(res.data.blocked);
       setUserWhoBlocked(res.data.userWhoBlocked);
+      
     } catch (error) {
       errorHandler(error);
     }
@@ -243,9 +244,9 @@ function Chat() {
     <Container fluid
     style={{
       background: `url(${pattern})`,
+      backgroundRepeat:"repeat-x",
       height: "100vh",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
+      backgroundSize: "cover"
     
     }}
     >
@@ -263,8 +264,8 @@ function Chat() {
 
       </Col>
 
-      <Col lg={7} md={7} sm={10} className="chatBox">
-
+      <Col lg={7} md={7} sm={10} className="chatBox" >
+      
       <Row>
 
       <Col className="conversation-title" style={{fontSize:"1rem"}}>
@@ -274,7 +275,7 @@ function Chat() {
           </h2>
         )}
       </Col>
-      <Col><Button id="blockButton">Blokiraj</Button></Col>
+      <Col><Button id="blockButton" onClick={() => rejectUser(chat_id)}>Blokiraj</Button></Col>
       </Row>
 
 
@@ -298,7 +299,10 @@ function Chat() {
                       <Col>
                       <img src={friendData.imageUrl} className="userPhotoImage" /><br/>
                       </Col>
+                      
+                      
                       <div style={{clear:"both"}}></div>
+                      
                       </Row>
                   
 
@@ -306,7 +310,7 @@ function Chat() {
                   
                 
 
-                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={m.imageUrl}  />  : <span
+                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={m.imageUrl} className="chatImg" />  : <span
                  className={
                   m.senderID == userData._id || m.senderID === undefined
                     ? "msg"
@@ -325,7 +329,22 @@ function Chat() {
               </>
             );
           })}
+
+
         </Col>
+
+        <Row>
+          <Col>
+          
+          {blocked == true ? (
+            <Alert variant="danger" style={{backgroundColor:"#DF314D",color:"white",marignTop:"50px",width:"30%",borderRadius:"50px"}}>
+              {userWhoBlocked == userData._id
+                ? userData.firstName + " " + userData.lastName + " "
+                : friendData.firstName + friendData.lastName + " "}
+              je blokirala razgovor
+            </Alert>
+          ) : null}</Col>
+        </Row>
 
       </Row>
 

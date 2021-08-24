@@ -100,7 +100,7 @@ function UserProfile() {
       background: `url(${pattern})`,
       height: "100vh",
       backgroundSize: "cover",
-      backgroundPosition: "center",
+      
     
     }}
     >

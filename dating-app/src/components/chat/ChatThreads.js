@@ -11,7 +11,7 @@ import "./Chat.css"
 function ChatThreads(props) {
 
 
-    const {accessToken,userData} = useContext(myContext)
+    const {accessToken,userData,userPoints} = useContext(myContext)
     const [threads, setThreads] = useState([])
 
     const history = useHistory()
@@ -59,7 +59,8 @@ function ChatThreads(props) {
           
         {threads.map(t=>{
             return<><img src={t.imageUrl} className="myProfilePhotoThumbNail"/> <span className="thread" disabled={blocked}  className="nameUser" onClick={()=>changeChat(t._id)}>{t.firstName}  {t.lastName}</span>
-          
+
+           
             <hr/>
             </>
         })}
