@@ -35,6 +35,10 @@ function Routes() {
           <Register />
         </Route>
 
+        <Route path="/userChats">
+          <Chat/>
+        </Route>
+
         <Route exact path="/completeSetup" component={CompleteSetup} />
 
         <Route exact path="/forgotPassword" component={SendEmailForgotPass} />

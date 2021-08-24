@@ -24,6 +24,7 @@ import Hobbies from "./Hobbies";
 import Gallery from "./Gallery";
 import ChangePassword from "./ChangePassword";
 import Header from "./Header"
+import "./MyProfile.css";
 
 import pattern from "../images/pattern.jpg"
 
