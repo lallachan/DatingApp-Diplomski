@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext } from 'react'
 import { useRef } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, FormControl } from 'react-bootstrap'
 import myContext from './contexts/myContext'
 import { errorHandler } from './functions/Functions'
 
@@ -39,21 +39,34 @@ function ChangePassword() {
 
     return (
         <div>
-            <h2>Change your Password</h2>
+         
 
-            <label>Your old password</label><br/>
-            <input type="password" name="password" ref={pass1}/>
+           
+            {/* <input type="password" name="password" ref={pass1}/> */}
+            <FormControl
+            placeholder="Stara lozinka"
+            type="password"
+            name="password"
+            ref={pass1}
+            aria-label="Stara lozinka"
+            aria-describedby="basic-addon1"
+          />
 
             <br/>
-            <label>Your new password</label><br/>
-            <input type="password" name="password2" ref={pass2}/>
+          
 
-            {/* <br/>
-            <label>Repeat your new password</label><br/>
-            <input type="password" name="repeatpassword"/> */}
+            <FormControl
+            placeholder="Nova lozinka"
+            type="password"
+            name="password2"
+            ref={pass2}
+            ref={pass1}
+            aria-label="Nova lozinka"
+            aria-describedby="basic-addon1"
+          />
 
             <br/><br/>
-            <Button variant="primary" onClick={()=>changePassword()}>Change Password</Button>
+            <Button variant="primary" onClick={()=>changePassword()}>Promijeni lozinku</Button>
         </div>
     )
 }

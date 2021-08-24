@@ -10,6 +10,9 @@ import {
   ButtonGroup,
   Popover,
   OverlayTrigger,
+  Tooltip,
+  Overlay,
+  Modal,
 } from "react-bootstrap";
 import myContext from "./contexts/myContext";
 import "./MyProfile.css";
@@ -21,6 +24,12 @@ import Hobbies from "./Hobbies";
 import Gallery from "./Gallery";
 import ChangePassword from "./ChangePassword";
 import Header from "./Header"
+
+import pattern from "../images/pattern.jpg"
+
+import {FaCamera} from 'react-icons/fa';
+
+import {FaGraduationCap} from 'react-icons/fa';
 
 function MyProfile() {
   const { userData, accessToken,setUserData } = useContext(myContext);
@@ -127,11 +136,11 @@ function MyProfile() {
     widget.open();
   }
 
-  const saveJobData = async () => {
+  const saveEduJobData = async () => {
     try {
       const res = await axios.patch(
         process.env.REACT_APP_GET_USER_DATA,
-        { job: jobRef.current.value },
+        { education: eduRef.current.value, job: jobRef.current.value },
         {
           headers: {
             authorization: accessToken,
@@ -139,29 +148,7 @@ function MyProfile() {
         }
       );
       console.log(res.data);
-    } catch (error) {
-      errorHandler(error);
-    }
-
-    window.location.reload();
-  };
-
-  
-
-  
-
-  const saveEduData = async () => {
-    try {
-      const res = await axios.patch(
-        process.env.REACT_APP_GET_USER_DATA,
-        { education: eduRef.current.value },
-        {
-          headers: {
-            authorization: accessToken,
-          },
-        }
-      );
-      console.log(res.data);
+      console.log("hej")
     } catch (error) {
       errorHandler(error);
     }
@@ -240,14 +227,296 @@ function MyProfile() {
     showWidget()
   }
 
+  
+ 
+  const [show, setShow] = useState(false);
+  const [showEduJob, setShowEduJob] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
+  const [showHobbies, setShowHobbies] = useState(false);
+
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  const handleCloseEduJob = () => setShowEduJob(false);
+  const handleShowEduJob = () => setShowEduJob(true);
+
+
+  const handleClosePass = () => setShowPassword(false);
+  const handleShowPass = () => setShowPassword(true);
+  
+  
+
+  const handleCloseGallery = () => setShowGallery(false);
+  const handleShowGallery = () => setShowGallery(true);
+
+  const handleCloseHobbies = () => setShowHobbies(false);
+  const handleShowHobbies = () => setShowHobbies(true);
+  
+
+
 
   return (
-    <Container fluid>
+    <Container fluid
+    style={{
+      background: `url(${pattern})`,
+      height: "100vh",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    
+    }}
+    >
       <Row>
         <Header/>
       </Row>
       <Row>
-        <div className="profile">
+
+      <Col lg={4} className="aboutMe">
+        <Row>
+          <Col>
+          <Button className="talk">Razgovaraj</Button>
+          </Col>
+          <Col>
+          <Button className="talk">Like</Button>
+          </Col>
+        </Row>
+
+
+        <Row>
+          <Col>
+          <img src={imageUrl} width="50%" className="myProfilePhoto" />
+          <Button className="changeProfilePhotoButton" onClick={changeProfilePhoto}><FaCamera/></Button>
+          </Col>
+        </Row>
+
+        <Row style={{paddingLeft:"50px"}}>
+
+        <Col>
+        <h3 className="credentials">{userData.firstName} {userData.lastName},{userData.age}, {userData.gender}</h3>
+        <h5 className="credentials" style={{marginTop:"20px"}}>{userData.city},{userData.zip}</h5>
+        </Col>
+
+
+        </Row>
+
+
+        <Row style={{paddingLeft:"50px"}}>
+
+          <Col lg={8}>
+            <h3 className="titleMe">O meni</h3>
+            <p className="desc">{userData.description}</p>
+          </Col>
+          <Col>
+          <Button className="editButton" style={{marginTop:"30px"}} onClick={handleShow}>
+          Uredi
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+    <Modal.Header closeButton>
+      <Modal.Title>Uredi opis</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+   
+        <textarea
+          placeholder="Personal Description"
+          className="textarea"
+          maxlength="150"
+          ref={descRef}
+        >
+          {userData.description}
+        </textarea>
+
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={handleClose}>
+        Close
+      </Button>
+      <Button variant="primary" onClick={saveData}>
+        Save Changes
+      </Button>
+    </Modal.Footer>
+  </Modal>
+          </Col>
+        </Row>
+
+
+        <Row style={{paddingLeft:"50px"}}>
+
+          <Col lg={8}>
+          <h3 className="titleMe">Posao/Edukacija</h3>
+          <p>{userData.education}</p>
+          <p>{userData.job}</p>
+          </Col>
+
+
+          <Col>
+          <Button className="editButton" style={{marginTop:"30px"}} onClick={handleShowEduJob}>
+          Uredi
+           </Button>
+
+           <Modal show={showEduJob} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Uredi Posao/Edukacija</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+   
+            <h5>Edukacija</h5>
+            <textarea
+              placeholder="Add Education"
+              className="textarea"
+              maxLength={100}
+              ref={eduRef}
+            >
+              {userData.education}
+            </textarea>
+
+            <h5>Posao</h5>
+            <textarea
+              placeholder="Add Job"
+              className="textarea"
+              maxLength={100}
+              ref={jobRef}
+            >
+              {userData.job}
+            </textarea>
+           
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={handleClose}>
+        Close
+      </Button>
+      <Button variant="primary" onClick={saveData}>
+        Save Changes
+      </Button>
+    </Modal.Footer>
+  </Modal>
+
+
+
+          </Col>
+          </Row>
+
+          <Row style={{paddingLeft:"50px"}}>
+
+            <Col>
+            <Button style={{backgroundColor:"#578BB8",border:"none",borderRadius:"0",marginBottom:"20px"}} onClick={handleShowPass}>Promijeni lozinku</Button>
+            </Col>
+
+              <Modal show={showPassword} onHide={handleClosePass}>
+              <Modal.Header closeButton>
+                <Modal.Title>Promijeni lozinku</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+    
+            <ChangePassword/>
+            
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClosePass}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleClosePass}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+
+          </Row>
+
+
+
+      </Col>
+
+     
+      <Col lg={7} className="nextMe">
+
+      <Row>
+
+      <Col lg={10}>
+      <h3 className="titleMe" style={{marginTop:"30px",marginLeft:"20px"}}>Galerija</h3>
+      
+
+      </Col>
+      <Col>
+      <Button className="editButton" style={{marginTop:"20px"}} onClick={handleShowGallery}>
+          Uredi
+      </Button>
+
+
+ <Modal show={showGallery} onHide={handleCloseGallery}>
+              <Modal.Header closeButton>
+                <Modal.Title>Uredi Galeriju</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+
+              <Gallery/>
+            
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseGallery}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleCloseGallery}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+      </Col>
+
+      </Row>
+    
+      <Row style={{marginLeft:"10px",marginTop:"10px"}}> 
+      
+      {userData.gallery.map(img=>{
+        return <img src={img.imageUrl} style={{width:"30%",height:"200px",backgroundSize:"cover",borderRadius:"0px"}}/>
+      })}
+
+      </Row>
+
+
+      <Row>
+        <Col lg={10}>
+        <h3 className="titleMe" style={{marginTop:"30px",marginLeft:"20px",marginBottom:"20px"}}>Moji interesi</h3>
+        {userData.interests.map(i=>{
+          return <li className="myHobbies">{i.interest}</li>
+        })}
+        </Col>
+        <Col lg={2}>
+        <Button className="editButton" style={{marginTop:"50px"}} onClick={handleShowHobbies}>
+          Uredi
+      </Button>
+
+      <Modal show={showHobbies} onHide={handleCloseHobbies}>
+            <Modal.Header closeButton>
+              <Modal.Title>Uredi interese</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+   
+            <Hobbies hobbies={userData.interests}/>
+           
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={handleCloseHobbies}>
+        Close
+      </Button>
+      <Button variant="primary" onClick={saveData}>
+        Save Changes
+      </Button>
+    </Modal.Footer>
+  </Modal>
+
+
+
+        </Col>
+      </Row>
+
+      </Col>
+
+        {/* <div className="profile">
           <div className="profilePhoto">
             <img src={imageUrl} width="50%" />
             <br />
@@ -436,7 +705,7 @@ function MyProfile() {
         }
 
         
-        </div>
+        </div> */}
       </Row>
     </Container>
   );

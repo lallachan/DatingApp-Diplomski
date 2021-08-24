@@ -151,7 +151,7 @@ function Map(props) {
         <Button
           variant="primary"
           onClick={() => getCurrentLocation()}
-          style={{ float: "right", borderRadius: "0px",backgroundColor:"#578BB8",border:"none" }}
+          style={{ float: "right", borderRadius: "0px",backgroundColor:"#578BB8",border:"none",zIndex:"100" }}
         >
           Dohvati moju trenutnu lokaciju
         </Button>

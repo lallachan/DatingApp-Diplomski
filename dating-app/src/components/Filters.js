@@ -98,7 +98,7 @@ function Filters(props) {
     <div className="filters">
      
      <h4 style={{color:"white"}}>Filtriraj korisnike</h4>
-      <Row style={{backgroundColor:"white",margin:"0",padding:"0"}}>
+      <Row style={{backgroundColor:"white",margin:"0",padding:"0",height:"80%"}}>
 
      <Col lg={6}>
      
@@ -128,17 +128,16 @@ function Filters(props) {
     max
       </span>
 
-      <br />
-      <br/>
+    <br/>
       <span>
-        <h5 style={{display:"inline"}}>Spol :</h5>
+        <h5 style={{display:"inline",marginTop:"10px"}}>Spol :</h5>
         <div
           class="form-check"
           style={{ marginLeft: "5px",display:"inline",paddingLeft:"30px" }}
           onChange={(e) => handleRChange(e)}
         >
           
-            <input
+            <inputs
               class="form-check-input"
               type="radio"
               name="flexRadioDefault"
@@ -177,14 +176,15 @@ function Filters(props) {
               onChange={(e) => handleRChange(e)}
               style={{marginLeft:"5px"}}
             />
-            <label class="form-check-label" for="flexRadioDefault1" style={{marginLeft:"10px"}}>
+            <label class="form-check-label" for="flexRadioDefault1" >
               Ostalo
             </label>
-         
+           
         </div>
       </span>
-     
       <Button id="search-someone">Pronađi mi nekoga danas</Button>
+
+
      </Col>
 
      <Col lg={6}>

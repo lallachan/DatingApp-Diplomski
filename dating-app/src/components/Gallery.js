@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import myContext from "./contexts/myContext";
 import { errorHandler } from "./functions/Functions";
+import "./Gallery.css"
 
 function Gallery() {
   const { userData, accessToken, setUserData } = useContext(myContext);
@@ -92,14 +93,14 @@ function Gallery() {
       >
         Edit
       </Button>
-      <div>
+      <div style={{marginLeft:"20px"}}>
         {galleryPhotos.map((img,i) => {
           return (
             <>
             
             <img
               src={img.imageUrl}
-              style={{ borderRadius: "0px", width: "30%", marginRight: "10px" }}
+              style={{borderRadius:"0px",width:"250px",height:"250px",backgroundSize: "cover"}}
               onClick={()=>deleteImage(i)}
               
             />

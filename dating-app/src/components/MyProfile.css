@@ -30,11 +30,10 @@ li{
 
 .textarea{
     width: 80%;
-   height: auto;
+    height: auto;
     padding: 12px 20px;
     box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
+    border:none;
     background-color: #f8f8f8;
     resize: none;
 }
@@ -82,3 +81,84 @@ li{
     font-size: 30px;
 }
 
+.aboutMe{
+    background-color: white;
+    margin-top: 20px;
+    margin-left: 60px;
+    border:2px solid #578BB8;
+}
+
+.talk{
+    background-color: #578BB8;
+    border:none;
+    margin-top: 10px;
+}
+
+.myProfilePhoto{
+    border-radius: 50%;
+    object-fit: cover;
+    height:250px;
+    width:250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.changeProfilePhotoButton{
+    background-color: #578BB8;
+    border:none;
+    border-radius: 50%;
+    padding: 10px;
+    width: 60px;
+    height: 60px;
+    float: right;
+    margin-top: -20px;
+    margin-right: 180px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    font-size: 20px;
+}
+
+.credentials{
+    color:#707070;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.titleMe{
+    color:#578BB8;
+    font-weight: bold;
+    margin-top: 10px;
+    
+}
+
+.desc{
+    width:80%;
+}
+
+.editButton{
+    background-color: #578BB8;
+    border:none;
+    padding:10px;
+    width: 80%;
+    border-radius: 0;
+}
+
+.nextMe{
+    background-color: white;
+    border:2px solid #578BB8;
+    margin-top: 20px;
+    margin-left: 50px;
+    
+}
+
+.myHobbies {
+    list-style-type: none;
+    padding:20px;
+    background-color: #F59391;
+    margin-left: 20px;
+    color:white;
+    font-weight: bold;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
