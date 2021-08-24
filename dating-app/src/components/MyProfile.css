@@ -92,6 +92,7 @@ li{
     background-color: #578BB8;
     border:none;
     margin-top: 10px;
+    margin-left: 50px;
 }
 
 .myProfilePhoto{
@@ -142,6 +143,10 @@ li{
     padding:10px;
     width: 80%;
     border-radius: 0;
+}
+
+.editButton:hover {
+    background-color: darkgrey;
 }
 
 .nextMe{

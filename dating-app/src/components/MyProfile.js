@@ -273,14 +273,19 @@ function MyProfile() {
       </Row>
       <Row>
 
-      <Col lg={4} className="aboutMe">
+      <Col lg={4} md={12} sm={10} className="aboutMe">
         <Row>
           <Col>
-          <Button className="talk">Razgovaraj</Button>
+          <Button className="talk" >Razgovaraj</Button>
           </Col>
           <Col>
-          <Button className="talk">Like</Button>
+          <div style={{float:"right"}}>
+          <Button style={{marginTop:"10px",marginRight:"10px",borderRadius:"0px",backgroundColor:"#F59391",border:"none"}}>Like</Button>
+          <Button style={{marginTop:"10px",borderRadius:"0px",backgroundColor:"#DF314D",border:"none"}}>Dislike</Button>
+          </div>
+          <div style={{clear:"both"}}></div>
           </Col>
+        
         </Row>
 
 
@@ -356,7 +361,7 @@ function MyProfile() {
           Uredi
            </Button>
 
-           <Modal show={showEduJob} onHide={handleClose}>
+           <Modal show={showEduJob} onHide={handleCloseEduJob}>
             <Modal.Header closeButton>
               <Modal.Title>Uredi Posao/Edukacija</Modal.Title>
             </Modal.Header>
@@ -384,10 +389,10 @@ function MyProfile() {
            
     </Modal.Body>
     <Modal.Footer>
-      <Button variant="secondary" onClick={handleClose}>
+      <Button variant="secondary" onClick={handleCloseEduJob}>
         Close
       </Button>
-      <Button variant="primary" onClick={saveData}>
+      <Button variant="primary" onClick={saveEduJobData}>
         Save Changes
       </Button>
     </Modal.Footer>
@@ -431,7 +436,7 @@ function MyProfile() {
       </Col>
 
      
-      <Col lg={7} className="nextMe">
+      <Col lg={7} md={7} sm={10} className="nextMe">
 
       <Row>
 
