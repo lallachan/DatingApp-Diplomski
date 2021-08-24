@@ -30,6 +30,7 @@ import pattern from "../images/pattern.jpg"
 import {FaCamera} from 'react-icons/fa';
 
 import {FaGraduationCap} from 'react-icons/fa';
+import Slideshow from "./Slideshow";
 
 function MyProfile() {
   const { userData, accessToken,setUserData } = useContext(myContext);
@@ -234,7 +235,7 @@ function MyProfile() {
   const [showPassword, setShowPassword] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
   const [showHobbies, setShowHobbies] = useState(false);
-
+  const [showSlideShow, setShowSlideShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -254,9 +255,13 @@ function MyProfile() {
 
   const handleCloseHobbies = () => setShowHobbies(false);
   const handleShowHobbies = () => setShowHobbies(true);
+
+  const handleCloseSlideShow = () => setShowSlideShow(false);
+  const handleShowSlideShow = () => setShowSlideShow(true);
+  
   
 
-
+  const [slideshow, setSlideshow] = useState(false)
 
   return (
     <Container fluid
@@ -274,7 +279,7 @@ function MyProfile() {
       <Row>
 
       <Col lg={4} md={12} sm={10} className="aboutMe">
-        <Row>
+        {/* <Row>
           <Col>
           <Button className="talk" >Razgovaraj</Button>
           </Col>
@@ -286,7 +291,7 @@ function MyProfile() {
           <div style={{clear:"both"}}></div>
           </Col>
         
-        </Row>
+        </Row> */}
 
 
         <Row>
@@ -477,9 +482,25 @@ function MyProfile() {
       <Row style={{marginLeft:"10px",marginTop:"10px"}}> 
       
       {userData.gallery.map(img=>{
-        return <img src={img.imageUrl} style={{width:"30%",height:"200px",backgroundSize:"cover",borderRadius:"0px"}}/>
+        return <img src={img.imageUrl} style={{width:"30%",height:"200px",backgroundSize:"cover",borderRadius:"0px"}}
+        onClick={handleShowSlideShow}
+        />
       })}
 
+
+    <Modal show={showSlideShow} onHide={handleCloseSlideShow} className="slideShow" size="xl" closeButton>
+              {/* <Modal.Header closeButton>
+                <Modal.Title>Uredi Galeriju</Modal.Title>
+              </Modal.Header> */}
+              <Modal.Body >
+
+              <Slideshow images={userData.gallery}/>
+            
+      </Modal.Body>
+     
+    </Modal>
+
+     
       </Row>
 
 

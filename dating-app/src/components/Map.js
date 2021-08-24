@@ -174,7 +174,7 @@ function Map(props) {
           offsetLeft={-50}
           zoom={11}
         >
-          <img width="80px" src={userImage} onClick={(event) => {}} />
+          <img width="80px" id="profilePhoto" src={userImage} onClick={(event) => {}} />
         </Marker>
         {usersMarkers.map((user, i) => {
           if (user._id === userData._id) return <></>;
