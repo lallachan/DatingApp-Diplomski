@@ -344,7 +344,7 @@ function MyProfile() {
       <Button variant="secondary" onClick={handleClose}>
         Close
       </Button>
-      <Button variant="primary" onClick={saveData}>
+      <Button variant="primary" onClick={saveData} style={{backgroundColor:"#578BB8",border:"none"}}>
         Save Changes
       </Button>
     </Modal.Footer>
@@ -398,7 +398,7 @@ function MyProfile() {
       <Button variant="secondary" onClick={handleCloseEduJob}>
         Close
       </Button>
-      <Button variant="primary" onClick={saveEduJobData}>
+      <Button variant="primary" onClick={saveEduJobData} style={{backgroundColor:"#578BB8",border:"none"}}>
         Save Changes
       </Button>
     </Modal.Footer>
@@ -428,7 +428,7 @@ function MyProfile() {
         <Button variant="secondary" onClick={handleClosePass}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleClosePass}>
+        <Button variant="primary" onClick={handleClosePass} style={{backgroundColor:"#578BB8",border:"none"}}>
           Save Changes
         </Button>
       </Modal.Footer>
@@ -457,7 +457,7 @@ function MyProfile() {
       </Button>
 
 
- <Modal show={showGallery} onHide={handleCloseGallery}>
+ <Modal show={showGallery} onHide={handleCloseGallery} size="xl">
               <Modal.Header closeButton>
                 <Modal.Title>Uredi Galeriju</Modal.Title>
               </Modal.Header>
@@ -470,7 +470,7 @@ function MyProfile() {
         <Button variant="secondary" onClick={handleCloseGallery}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleCloseGallery}>
+        <Button variant="primary" onClick={handleCloseGallery} style={{backgroundColor:"#578BB8",border:"none"}}>
           Save Changes
         </Button>
       </Modal.Footer>
@@ -530,7 +530,7 @@ function MyProfile() {
       <Button variant="secondary" onClick={handleCloseHobbies}>
         Close
       </Button>
-      <Button variant="primary" onClick={saveData}>
+      <Button variant="primary" onClick={saveData} style={{backgroundColor:"#578BB8",border:"none"}}>
         Save Changes
       </Button>
     </Modal.Footer>

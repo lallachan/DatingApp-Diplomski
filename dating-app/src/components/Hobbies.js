@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import { Alert, Button } from "react-bootstrap";
+import { Alert, Button, Col, Row } from "react-bootstrap";
 import "./MyProfile.css";
 import { hobbies as hobbiesJSON } from "./Files/Hobbies.json";
 import HobbiesButton from "./HobbiesButton";
@@ -7,6 +7,8 @@ import { default as _ } from "lodash";
 import { errorHandler, getSexOr } from "./functions/Functions";
 import myContext from "./contexts/myContext";
 import axios from "axios";
+
+import "./MyProfile.css"
 
 function Hobbies(props) {
   const { hobbies: old } = props;
@@ -87,20 +89,17 @@ function Hobbies(props) {
 
   return (
     <>
-      <div>
+      <Row>
+        <Col lg={12} style={{marginLeft:"-20px"}}>
         {hobbies.map((hobbie,i) => {
-          return <button className="hobbies" disabled={!toggle} onClick={()=>deleteHobbie(i,hobbie.category,hobbie.interest)}>{hobbie.interest}</button>;
+          return <button className="myHobbies" onClick={()=>deleteHobbie(i,hobbie.category,hobbie.interest)}>{hobbie.interest}</button>;
         })}
-      </div>
 
-      <Button
-        onClick={() => {
-          setToggle(!toggle);
-        }}
-      >
-        Edit
-      </Button>
-      {toggle ? (
+        </Col>
+       
+      </Row>
+
+
         <>
          <Button
                 variant="success"
@@ -108,12 +107,12 @@ function Hobbies(props) {
               >
                 Spremi promjene
               </Button>
-              <br/>
+         
           {selectValues.length == 0 ? (
-            <Alert variant="danger">No more hobbies for this category</Alert>
+            <Alert variant="danger" >Nema više interesa za ovu kategoriju</Alert>
           ) : (
             <>
-              <select ref={selectValue}>
+              <select ref={selectValue} className="select-categories">
                 {selectValues.map((v) => {
                   return <option>{v}</option>;
                 })}
@@ -121,6 +120,7 @@ function Hobbies(props) {
               <Button
                 variant="primary"
                 onClick={() => addHobby(selectValue.current.value)}
+                style={{backgroundColor:"#578BB8",border:"none",borderRadius:"0",padding:"10px",width:"20%"}}
               >
                 Add
               </Button>
@@ -130,24 +130,31 @@ function Hobbies(props) {
 
           
         </>
-      ) : null}
+     
 
-      {toggle ? (
-        <>
+     
+       
+        <Row>
+          
           {Object.keys(hobbiesJSON).map((category, i) => {
             return (
-              <div
+              <Col
+
                 onClick={() => {
                   setSelect(hobbiesJSON[category], category);
                 }}
               >
                 <HobbiesButton name={category} index={i} />
-              </div>
+              </Col>
             );
           })}
+
+         
+        </Row>
+         
         </>
-      ) : null}
-    </>
+  
+   
   );
 }
 

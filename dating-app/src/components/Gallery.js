@@ -1,7 +1,7 @@
 import axios from "axios";
 import { isNull } from "lodash";
 import React, { useContext, useState } from "react";
-import { Button, Spinner } from "react-bootstrap";
+import { Button, Col, Row, Spinner } from "react-bootstrap";
 import myContext from "./contexts/myContext";
 import { errorHandler } from "./functions/Functions";
 import "./Gallery.css"
@@ -78,29 +78,34 @@ function Gallery() {
   };
 
   const deleteImage = (i) => {
-    if(toggleGallery == true){
+    
       const arr = galleryPhotos.filter((img,indx)=> indx != i )
       setGalleryPhotos(arr)
-    }
+   
   }
 
   return (
-    <div>
-      <Button
+    <Row>
+      <Col>
+      {/* <Button
         className="editBtn"
         onClick={() => setToggleGallery(!toggleGallery)}
         style={{ marginTop: "-80px", marginLeft: "100px" }}
       >
         Edit
-      </Button>
-      <div style={{marginLeft:"20px"}}>
+      </Button> */}
+      </Col>
+
+      <Row>
+
+        <Col style={{display:"inline-block"}} lg={12}>
         {galleryPhotos.map((img,i) => {
           return (
             <>
             
             <img
               src={img.imageUrl}
-              style={{borderRadius:"0px",width:"250px",height:"250px",backgroundSize: "cover"}}
+              style={{borderRadius:"0px",width:"30%",backgroundSize: "cover",padding:"5px"}}
               onClick={()=>deleteImage(i)}
               
             />
@@ -108,22 +113,33 @@ function Gallery() {
             </>
           );
         })}
-      </div>
+        </Col>
 
-      {toggleGallery == true ? (
-        <>
-          <div style={{ marginTop: "10px" }}>
+      </Row>
+     
+    
+
+   
+       
+          <Row style={{ marginTop: "10px" }}>
+            <Col>
+            <Button variant="primary" onClick={() => showWidget2()} style={{backgroundColor:"#578BB8",border:"none",borderRadius:"0",
+          padding:"10px",marginRight:"10px"
+          }}>
+              Dodaj novu sliku
+            </Button>
+            <Button variant="success" onClick={() => saveGallery()} style={{border:"none",borderRadius:"0",
+          padding:"10px",marginRight:"10px"
+          }}>
+              Spremi promjene
+            </Button>
+            </Col>
+         
           
-            <Button variant="primary" onClick={() => showWidget2()}>
-              Add New Photo
-            </Button>
-            <Button variant="success" onClick={() => saveGallery()}>
-              Save Changes
-            </Button>
-          </div>
-        </>
-      ) : null}
-    </div>
+          </Row>
+       
+
+    </Row>
   );
 }
 

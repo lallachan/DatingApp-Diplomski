@@ -7,7 +7,7 @@ function HobbiesButton(props) {
     const {name,index}= props
     
     return (
-        <Button className="categoryBtn" style={{backgroundColor:hobbieColor[index],border:"none"}}>
+        <Button className="categoryBtn" style={{backgroundColor:hobbieColor[index],border:"none",marginTop:"10px"}}>
             {name}
         </Button>
     )
