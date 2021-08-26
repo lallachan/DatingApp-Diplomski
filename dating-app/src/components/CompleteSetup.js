@@ -23,7 +23,7 @@ import { default as _ } from "lodash";
 function CompleteSetup() {
 
 
-  const {accessToken,userData} = useContext(myContext)
+  const {accessToken,userData,setUserData} = useContext(myContext)
   const history = useHistory()
   
   const [toggleWindow, setToggleWindow] = useState(false);
@@ -71,7 +71,9 @@ function CompleteSetup() {
         console.log(result)
         setImage(result.info.files[0].uploadInfo.secure_url); //path for backend
         setImageUrl(result.info.files[0].uploadInfo.secure_url);
-        
+        const newUserData  = {...userData}
+        newUserData.imageUrl = result.info.files[0].uploadInfo.secure_url
+        setUserData(newUserData)
       }
     }
   );
@@ -224,22 +226,24 @@ function CompleteSetup() {
         <Row
           style={{
             justifyContent: "center",
-            border: "2px solid black",
             textAlign: "center",
+            marginTop:"20px",
+            border:"2px solid #578BB8"
           }}
         >
           <Col>
-            <h1 style={{ marginTop: "30px" }}>Set your Profile Photo</h1>
+            <h1 style={{ marginTop: "30px" }}>Postavite profilnu sliku</h1>
 
             <Row>
-              <img src={image} style={{ width: "20%", margin: "0 auto" }} />
+              <img src={image} style={{ width: "30%", margin: "0 auto" }} />
             </Row>
+            <br/>
             <Button
               onClick={showWidget}
               size="lg"
               style={{ marginBottom: "20px" }}
             >
-              Upload Image
+              Učitajte sliku
             </Button>
             <br />
 
@@ -253,7 +257,7 @@ function CompleteSetup() {
               }}
               onClick={setupImage}
             >
-              Submit
+              Spremi promjene
             </Button>
             <Button
               size="lg"
@@ -265,7 +269,7 @@ function CompleteSetup() {
                 marginBottom: "30px",
               }}
             >
-              Skip
+              Preskoči
             </Button>
           </Col>
         </Row>
@@ -386,7 +390,10 @@ function CompleteSetup() {
   }
 
   return (
-    <Container>
+    <Container
+
+   
+    >
       <Row
         style={{
           justifyContent: "center",
@@ -394,11 +401,11 @@ function CompleteSetup() {
           textAlign: "center",
         }}
       >
-        <h1>Complete your Setup</h1>
-        <h2>
-          You can skip for now but you will be{" "}
-          <span style={{ textDecoration: "underline" }}>
-            less visible to users.
+        <h1 style={{fontSize:"50px",marginBottom:"20px",color:"#578BB8"}}>Završite svoju prijavu</h1>
+        <h2 style={{color:"#578BB8"}}>
+          Možete zasada preskočiti ovaj korak ali ćete biti<span> </span>
+          <span style={{ textDecoration: "underline",color:"#DF314D" }} >
+            manje vidljivi drugim korisnicima.
           </span>{" "}
         </h2>
       </Row>

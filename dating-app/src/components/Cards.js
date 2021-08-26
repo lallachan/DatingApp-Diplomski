@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Row ,Modal} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import "./Cards.css"
 import myContext from './contexts/myContext';
@@ -8,6 +8,8 @@ import axios from "axios";
 import { default as _ } from "lodash";
 import { FaHeart } from 'react-icons/fa';
 
+import hearts from "../images/hearts.jpg"
+
 function Cards(props) {
     const {users,setViewport,setUsers} = props
 
@@ -15,11 +17,42 @@ function Cards(props) {
     console.log(userPoints)
     const history = useHistory()
    
+    const [showAlert, setShowAlert] = useState(false)    
     
+    const handleClose = () => setShowAlert(false);
+    const handleShow = () => setShowAlert(true);
+
     const viewProfile = (id) => {
         history.push(`/user/${id}`);
     }
 
+
+    const startChat = async (id) => {
+      //Set the user id to cookie
+  
+      localStorage.setItem("recieverId", id);
+  
+      //Create chat
+  
+      try {
+        const res = await axios.post(
+          process.env.REACT_APP_CHAT_ROUTE,
+          { recipient_id: id },
+          {
+            headers: {
+              authorization: accessToken,
+            },
+          }
+        );
+  
+        console.log(res.data);
+        history.push(`/chat/${res.data.chat_id}`);
+      } catch (err) {
+        console.log(err);
+        errorHandler(err);
+        
+      }
+    };
 
     const likeUser = async(id) => {
       try {
@@ -32,11 +65,40 @@ function Cards(props) {
         )
         console.log(res.data)
         setUserPoints(res.data)
+
+
+        //CHECK MATCH WITH USER
+
+        try {
+          const res = await axios.get(process.env.REACT_APP_MATCH  + `/${id}`,
+          {
+              headers:{
+                  'authorization': accessToken
+                }
+          }
+          )
+        console.log(res.data)
+        if(res.data) {setShowAlert(true)}
+        // setUserPoints(res.data)
+        
        
         
       } catch (error) {
         errorHandler(error);
       }
+
+
+
+
+        
+       
+        
+      } catch (error) {
+        errorHandler(error);
+      }
+
+
+
     }
 
     const dislikeUser = async(id) => {
@@ -69,6 +131,9 @@ function Cards(props) {
 
     return (
         <div  className="cards">
+
+  
+                
             <h3 style={{color:"white"}}>Korisnici na mapi</h3>
             
             {users.map(user=>{
@@ -91,6 +156,8 @@ function Cards(props) {
                   
                     </Col>
 
+                   
+
                     <Col lg={8}>
 
 
@@ -111,7 +178,20 @@ function Cards(props) {
                       </Col>
                     </Row>
 
+                    <Modal show={showAlert} onHide={handleClose} style={{fontSize:"1.5rem"}}>
+                    <Modal.Header closeButton style={{backgroundColor:"#DF314D",color:"white"}}>
+                      <Modal.Title>Čestitamo!!!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Uspješno ste se spojili sa korisnikom!
+                      Sada možete započeti razgovor.
+                      Sretno! :)
+                    
+                      <Button style={{backgroundColor:"#578BB8",border:"none",borderRadius:"0"}}
+                      onClick={()=> startChat(user._id) }
+                    >Započni razgovor</Button>
+                      </Modal.Body>
                   
+                  </Modal>
                     
                     <Row>
 
@@ -127,9 +207,15 @@ function Cards(props) {
 
                     </Row>
                    
-                    {/* //DISTANCE 2km od tebe */}<p style={{color:"#578BB8",fontWeight:"bold"}}>2 km od mene</p>
+                    {/* //DISTANCE 2km od tebe */}<p style={{color:"#578BB8",fontWeight:"bold",fontSize:"20px"}}>
+                      
+                      
+                    {user.distance < 1? "manje od 1 km" :
+                    Math.round (user.distance)+" km"}
+                      
+                      </p>
                     <h5>O meni</h5>
-                    <p>{_.isNull(user.description) ? user.description : "Nema opisa"}</p>
+                    <p>{_.isEmpty(user.description) ?  "Nema opisa" : user.description}</p>
                     <p>{user.interests?.map(i=>{
                       return <li className="user-interest"
                       >{i.interest}</li>

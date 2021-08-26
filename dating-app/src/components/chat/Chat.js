@@ -310,14 +310,19 @@ function Chat() {
                   
                 
 
-                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={m.imageUrl} className="chatImg" />  : <span
+                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={m.imageUrl} className={
+
+                  m.senderID === userData._id ? "myImage" : "friendImage"
+
+                 } />  : <span
                  className={
                   m.senderID == userData._id || m.senderID === undefined
                     ? "msg"
                     : "fmsg"
                 }
+                
                  >{m.message }<span className="timeMessageFriend">8:23</span></span>}</Col>
-                 
+                 <div style={{clear:"both"}}></div>
                  
                   
                   
@@ -349,7 +354,7 @@ function Chat() {
       </Row>
 
 
-      <Row style={{backgroundColor:"#578BB8",marginTop:"40px"}}>
+      <Row style={{backgroundColor:"#578BB8",marginTop:"40px"}} className="chatFooter">
 
         <Col lg={2}>
         <Button className="uploadPhotoButton" onClick={showWidget}><FaCamera/></Button>
