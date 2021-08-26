@@ -67,6 +67,16 @@ function MyProfile() {
 
   const selectHobbieRef = useRef(null)
 
+  
+  const [show, setShow] = useState(false);
+  const [showEduJob, setShowEduJob] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
+  const [showHobbies, setShowHobbies] = useState(false);
+  const [showSlideShow, setShowSlideShow] = useState(false);
+
+  
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -161,6 +171,8 @@ function MyProfile() {
   }
 
   const saveEduJobData = async () => {
+
+    console.log( { education: eduRef.current.value, job: jobRef.current.value })
     try {
       const res = await axios.patch(
         process.env.REACT_APP_GET_USER_DATA,
@@ -172,7 +184,9 @@ function MyProfile() {
         }
       );
      
-      setUserData(res.data)
+      console.log(res.data)
+      setUserData(res.data.data)
+      setShowEduJob(false)
       // setShow(false)
     } catch (error) {
       errorHandler(error);
@@ -193,11 +207,13 @@ function MyProfile() {
         }
       );
       console.log(res.data);
+      setUserData(res.data.data)
+      setShow(false)
     } catch (error) {
       errorHandler(error);
     }
 
-    window.location.reload();
+   
   };
 
   const saveImage = async (image) => {
@@ -254,14 +270,6 @@ function MyProfile() {
 
   
  
-  const [show, setShow] = useState(false);
-  const [showEduJob, setShowEduJob] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showGallery, setShowGallery] = useState(false);
-  const [showHobbies, setShowHobbies] = useState(false);
-  const [showSlideShow, setShowSlideShow] = useState(false);
-
-  
   
   
 
@@ -424,16 +432,15 @@ function MyProfile() {
               </Modal.Header>
               <Modal.Body>
     
-            <ChangePassword/>
-            
+            <ChangePassword setShowPassword={setShowPassword}/>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClosePass}>
           Zatvori
         </Button>
-        <Button variant="primary" onClick={handleClosePass} style={{backgroundColor:"#578BB8",border:"none"}}>
+        {/* <Button variant="primary" onClick={handleClosePass} style={{backgroundColor:"#578BB8",border:"none"}}>
           Spremi promjene
-        </Button>
+        </Button> */}
       </Modal.Footer>
     </Modal>
 
@@ -485,7 +492,7 @@ function MyProfile() {
     
       <Row style={{marginLeft:"10px",marginTop:"10px"}}> 
       
-      {userData.gallery.map(img=>{
+      {userData?.gallery.map(img=>{
         return <img src={img.imageUrl} style={{width:"30%",height:"200px",backgroundSize:"cover",borderRadius:"0px"}}
         onClick={handleShowSlideShow}
         />

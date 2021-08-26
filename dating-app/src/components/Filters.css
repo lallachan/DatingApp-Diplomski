@@ -53,3 +53,35 @@
 #radioGroup label {
     margin-left: 30px;
 }
+
+#rounded-image-results{
+    border-radius: 50%;
+    object-fit: cover;
+    width:130px;
+    height:130px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -30px;
+}
+
+.result-card{
+    border:3px solid #578BB8;
+    padding:10px;
+    margin-bottom: 20px;
+    margin:10px;
+    
+}
+
+.result-card:hover{
+    background-color: #F59391;
+}
+
+.red{
+    color:red;
+}
+
+
+.green{
+    color:green;
+}

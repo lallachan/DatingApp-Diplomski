@@ -178,8 +178,10 @@ function Header() {
 
 
         <Col lg={2} md={2} sm={2} >
-          <img  src={logo} style={{ width: "60%",}} onClick={()=>history.push("/main")} /><span className="title-app">FindMe</span>
+          <img  src={logo} style={{ width: "200px",marginTop:"-10px"}} onClick={()=>history.push("/main")} /><span className="title-app">FindMe</span>
         </Col>
+
+        
 
         
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { range } from "lodash";
 import React, { useContext, useRef, useState } from "react";
-import { Button, Col, Dropdown, FormControl, InputGroup, Row } from "react-bootstrap";
+import { Button, Col, Dropdown, FormControl, InputGroup, Modal, Row } from "react-bootstrap";
 import myContext from "./contexts/myContext";
 import "./Filters.css";
 import { errorHandler } from "./functions/Functions";
@@ -21,6 +21,12 @@ function Filters(props) {
   const hobbieRef = useRef(null);
   const [mapHobbies, setMapHobbies] = useState([]);
   const [radioVal, setRadioVal] = useState(null);
+  const [show, setShow] = useState(false);
+  
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [results, setResults] = useState(null)
 
   const { accessToken } = useContext(myContext);
 
@@ -31,6 +37,32 @@ function Filters(props) {
       setMapHobbies(mapHobbies.filter((i) => i != interst.interest));
     }
   };
+
+  const findMeSomeone = async() => {
+
+   
+
+    try {
+      const res = await axios.post(
+        process.env.REACT_APP_FIND_SOMEONE,
+        {},
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        }
+      );
+      
+      console.log(res.data);
+      setResults(res.data)
+      setShow(true)
+      
+    } catch (error) {
+      errorHandler(error);
+    }
+
+
+  }
 
   const filterUsers = async () => {
     const obj = {
@@ -96,6 +128,44 @@ function Filters(props) {
   };
   return (
     <div className="filters">
+
+            <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Najbolji rezultati za vas</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+          
+                    {results?.map(result=>{
+                      return <Row style={{fontSize:"30px"}} className="result-card">
+                      <Col
+                    
+                      className={
+
+                        (result.score).toFixed(2) < 0.1 ? "red" : "green"
+
+                      }
+                      >
+                      {(result.score).toFixed(2) + "%"}
+                      
+                      </Col>
+                      <Col><h5>{result.firstName}  {result.lastName}</h5>
+                      <h5>{result.city} {result.zip}</h5>
+                      <h5>{result.age}</h5>
+                      </Col>
+                      <Col><img src={result.imageUrl} id="rounded-image-results" style={{marginTop:"10px"}}/>
+                    </Col>
+                      </Row>
+                    })}
+
+                 
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Zatvori
+              </Button>
+            
+            </Modal.Footer>
+          </Modal>
      
      <h4 style={{color:"white"}}>Filtriraj korisnike</h4>
       <Row style={{backgroundColor:"white",margin:"0",padding:"5px",height:"80%"}}>
@@ -197,7 +267,10 @@ function Filters(props) {
 
    
      
-      <Button id="search-someone">Pronađi mi nekoga danas</Button>
+      <Button id="search-someone" onClick= {()=>findMeSomeone()}>Pronađi mi nekoga danas</Button>
+
+
+
 
 
      </Col>
