@@ -28,22 +28,35 @@ import bell from "../images/bell.svg";
 import { FaBell } from "react-icons/fa";
 
 function Header() {
-  const { accessToken, setAccessToken, userData, socket, setUserPoints } =
+  const { accessToken, setAccessToken, userData, socket, setUserPoints,userPoints } =
     useContext(myContext);
 
   const history = useHistory();
 
   const [lifes, setLifes] = useState(null);
   const [timeToFill, setTimeToFill] = useState(null);
+
   const [notifications, setNotifications] = useState([]);
   const [arrivalNotification, setArrivalNotification] = useState(null);
   const [chatNotification, setChatNotifications] = useState(null);
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
+  
+  
   //FETCH LIVES OF USER
 
   useEffect(async () => {
     await fetchHearts();
   }, []);
+
+  useEffect(() => {
+    if(userPoints!=null){
+      console.log(userPoints.lifes)
+      setLifes(userPoints.lifes);
+      setTimeToFill(userPoints.nextHeartAt);
+    }
+
+    
+  }, [userPoints])
 
   useEffect(() => {
     socket.on("getNotification", (data) => {
@@ -76,6 +89,7 @@ function Header() {
     history.push("/myProfile");
   };
 
+
   const fetchHearts = async () => {
     try {
       const res = await axios.get(process.env.REACT_APP_GET_USER_POINTS, {
@@ -87,10 +101,14 @@ function Header() {
       console.log("lifes");
       console.log(res.data);
       setUserPoints(res.data);
+
+
       setLifes(res.data.lifes);
       setTimeToFill(res.data.nextHeartAt);
       setNotifications(res.data.notifications);
       setChatNotifications(res.data.chat_notifications);
+
+
     } catch (error) {
       errorHandler(error);
     }
@@ -123,6 +141,8 @@ function Header() {
       errorHandler(error);
     }
   };
+
+
 
   const decrease = async () => {
     try {
@@ -193,6 +213,7 @@ function Header() {
         <Col lg={2} md={2} sm={2}>
               <img
                 src={heart}
+                
                 style={{
                   width: "50px",
                   marginTop: "20px",

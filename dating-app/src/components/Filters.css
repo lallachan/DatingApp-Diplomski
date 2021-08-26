@@ -19,7 +19,7 @@
 
 #search-button{
     padding:10px;
-    width: 30%;
+    width: 100px;
     background-color: #F59391;
     border:none;
     border-radius: 0px;
@@ -30,7 +30,7 @@
 
 #search-someone{
     padding:5px;
-    width: 80%;
+    width: 200px;
     background-color: #DF314D;
     border:none;
     border-radius: 0px;
