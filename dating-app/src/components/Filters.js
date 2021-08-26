@@ -98,11 +98,14 @@ function Filters(props) {
     <div className="filters">
      
      <h4 style={{color:"white"}}>Filtriraj korisnike</h4>
-      <Row style={{backgroundColor:"white",margin:"0",padding:"0",height:"80%"}}>
+      <Row style={{backgroundColor:"white",margin:"0",padding:"5px",height:"80%"}}>
 
      <Col lg={6}>
      
-     <span>
+     <Row>
+       <Col>
+       <span>
+        
         <h5 style={{ display: "inline" }}>Radijus :</h5>{" "}
         <select
           ref={rangeRef}
@@ -127,17 +130,23 @@ function Filters(props) {
         />{" "}
     max
       </span>
+       
+       </Col>
+     </Row>
 
-    <br/>
-      <span>
-        <h5 style={{display:"inline",marginTop:"10px"}}>Spol :</h5>
+     <Row>
+
+       <Col>
+       <span>
+        <h5 style={{marginTop:"10px",display:"inline"}}>Spol :</h5>
         <div
           class="form-check"
-          style={{ marginLeft: "5px",display:"inline",paddingLeft:"30px" }}
+          id="radioGroup"
+          style={{ marginLeft: "5px",display:"inline"}}
           onChange={(e) => handleRChange(e)}
         >
           
-            <inputs
+            <input
               class="form-check-input"
               type="radio"
               name="flexRadioDefault"
@@ -148,7 +157,7 @@ function Filters(props) {
               
             />
             <label class="form-check-label" for="flexRadioDefault1" >
-              Muškarci
+              M
             </label>
           
         
@@ -159,11 +168,11 @@ function Filters(props) {
               value={1}
               id="flexRadioDefault1"
               onChange={(e) => handleRChange(e)}
-              style={{marginLeft:"5px"}}
+              
              
             />
-            <label class="form-check-label" for="flexRadioDefault1" style={{marginLeft:"20px"}}>
-              Žene
+            <label class="form-check-label" for="flexRadioDefault1" >
+              Ž
             </label>
          
          
@@ -174,7 +183,7 @@ function Filters(props) {
               value={2}
               id="flexRadioDefault1"
               onChange={(e) => handleRChange(e)}
-              style={{marginLeft:"5px"}}
+             
             />
             <label class="form-check-label" for="flexRadioDefault1" >
               Ostalo
@@ -182,6 +191,12 @@ function Filters(props) {
            
         </div>
       </span>
+       </Col>
+     </Row>
+     
+
+   
+     
       <Button id="search-someone">Pronađi mi nekoga danas</Button>
 
 
@@ -209,7 +224,7 @@ function Filters(props) {
         );
       })}
         <br/>
-      <Button onClick={filterUsers} id="search-button">Traži</Button>
+      <Button onClick={filterUsers} id="search-button">Pretraži</Button>
      
      </Col>
       

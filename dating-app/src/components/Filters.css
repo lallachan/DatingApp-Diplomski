@@ -24,22 +24,32 @@
     border:none;
     border-radius: 0px;
     float: right;
+    margin-top: 25px;
     
 }
 
 #search-someone{
     padding:5px;
-    width: 100%;
+    width: 80%;
     background-color: #DF314D;
     border:none;
     border-radius: 0px;
     position: absolute;
     left:10px;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-left: 5px;
     
     
 }
 
 #search-someone:hover{
     background-color: #F59391;
+}
+
+#radioGroup input{
+    margin-left: 5px;
+}
+
+#radioGroup label {
+    margin-left: 30px;
 }

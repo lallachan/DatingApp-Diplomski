@@ -50,9 +50,9 @@ function Map(props) {
   };
 
   const onMarkerClick = (id) => {
-    alert("You clicked on marker");
+    // alert("You clicked on marker");
 
-    history.push(`/user/${id}`);
+    // history.push(`/user/${id}`);
   };
 
   const getUsersInRadius = async () => {
@@ -194,7 +194,7 @@ function Map(props) {
         })}
       </ReactMapGL>
 
-      <Cards users={usersMarkers} setViewport={setViewport}/>
+      <Cards users={usersMarkers} setUsers={setUsersMarkers} setViewport={setViewport}/>
       <Filters setMarkers={setUsersMarkers} />
     </>
   );

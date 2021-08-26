@@ -62,12 +62,7 @@ function LogIn() {
 
   return (
     <div
-      // style={{
-      //   background: `url(${img})`,
-      //   height: "100vh",
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
+    
       className="page-holder bg-cover"
     >
       <Row>
@@ -89,7 +84,7 @@ function LogIn() {
               setLoggedIn(true);
             } catch (error) {
               const err = errorHandler(error);
-              console.log(err);
+              console.log(err); 
               setError(err);
 
               //TODO FIX ERROR AND DISPLAY THEM ON FRONT
@@ -139,7 +134,7 @@ function LogIn() {
               </div>
 
              
-              {error != null ? <Alert variant="danger">{error}</Alert> : null}
+              {error != null ? <Alert variant="danger" style={{marginTop:"20px"}}>{error}</Alert> : null}
               <div style={{ marginTop: "20px", textAlign: "center",marginBottom:"10px" }}>
                 <a
                   href="#"

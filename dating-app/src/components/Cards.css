@@ -104,3 +104,17 @@
     margin-top: 5px;
     margin-left: 10px;
 }
+
+.likeButton {
+    background-color: #F59391;
+    border:none;
+    border-radius: 0;
+
+}
+
+.dislikeButton {
+    background-color: #DF314D;
+    border:none;
+    border-radius: 0;
+    margin-right: -20px;
+}
