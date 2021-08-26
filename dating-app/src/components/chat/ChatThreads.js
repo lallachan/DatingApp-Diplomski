@@ -58,11 +58,11 @@ function ChatThreads(props) {
           
           
         {threads.map(t=>{
-            return<><img src={t.imageUrl} className="myProfilePhotoThumbNail"/> <span className="thread" disabled={blocked}  className="nameUser" onClick={()=>changeChat(t._id)}>{t.firstName}  {t.lastName}</span>
+            return<div className="thread" onClick={()=>changeChat(t._id)}><img src={t.imageUrl} className="myProfilePhotoThumbNail"/> <span className="thread" disabled={blocked}  className="nameUser" >{t.firstName}  {t.lastName}</span>
 
            
-            <hr/>
-            </>
+           
+            </div>
         })}
        
 

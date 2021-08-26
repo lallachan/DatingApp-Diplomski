@@ -69,11 +69,24 @@ img{
     background-color: #F0F8FF;
     border:2px solid grey;
     width: 400px;
+    overflow-y: scroll;
+
     
 }
+
+
 .thread {
     margin-top: 10px;
     padding:20px;
+    overflow-y: 🇸🇨roll;
+    border:2px solid #578BB8;
+}
+
+.thread:hover{
+
+    background-color: #F59391;
+    color:white;
+
 }
 
 .headline{
@@ -157,8 +170,4 @@ img{
     width: 30%;
     float:left;
 }
-.chatFooter{
-    position: relative;
-    bottom:0;
-    
-}
+
