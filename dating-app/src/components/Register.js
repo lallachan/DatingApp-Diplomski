@@ -7,7 +7,7 @@ import axios from "axios";
 import { errorHandler } from "./functions/Functions";
 import EmailValidation from "./EmailValidation";
 import { Typeahead } from 'react-bootstrap-typeahead'; 
-
+import { default as _, filter } from "lodash";
 import { default as postal } from "./Files/Postal.json";
 import { sortedLastIndex } from "lodash";
 
@@ -21,6 +21,8 @@ function Register() {
   const [singleSelections, setSingleSelections] = useState([]);
 
   const [options, setOptions] = useState(postal);
+
+  const [cityError, setCityError] = useState(false)
 
   const [zip, setZip] = useState(null)
 
@@ -113,7 +115,7 @@ function Register() {
     options={options.map(i=>i.city)}
     placeholder="Izaberite grad..."
     selected={singleSelections}
-    
+    required
     
   />
   );
@@ -133,12 +135,17 @@ function Register() {
           day: "",
           month: "",
           year: "",
+       
          
         }}
         validationSchema={RegisterShema}
         
         onSubmit={async (values) => {
-          console.log("hey")
+
+          //TODO FIX ERROR ON CITY AND ZIP
+
+          if(_.isEmpty(singleSelections) || _.isEmpty(zip)) {setCityError(true);return}
+
           values.dob = reformatDate(values.day, values.month, values.year);
           
           delete values.day;
@@ -151,7 +158,7 @@ function Register() {
           try {
             const res = await axios.post(
               process.env.REACT_APP_REGISTER_USER,
-              {...values,city:singleSelections,zip:zip}
+              {...values,city:singleSelections[0],zip:zip}
             );
             console.log(res.data);
           } catch (error) {
@@ -318,11 +325,16 @@ function Register() {
 
                     <Field
                       name="city"
-                      as={   CustomInputComponent}
+                      as={CustomInputComponent}
                     />
+
+                  {errors.city && touched.city ? (
+                      <Alert variant="warning">{errors.city}</Alert>
+                    ) : null}
                  
+                    {cityError === true? <Alert variant="danger">Grad je obavezan.</Alert> : null}
 
-
+                    
 
 
                   </Col>

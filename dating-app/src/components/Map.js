@@ -24,6 +24,8 @@ import Filters from "./Filters";
 
 import "./Map.css";
 
+import LogoSpinner from "./spinner/LogoSpinner"
+
 function Map(props) {
   const history = useHistory();
   const { userData, accessToken, setUserData } = useContext(myContext);
@@ -148,7 +150,7 @@ function Map(props) {
     });
   };
 
-  if (spinner) return <Spinner animation="border" />;
+  if (spinner) return <LogoSpinner/>;
 
   return (
     <>

@@ -153,9 +153,9 @@ function Header() {
 
     const goToPage = (senderId) => {
       if (type == 0) {
-        history.push(`chat/${chat_id}`);
+        history.push(`/chat/${chat_id}`);
       } else if (type == 1) {
-        history.push(`user/${senderId}`);
+        history.push(`/user/${senderId}`);
       }
     };
 
@@ -229,7 +229,7 @@ function Header() {
         </Col>
          */}
       
-        <Col style={{marginLeft:"90px"}}>
+        <Col style={{marginLeft:"90px",marginTop:"30px"}}>
         {timeToFill == null ? null : (
           <Timer date={timeToFill}  fetchHearts={fetchHearts} style={{marginTop:"-30px"}} />
         )}
@@ -270,7 +270,7 @@ function Header() {
               
             <div class="dropdown">
             <FaBell id="notBell" /> 
-          <span id="badge">{numberOfNotifications}</span>
+            {numberOfNotifications == 0 ? null : <span id="badge">{numberOfNotifications}</span>} 
             
             <div class="dropdown-notification">
             {notifications?.map((n) => {

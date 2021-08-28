@@ -19,6 +19,8 @@ import MyProfile from "./MyProfile";
 import SendEmailForgotPass from "./SendEmailForgotPass";
 import Page from "./Page";
 
+import LogoSpinner from "../components/spinner/LogoSpinner"
+
 function Routes() {
   const { accessToken, userData, socket, refreshToken } = useContext(myContext);
   
@@ -45,7 +47,7 @@ function Routes() {
         
         <Route exact path="/myProfile">
           {_.isNull(userData) || _.isUndefined(userData) || _.isNull(socket) ? 
-            <Spinner animation="border" />
+             <LogoSpinner/>
            : 
             <MyProfile />
           }
@@ -61,7 +63,8 @@ function Routes() {
             _.isNull(socket) ? 
 
             
-              <Spinner animation="border" />
+              <LogoSpinner/>
+             
              : 
               <div>
                 <Route exact path="/main">

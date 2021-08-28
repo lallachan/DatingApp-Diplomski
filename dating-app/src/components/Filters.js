@@ -8,6 +8,7 @@ import { errorHandler } from "./functions/Functions";
 import { default as _ } from "lodash";
 
 import { FaSearch } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 function Filters(props) {
   const ranges = [50, 100, 150, 200, 500];
@@ -23,6 +24,8 @@ function Filters(props) {
   const [radioVal, setRadioVal] = useState(null);
   const [show, setShow] = useState(false);
   
+  const history = useHistory();
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -43,9 +46,9 @@ function Filters(props) {
    
 
     try {
-      const res = await axios.post(
+      const res = await axios.get(
         process.env.REACT_APP_FIND_SOMEONE,
-        {},
+     
         {
           headers: {
             authorization: accessToken,
@@ -63,6 +66,10 @@ function Filters(props) {
 
 
   }
+
+  const viewProfile = (id) => {
+    history.push(`/user/${id}`);
+  };
 
   const filterUsers = async () => {
     const obj = {
@@ -136,7 +143,8 @@ function Filters(props) {
                     <Modal.Body>
           
                     {results?.map(result=>{
-                      return <Row style={{fontSize:"30px"}} className="result-card">
+                      console.log(result._id)
+                      return <Row style={{fontSize:"30px"}} className="result-card" onClick={()=>history.push(`/user/${result._id}`)}>
                       <Col
                     
                       className={

@@ -14,6 +14,8 @@ import pattern from "../../images/pattern.jpg"
 import Header from "../Header.js"
 import {FaCamera} from 'react-icons/fa';
 
+import LogoSpinner from "../spinner/LogoSpinner"
+
 function Chat() {
   const { userData, chatId, accessToken, socket, setChatId,setUserPoints,userPoints } =
     useContext(myContext);
@@ -171,12 +173,37 @@ function Chat() {
       console.log(res.data);
       setBlocked(res.data.blocked);
       setUserWhoBlocked(res.data.userWhoBlocked);
-    
+      
       
     } catch (error) {
       errorHandler(error);
     }
   };
+
+
+  const unBlockUser = async (chat_id) => {
+    try {
+      const res = await axios.patch(
+        process.env.REACT_APP_BLOCK_CHAT,
+        { chat_id: chat_id, block: false },
+
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        }
+      );
+
+      console.log(res.data);
+      setBlocked(res.data.blocked);
+      setUserWhoBlocked(res.data.userWhoBlocked);
+      
+      
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
+
 
 
   const sendImage = async(imgUrl) => {
@@ -196,7 +223,7 @@ function Chat() {
           headers: {
             authorization: accessToken,
             chat_id: chat_id,
-          },
+          }
         }
       );
       setChatMessages([...chatMessages, { message: "m", imageUrl : imgUrl }]);
@@ -251,7 +278,7 @@ function Chat() {
     }
   };
 
-  if (_.isNull(userData) || _.isUndefined(userData)) return <Spinner />;
+  if (_.isNull(userData) || _.isUndefined(userData)) return <LogoSpinner />;
 
   // if (_.isNull(friendData) || _.isUndefined(friendData)) return <Spinner />;
   return (
@@ -292,7 +319,8 @@ function Chat() {
           </h2>
         )}
       </Col>
-      <Col><Button id="blockButton" onClick={() => rejectUser(chat_id)}>Blokiraj</Button></Col>
+      {/* //TODO ODBLOKIRAJ */}
+      <Col>{blocked? <Button id="blockButton" onClick={()=>unBlockUser(chat_id)}>Odblokiraj</Button> : <Button id="blockButton" onClick={() => rejectUser(chat_id)}>Blokiraj</Button>}</Col>
       </Row>
 
 
@@ -309,7 +337,7 @@ function Chat() {
                   
                 >
                   {_.isUndefined(friendData) || _.isNull(friendData) ? (
-                    <Spinner animation="border" />
+                     <LogoSpinner/>
                   ) : m.senderID != userData._id && m.senderID != undefined ? (
                     <Row>
 
@@ -359,7 +387,7 @@ function Chat() {
           <Col>
           
           {blocked == true ? (
-            <Alert variant="danger" style={{backgroundColor:"#DF314D",color:"white",marignTop:"50px",width:"30%",borderRadius:"50px"}}>
+            <Alert variant="danger" style={{backgroundColor:"#DF314D",color:"white",marignTop:"80px",width:"30%",borderRadius:"50px"}}>
               {userWhoBlocked !== userData._id
                 ? userData.firstName + " " + userData.lastName + " "
                 : friendData.firstName + friendData.lastName + " "}

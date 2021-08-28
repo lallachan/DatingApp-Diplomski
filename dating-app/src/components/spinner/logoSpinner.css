@@ -1,0 +1,9 @@
+.rotate {
+    margin:0 auto;
+    animation: rotation 2s infinite ease-in-out;
+  }
+  @keyframes rotation {
+    0% {transform: rotate(0deg);}
+    
+    100% {transform: rotate(1080deg);}
+  }

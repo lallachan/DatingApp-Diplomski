@@ -7,11 +7,11 @@ import { errorHandler, resizeCloudinary } from "./functions/Functions";
 import { default as _ } from "lodash";
 
 function Card(props) {
-  const { user, setViewport, users, handleShow, setModalID } = props;
+  const { user, setViewport, users, handleShow, setModalID, setUsers  } = props;
 
   const history = useHistory();
 
-  const { userData, accessToken, userPoints, setUserPoints, setUsers } =
+  const { userData, accessToken, userPoints, setUserPoints} =
     useContext(myContext);
 
   const [buttonLiked, setButtonLiked] = useState(
@@ -76,7 +76,9 @@ function Card(props) {
       const newU = users.filter((el) => {
         return el._id !== id;
       });
+
       setUsers(newU);
+
     } catch (error) {
       errorHandler(error);
     }

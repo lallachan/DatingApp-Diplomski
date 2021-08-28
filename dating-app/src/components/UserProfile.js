@@ -25,9 +25,7 @@ function UserProfile() {
   const handleShowSlideShow = () => setShowSlideShow(true);
 
 
-  // const [buttonLiked, setButtonLiked] = useState(
-  //   userPoints?.liked.includes(friendData._id)
-  // );
+
 
   const handleClose = () => setShowAlert(false);
   const handleShow = () => setShowAlert(true);
@@ -112,7 +110,11 @@ function UserProfile() {
     }
   };
 
-  
+  const [buttonLiked, setButtonLiked] = useState(
+    
+    userPoints?.liked.includes(friendData?._id)
+    
+  );
 
   const ShowModal = (props) => {
 
@@ -165,7 +167,7 @@ function UserProfile() {
 
 
       console.log(userPoints)
-      // setButtonLiked(true);
+      setButtonLiked(true);
       //CHECK MATCH WITH USER
 
       try {
@@ -244,7 +246,7 @@ function UserProfile() {
           </Col>
           <Col>
           <div style={{float:"right"}}>
-        {/* <Button
+            <Button
                 variant="primary"
                 className="likeButton"
                 onClick={() => {
@@ -253,7 +255,7 @@ function UserProfile() {
                 disabled={buttonLiked}
               >
                 Like
-              </Button> */}
+              </Button>
               {/* <Button
                 variant="primary"
                 onClick={() => dislikeUser(user._id)}

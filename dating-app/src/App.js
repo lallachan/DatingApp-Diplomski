@@ -109,8 +109,6 @@ function App() {
       userPoints,setUserPoints
       }}>
      
-      {/* {_.isNull(socket) || _.isNull(userData) ? <Spinner></Spinner>:  <Routes />}
-       */}
      
        <Routes/>
     

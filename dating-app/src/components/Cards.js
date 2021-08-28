@@ -12,6 +12,8 @@ import hearts from "../images/hearts.jpg";
 
 import Card from "./Card.js"
 
+import LogoSpinner from "../components/spinner/LogoSpinner"
+
 function Cards(props) {
   const { users, setViewport, setUsers } = props;
 
@@ -96,7 +98,7 @@ function Cards(props) {
 
 
   if(userPoints == null){
-    return <Spinner/>
+    return <LogoSpinner/>
   }
 
   return (
