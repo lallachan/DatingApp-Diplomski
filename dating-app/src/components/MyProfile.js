@@ -18,7 +18,7 @@ import {
 import myContext from "./contexts/myContext";
 import "./MyProfile.css";
 import { Formik, Field, Form, useFormik } from "formik";
-import { errorHandler } from "./functions/Functions";
+import { errorHandler, resizeCloudinary } from "./functions/Functions";
 import axios from "axios";
 import { default as _, filter } from "lodash";
 import Hobbies from "./Hobbies";
@@ -155,8 +155,8 @@ function MyProfile() {
       if (result.event == "queues-end") {
         console.log(result);
         setImageUrl(result.info.files[0].uploadInfo.secure_url);
-
         saveImage(result.info.files[0].uploadInfo.secure_url);
+        
       }
     }
   );
@@ -551,13 +551,13 @@ function MyProfile() {
                   <Button variant="secondary" onClick={handleCloseGallery}>
                     Zatvori
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="primary"
                     onClick={handleCloseGallery}
                     style={{ backgroundColor: "#578BB8", border: "none" }}
                   >
                     Spremi promjene
-                  </Button>
+                  </Button> */}
                 </Modal.Footer>
               </Modal>
             </Col>
@@ -565,12 +565,18 @@ function MyProfile() {
 
           <Row style={{ marginLeft: "10px", marginTop: "10px" }}>
             {userData?.gallery.map((img) => {
+
+              // let imageChangeSize = img.imageUrl.split('/upload/')
+              // imageChangeSize[0]=imageChangeSize[0] +"" +'/upload/w_600/q_auto/'
+              // imageChangeSize = imageChangeSize.join('')
+
+
+              
               return (
                 <img
-                  src={img.imageUrl}
+                  src={resizeCloudinary(img.imageUrl)}
                   style={{
                     width: "30%",
-                    height: "200px",
                     backgroundSize: "cover",
                     borderRadius: "0px",
                     marginBottom: "20px",

@@ -3,7 +3,7 @@ import React, { useContext,useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import myContext from "./contexts/myContext";
-import { errorHandler } from "./functions/Functions";
+import { errorHandler, resizeCloudinary } from "./functions/Functions";
 import { default as _ } from "lodash";
 
 function Card(props) {
@@ -99,7 +99,7 @@ function Card(props) {
       <br />
       <Row style={{ marginTop: "10px" }}>
         <Col lg={4}>
-          <img src={user.imageUrl} width="30%" id="rounded-image" />
+          <img src={resizeCloudinary(user.imageUrl)} width="30%" id="rounded-image" />
           <Button className="user-button" onClick={() => viewProfile(user._id)}>
             Pogledaj Profil
           </Button>
@@ -145,7 +145,7 @@ function Card(props) {
             </Col>
           </Row>
 
-          {/* //DISTANCE 2km od tebe */}
+          
           <p
             style={{
               color: "#578BB8",

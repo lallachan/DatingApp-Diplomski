@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import myContext from "../contexts/myContext";
 import axios from "axios";
-import { errorHandler } from "../functions/Functions";
+import { errorHandler, resizeCloudinary } from "../functions/Functions";
 import Conversation from "./Conversation";
 import { Button, Spinner, Container, Col, Row, Alert, FormControl } from "react-bootstrap";
 import { io } from "socket.io-client";
@@ -15,7 +15,7 @@ import Header from "../Header.js"
 import {FaCamera} from 'react-icons/fa';
 
 function Chat() {
-  const { userData, chatId, accessToken, socket, setChatId } =
+  const { userData, chatId, accessToken, socket, setChatId,setUserPoints,userPoints } =
     useContext(myContext);
   const [chatMessages, setChatMessages] = useState([]);
   const [arriveMessage, setArriveMessage] = useState(null);
@@ -27,6 +27,8 @@ function Chat() {
 
   const [friendData, setFriendData] = useState(null);
   const [image, setImage] = useState(null);
+
+  const [showOnlyThreads, setShowOnlyThreads] = useState(false);
 
   ///WIDGET
 
@@ -63,6 +65,7 @@ function Chat() {
   //GET CHAT
 
   useEffect(() => {
+    console.log(chat_id)
     try {
       axios
         .get(process.env.REACT_APP_CHAT_ROUTE, {
@@ -82,12 +85,16 @@ function Chat() {
           setChatMessages(res.data.messages);
           console.log(res.data);
           setBlocked(res.data.blockChat);
+          setShowOnlyThreads(false)
         })
         .catch((err) => {
           errorHandler(err);
+          setShowOnlyThreads(true)
+          console.log("Hey")
         });
     } catch (error) {
       errorHandler(error);
+      setShowOnlyThreads(true)
     }
   }, [chat_id]);
 
@@ -164,6 +171,7 @@ function Chat() {
       console.log(res.data);
       setBlocked(res.data.blocked);
       setUserWhoBlocked(res.data.userWhoBlocked);
+    
       
     } catch (error) {
       errorHandler(error);
@@ -206,6 +214,7 @@ function Chat() {
   }
 
   const handleSubmit = async () => {
+    
     const messageM = textArea.current.value;
     socket.emit("sendMessage", {
       senderId: userData._id,
@@ -228,9 +237,14 @@ function Chat() {
           },
         }
       );
+
+     
       setChatMessages([...chatMessages, { message: messageM }]);
       delete textArea.current.value;
-
+      const newMessages = res.data.chat_notifications
+      const newMessages2 = res.data.chat_notifications
+      setUserPoints(newMessages,newMessages2)
+        
     
     } catch (error) {
       errorHandler(error);
@@ -239,7 +253,7 @@ function Chat() {
 
   if (_.isNull(userData) || _.isUndefined(userData)) return <Spinner />;
 
-  if (_.isNull(friendData) || _.isUndefined(friendData)) return <Spinner />;
+  // if (_.isNull(friendData) || _.isUndefined(friendData)) return <Spinner />;
   return (
     <Container fluid
     style={{
@@ -253,7 +267,9 @@ function Chat() {
       <Row><Header/></Row>
 
 
-
+      {
+        console.log("gekko")
+      }
       <Row>
 
       <Col lg={4} md={12} sm={10} className="conversations">
@@ -263,11 +279,12 @@ function Chat() {
       <ChatThreads blocked={blocked} />
 
       </Col>
-
+{     showOnlyThreads?  null :
       <Col lg={7} md={7} sm={10} className="chatBox" >
       
       <Row>
 
+     
       <Col className="conversation-title" style={{fontSize:"1rem"}}>
       {friendData === null ? null : (
           <h2 className="headline">
@@ -297,7 +314,7 @@ function Chat() {
                     <Row>
 
                       <Col>
-                      <img src={friendData.imageUrl} className="userPhotoImage" /><br/>
+                      <img src={resizeCloudinary(friendData.imageUrl)} className="userPhotoImage" /><br/>
                       </Col>
                       
                       
@@ -310,7 +327,7 @@ function Chat() {
                   
                 
 
-                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={m.imageUrl} className={
+                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={resizeCloudinary(m.imageUrl)} className={
 
                   m.senderID === userData._id ? "myImage" : "friendImage"
 
@@ -343,7 +360,7 @@ function Chat() {
           
           {blocked == true ? (
             <Alert variant="danger" style={{backgroundColor:"#DF314D",color:"white",marignTop:"50px",width:"30%",borderRadius:"50px"}}>
-              {userWhoBlocked == userData._id
+              {userWhoBlocked !== userData._id
                 ? userData.firstName + " " + userData.lastName + " "
                 : friendData.firstName + friendData.lastName + " "}
               je blokirala razgovor
@@ -380,7 +397,7 @@ function Chat() {
       </Row>
 
       </Col>
-     
+}    
 
       </Row>
 

@@ -17,7 +17,7 @@ import myContext from "./contexts/myContext";
 import { useHistory } from "react-router-dom";
 import { default as _, set } from "lodash";
 import axios from "axios";
-import { errorHandler } from "./functions/Functions";
+import { errorHandler, resizeCloudinary } from "./functions/Functions";
 import Timer from "./Timer";
 import notImg from "../images/Notifications.png";
 
@@ -41,6 +41,7 @@ function Header() {
   const [chatNotification, setChatNotifications] = useState(null);
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
   
+  const [numberOfNotifications, setNumberofNotification] = useState(0)
   
   //FETCH LIVES OF USER
 
@@ -50,7 +51,7 @@ function Header() {
 
   useEffect(() => {
     if(userPoints!=null){
-      console.log(userPoints.lifes)
+      
       setLifes(userPoints.lifes);
       setTimeToFill(userPoints.nextHeartAt);
     }
@@ -58,19 +59,42 @@ function Header() {
     
   }, [userPoints])
 
+  useEffect(()=>{
+    setNumberofNotification(notifications.filter(el=>!el.seen).length)
+  
+  },[notifications])
+
+
   useEffect(() => {
-    socket.on("getNotification", (data) => {
-      setArrivalNotification(data);
+    socket.on("getNotification", async(data) => {
+
+      try {
+        const res = await axios.get(process.env.REACT_APP_GET_USER_DATA+"/"+data.senderId,{
+        headers: {
+          authorization: accessToken,
+        }})
+  
+
+        const noficationText = `Dobili ste novu poruku od ${res.data.firstName} ${res.data.lastName}` 
+        const obj = data
+        obj.text = noficationText
+        setArrivalNotification(obj);
+      } catch (error) {
+        errorHandler(error)
+      }
+
+      
     });
   }, []);
 
-  useEffect(() => {
-    console.log(notifications);
-  }, [notifications]);
+
 
   useEffect(() => {
     if (arrivalNotification != null) {
-      setNotifications([...notifications, arrivalNotification]);
+      let arr = [...notifications, arrivalNotification]
+      arr =arr.filter(el=>[...new Set(arr.map(el=>el._id))].includes(el._id)) 
+      console.log(arr)
+      setNotifications(arr);
     }
   }, [arrivalNotification]);
 
@@ -102,19 +126,26 @@ function Header() {
       console.log(res.data);
       setUserPoints(res.data);
 
-
+      
       setLifes(res.data.lifes);
       setTimeToFill(res.data.nextHeartAt);
       setNotifications(res.data.notifications);
       setChatNotifications(res.data.chat_notifications);
 
+      let arr  = [...res.data.notifications,...res.data.chat_notifications]
+      arr = arr.sort((a,b)=> b.date-a.date )
+      console.log(arr)
+      setNotifications(arr)
 
     } catch (error) {
       errorHandler(error);
     }
   };
 
-  const setSeenNotification = async (n_id, type, senderId, chat_id) => {
+  const setSeenNotification = async (n_id, type, senderId, chat_id = null) => {
+    
+    console.log( (n_id, type, senderId, chat_id) )
+    
     const txt =
       type == "0"
         ? process.env.REACT_APP_GET_CHAT_NOTIFICATION
@@ -128,15 +159,18 @@ function Header() {
       }
     };
 
+
     try {
       const res = await axios.get(txt + `${n_id}`, {
         headers: {
           authorization: accessToken,
         },
       });
-
+   
       console.log(res.data);
       goToPage(senderId);
+      setNumberofNotification(numberOfNotifications-1)
+      
     } catch (error) {
       errorHandler(error);
     }
@@ -232,27 +266,32 @@ function Header() {
 
             <Col lg={2} md={2} sm={2} style={{marginLeft:"50px"}}>
 
-           {/* //TODO ADD BADGE FOR UNSEEN NOTIFICATIONS */}
+         
               
             <div class="dropdown">
             <FaBell id="notBell" /> 
+          <span id="badge">{numberOfNotifications}</span>
+            
             <div class="dropdown-notification">
             {notifications?.map((n) => {
-              
+            
               return (
-                <p style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId)}>
-                 
+               
+                <p style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>{
+                  n.type == 0?setSeenNotification(n._id,n.type,n.senderId,n.chat_id):setSeenNotification(n._id,n.type,n.senderId)
+                }}>
+               
                   {n.text}
                 </p>
               );
             })}
-            {chatNotification?.map(n=>{
-
+            {/* {chatNotification?.map(n=>{
+           
               return  (<p style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId,n.chat_id)}>
                
               {n.text}
             </p>)
-            })}
+            })} */}
 
             </div>
           </div>
@@ -263,11 +302,12 @@ function Header() {
 
             <Col lg={4} md={4} sm={4}>
             <div class="dropdown">
-            <img src={userData.imageUrl} className="userPhoto"/>
+            <img src={resizeCloudinary(userData.imageUrl)} className="userPhoto"/>
         <div class="dropdown-content">
         <p className="dropdown-item" onClick={myProfile}>My Profile</p>
-        <p className="dropdown-item">My Chats</p>
+        <p className="dropdown-item" onClick={()=>history.push("/chat/threads")}>My Chats</p>
         <p className="dropdown-item" onClick={LogOut}>Log Out</p>
+        
 
         </div>
       </div>
@@ -281,99 +321,11 @@ function Header() {
 
         </Col>
 
-     
-
-        {/* <Col lg={6} style={{backgroundColor:"pink",alignContent:"right"}}>
-
-        <Row>
-
-
-        <Col lg={2}>
-              <img
-                src={heart}
-                style={{
-                  width: "50%",
-                  display: "inline-block",
-                  marginTop: "10px",
-                }}
-              />
-            </Col>
-
-            <Col lg={1} style={{ marginTop: "20px", marginLeft: "-90px" }}>
-              <h1 id="numberOfHearts">5</h1>
-            </Col>
-
-            
-            <Col lg={2}>
-              <FaBell id="notBell" />
-            </Col>
 
         
-        <Col lg={2}>
-              <img src={userData.imageUrl} className="userPhoto" />
-          </Col> 
-
-        </Row>
-    
-        </Col>  */}
-
-
-    {/* <Col lg={5}>
-        Lifes
-        <h1>{lifes}</h1>
-        {timeToFill == null ? null : (
-          <Timer date={timeToFill} fetchHearts={fetchHearts} />
-        )}
-      </Col>  */}
-
-   {/* <Col lg={12}> 
-
-   <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Notifications
-            {hasNewNotifications == true ? <span className="badge">1</span> : null}
-            
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            {notifications?.map((n) => {
-              
-              return (
-                <Dropdown.Item style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId)}>
-                 
-                  {n.text}
-                </Dropdown.Item>
-              );
-            })}
-            {chatNotification?.map(n=>{
-
-              return  (<Dropdown.Item style={n.seen == false? {backgroundColor:"lightgrey"} : {backgroundColor:"white"}} onClick={()=>setSeenNotification(n._id,n.type,n.senderId,n.chat_id)}>
-               
-              {n.text}
-            </Dropdown.Item>)
-            })}
-          </Dropdown.Menu>
-        </Dropdown> 
- <Dropdown>
-          <Dropdown.Toggle
-            variant="secondary"
-            id="dropdown-basic"
-            className="button"
-            style={{ padding: "10px", marginLeft: "120px" }}
-          >
-           
-            <img src={userData.imageUrl} width="30px" />
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={myProfile}>My Profile</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">My Chats</Dropdown.Item>
-            <Dropdown.Item onClick={LogOut}>Log Out</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown> 
-
-    </Col>  */}
     </Row> 
+
+
      </Container>
   );
 }

@@ -3,7 +3,7 @@ import { accessToken, Feature } from "mapbox-gl";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import ReactMapGL, { Marker, Layer, Popup, Source } from "react-map-gl";
 import myContext from "./contexts/myContext";
-import { errorHandler } from "./functions/Functions";
+import { errorHandler, resizeCloudinary } from "./functions/Functions";
 import img from "../images/default-photo.png";
 import { useHistory } from "react-router-dom";
 import {
@@ -22,7 +22,7 @@ import { default as _, range } from "lodash";
 import Cards from "./Cards";
 import Filters from "./Filters";
 
-import "./Map.css"
+import "./Map.css";
 
 function Map(props) {
   const history = useHistory();
@@ -43,6 +43,8 @@ function Map(props) {
 
   const [usersMarkers, setUsersMarkers] = useState([]);
 
+  const [spinner, setSpinner] = useState(false);
+
   const input = useRef("");
 
   const goToUserPage = (id) => {
@@ -51,7 +53,6 @@ function Map(props) {
 
   const onMarkerClick = (id) => {
     // alert("You clicked on marker");
-
     // history.push(`/user/${id}`);
   };
 
@@ -74,6 +75,14 @@ function Map(props) {
   useEffect(() => {
     getUsersInRadius();
   }, []);
+
+  useEffect(() => {
+    if (usersMarkers.length == 0) {
+      setSpinner(true);
+    } else {
+      setSpinner(false);
+    }
+  }, [usersMarkers]);
 
   const changeRange = async (range) => {
     try {
@@ -139,6 +148,8 @@ function Map(props) {
     });
   };
 
+  if (spinner) return <Spinner animation="border" />;
+
   return (
     <>
       <ReactMapGL
@@ -146,12 +157,18 @@ function Map(props) {
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
         mapStyle="mapbox://styles/fakkkkkk123/ckq6pcalq3jpd17o6c7kiwz2y"
-        style={{ position: "absolute"}}
+        style={{ position: "absolute" }}
       >
         <Button
           variant="primary"
           onClick={() => getCurrentLocation()}
-          style={{ float: "right", borderRadius: "0px",backgroundColor:"#578BB8",border:"none",zIndex:"100" }}
+          style={{
+            float: "right",
+            borderRadius: "0px",
+            backgroundColor: "#578BB8",
+            border: "none",
+            zIndex: "100",
+          }}
         >
           Dohvati moju trenutnu lokaciju
         </Button>
@@ -174,7 +191,12 @@ function Map(props) {
           offsetLeft={-50}
           zoom={11}
         >
-          <img width="80px" id="profilePhoto" src={userImage}  onClick={(event) => {}} />
+          <img
+            width="80px"
+            id="profilePhoto"
+            src={resizeCloudinary(userImage)}
+            onClick={(event) => {}}
+          />
         </Marker>
         {usersMarkers.map((user, i) => {
           if (user._id === userData._id) return <></>;
@@ -188,13 +210,21 @@ function Map(props) {
               onClick={() => onMarkerClick(user._id)}
               offsetRight={-50}
             >
-              <img width="40px" src={user.imageUrl}  id="mapPhoto"/>
+              <img
+                width="40px"
+                src={resizeCloudinary(user.imageUrl)}
+                id="mapPhoto"
+              />
             </Marker>
           );
         })}
       </ReactMapGL>
 
-      <Cards users={usersMarkers} setUsers={setUsersMarkers} setViewport={setViewport}/>
+      <Cards
+        users={usersMarkers}
+        setUsers={setUsersMarkers}
+        setViewport={setViewport}
+      />
       <Filters setMarkers={setUsersMarkers} />
     </>
   );

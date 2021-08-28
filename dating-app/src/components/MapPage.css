@@ -1,0 +1,21 @@
+.Maptitle {
+    color:#DF314D;
+    margin-top:-50px;
+    font-weight:bold;
+}
+
+@media (max-width: 978px) {
+
+    body {
+        padding: 0;
+        margin: 0;
+      }
+
+    
+    .Maptitle{
+        margin-top: -80px;
+    }
+  
+
+ 
+}

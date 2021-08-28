@@ -19,10 +19,23 @@ function UserProfile() {
   const { id } = useParams();
   const { accessToken, userPoints, setUserPoints } = useContext(myContext);
   const [showSlideShow, setShowSlideShow] = useState(false);
+  const [showAlert,setShowAlert] = useState(null)
+
   const handleCloseSlideShow = () => setShowSlideShow(false);
   const handleShowSlideShow = () => setShowSlideShow(true);
 
+
+  // const [buttonLiked, setButtonLiked] = useState(
+  //   userPoints?.liked.includes(friendData._id)
+  // );
+
+  const handleClose = () => setShowAlert(false);
+  const handleShow = () => setShowAlert(true);
+  
+  const [modalID, setModalID] = useState(null)
   const history = useHistory();
+
+
 
   const handleClick = async () => {
     //Set the user id to cookie
@@ -71,22 +84,133 @@ function UserProfile() {
     }
   }, []);
 
-  const likeUser = async (id) => {
+  const startChat = async (id) => {
+    //Set the user id to cookie
+
+    
+
+    localStorage.setItem("recieverId", id);
+
+    //Create chat
+
     try {
-      const res = await axios.get(
-        process.env.REACT_APP_LIKE_USER + `/${friendData._id}`,
+      const res = await axios.post(
+        process.env.REACT_APP_CHAT_ROUTE,
+        { recipient_id: id },
         {
           headers: {
             authorization: accessToken,
           },
         }
       );
+
+      console.log(res.data);
+      history.push(`/chat/${res.data.chat_id}`);
+    } catch (err) {
+      console.log(err);
+      errorHandler(err);
+    }
+  };
+
+  
+
+  const ShowModal = (props) => {
+
+    const {handleClose,showAlert} = props
+
+  
+    return (
+      <Modal
+        show={showAlert}
+        onHide={handleClose}
+        style={{ fontSize: "1.5rem" }}
+      >
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#DF314D", color: "white" }}
+        >
+          <Modal.Title>Čestitamo!!!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Uspješno ste se spojili sa korisnikom! Sada možete započeti razgovor.
+          Sretno! :)
+          <Button
+            style={{
+              backgroundColor: "#578BB8",
+              border: "none",
+              borderRadius: "0",
+            }}
+            onClick={()=>startChat(friendData._id)}
+          >
+            Započni razgovor
+          </Button>
+        </Modal.Body>
+      </Modal>
+    );
+  };
+
+  const likeUser = async (id) => {
+    try {
+      const res = await axios.get(process.env.REACT_APP_LIKE_USER + `/${id}`, {
+        headers: {
+          authorization: accessToken,
+        },
+      });
       console.log(res.data);
       setUserPoints(res.data);
+      const newUserPoints = { ...userPoints };
+      newUserPoints.lifes = res.data.lifes;
+      newUserPoints.nextHeartAt = res.data.nextHeartAt;
+      setUserPoints(newUserPoints);
+
+
+      console.log(userPoints)
+      // setButtonLiked(true);
+      //CHECK MATCH WITH USER
+
+      try {
+        const res = await axios.get(process.env.REACT_APP_MATCH + `/${id}`, {
+          headers: {
+            authorization: accessToken,
+          },
+        });
+        console.log(res.data);
+        if (res.data) {
+          console.log(setModalID);
+          setModalID(id);
+          handleShow();
+        }
+      } catch (error) {
+        errorHandler(error);
+      }
     } catch (error) {
       errorHandler(error);
     }
   };
+
+  // const dislikeUser = async (id) => {
+  //   try {
+  //     const res = await axios.get(
+  //       process.env.REACT_APP_DISLIKE_USER + `/${id}`,
+  //       {
+  //         headers: {
+  //           authorization: accessToken,
+  //         },
+  //       }
+  //     );
+  //     console.log(res.data);
+
+  //     setUserPoints(res.data);
+
+  //     const newU = users.filter((el) => {
+  //       return el._id !== id;
+  //     });
+  //     setUsers(newU);
+  //   } catch (error) {
+  //     errorHandler(error);
+  //   }
+  // };
+
 
  
 
@@ -104,6 +228,7 @@ function UserProfile() {
     
     }}
     >
+      <Modal showAlert={showAlert} handleClose={handleClose}/>
        {_.isNull(friendData) ? (
       <Spinner animation="border" role="status" />
     ) : ( <React.Fragment>
@@ -115,12 +240,27 @@ function UserProfile() {
       <Col lg={4} md={12} sm={10} className="aboutMe">
         <Row>
           <Col>
-          <Button className="talk">Razgovaraj</Button>
+          <Button className="talk" onClick={()=>startChat(friendData._id)}>Razgovaraj</Button>
           </Col>
           <Col>
           <div style={{float:"right"}}>
-          <Button style={{marginTop:"10px",marginRight:"10px",borderRadius:"0px",backgroundColor:"#F59391",border:"none"}}>Like</Button>
-          <Button style={{marginTop:"10px",borderRadius:"0px",backgroundColor:"#DF314D",border:"none"}}>Dislike</Button>
+        {/* <Button
+                variant="primary"
+                className="likeButton"
+                onClick={() => {
+                  likeUser(friendData._id);
+                }}
+                disabled={buttonLiked}
+              >
+                Like
+              </Button> */}
+              {/* <Button
+                variant="primary"
+                onClick={() => dislikeUser(user._id)}
+                className="dislikeButton"
+              >
+                Dislike
+              </Button> */}
           </div>
           <div style={{clear:"both"}}></div>
           </Col>
@@ -203,7 +343,7 @@ function UserProfile() {
       
 
       {_.isEmpty(friendData.gallery) ? "Prazna galerija." : friendData.gallery.map(img=>{
-        return <img src={img.imageUrl} style={{width:"30%",height:"200px",backgroundSize:"cover",borderRadius:"0px"}}
+        return <img src={img.imageUrl} style={{width:"30%",height:"200px",backgroundSize:"cover",borderRadius:"0px",marginBottom:"20px"}}
         onClick={handleShowSlideShow}
         />
       })}

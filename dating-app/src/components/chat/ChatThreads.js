@@ -17,6 +17,8 @@ function ChatThreads(props) {
     const history = useHistory()
 
     const {blocked} = props
+
+  
     useEffect(async() => {
     
         try {
@@ -58,6 +60,7 @@ function ChatThreads(props) {
           
           
         {threads.map(t=>{
+
             return<div className="thread" onClick={()=>changeChat(t._id)}><img src={t.imageUrl} className="myProfilePhotoThumbNail"/> <span className="thread" disabled={blocked}  className="nameUser" >{t.firstName}  {t.lastName}</span>
 
            

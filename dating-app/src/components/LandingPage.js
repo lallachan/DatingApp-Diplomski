@@ -1,6 +1,6 @@
 import React from "react";
 import cover from "../images/CoverPhoto.jpeg";
-import { Row, Button, Col, Container } from "react-bootstrap";
+import { Row, Button, Col, Container, Form } from "react-bootstrap";
 
 import {Link} from "react-router-dom"
 import "./LandingPage.css"
@@ -16,6 +16,9 @@ import { useState } from "react";
 
 import {FaArrowCircleUp} from 'react-icons/fa';
 
+import { Typeahead } from 'react-bootstrap-typeahead'; 
+
+import { default as postal } from "./Files/Postal.json";
 
 function LandingPage() {
 
@@ -35,6 +38,11 @@ function LandingPage() {
 
   window.addEventListener('scroll', checkScrollTop)
 
+
+  const [singleSelections, setSingleSelections] = useState([]);
+
+  const [options, setOptions] = useState(postal);
+
   return (
     <Container
     fluid
@@ -48,14 +56,18 @@ function LandingPage() {
       }}
       className="page-holder bg-cover"
     >
+
+
+
+
       <Row style={{ textAlign: "right", width: "100%"}}>
        
-      <Col lg={2}><img src={logo} style={{marginLeft:"80px",width:"100%"}} /></Col>
-        <Col style={{padding:"20px"}} lg={10}>
+      <Col lg={2} md={2} sm={2}><img src={logo} id="myLogo" style={{marginLeft:"80px",width:"250px"}} /></Col>
+        <Col style={{padding:"20px"}} lg={10} md={10} sm={10}>
          
        
-          <Button  style={{padding:"20px",backgroundColor:"#578BB8",marginTop:"20px",color:"white",border:"none"}}>
-          <a style={{textDecoration:"none",color:"white"}} href="#register_user">Register</a></Button>
+          <Button  className="registerBtn">
+          <a style={{textDecoration:"none",color:"white"}} href="#register_user" >Register</a></Button>
         </Col>
       </Row>
 
@@ -68,7 +80,7 @@ function LandingPage() {
 
 
 
-      <FaArrowCircleUp className="scrollTop" onClick={scrollTop} style={{height: 40,color:"#DF314D", display: showScroll ? 'flex' : 'none'}}/>
+      <FaArrowCircleUp className="scrollTop" onClick={scrollTop} style={{height: 40,color:"#DF314D",display: showScroll ? 'flex' : 'none'}}/>
 
 
       <LogIn/>

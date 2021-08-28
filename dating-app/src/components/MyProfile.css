@@ -201,21 +201,3 @@ li{
     margin-bottom: 10px;
     border:2px solid grey;
 }
-
-.chatBox {
-    /* background-color: #A8CEED; */
-    background: rgba(158, 199, 233, 0.5);
-    margin-top: 50px;
-    margin-left: 50px;
-    border:2px solid #578BB8;
-    overflow-y: scroll;
-    height: 700px;
-}
-
-.conversations {
-    background-color: white;
-    border:2px solid #578BB8;
-    margin-top: 50px;
-    margin-left: 50px;
-    
-}

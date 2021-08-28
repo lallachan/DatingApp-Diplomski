@@ -26,3 +26,16 @@
     color:#578BB8;
 }
 
+@media (max-width: 978px) {
+   
+    .userBox{
+      
+        margin-left: 80px;
+    
+    }
+
+    body {
+      padding:0;
+    }
+  
+  }

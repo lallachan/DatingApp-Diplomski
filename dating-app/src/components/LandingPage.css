@@ -33,11 +33,59 @@
 
 }
 
+.registerBtn {
+  padding:20px;
+  background-color:#578BB8;
+  margin-top:20px;
+  color:white;
+  border:none;
+}
+
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 0.5;
+  }
+}
+
+
+
+@media (max-width: 978px) {
+  .container {
+    padding:0;
+    margin:0;
+  }
+
+  #myLogo{
+    margin: 0;
+  }
+
+  .loginBox{
+    margin: 0;
+    padding:20px;
+    width: 100%;
+    margin-left: 30px;
+    margin-top: 50px;
+  }
+
+  .registerBtn{
+    margin-top: -200px;
+    margin-right: -35px;
+
+  }
+
+ 
+
+  body {
+    padding:0;
+  }
+
+  .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom:0;
   }
 }

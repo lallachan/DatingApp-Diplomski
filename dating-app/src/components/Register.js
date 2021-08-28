@@ -6,8 +6,32 @@ import * as Yup from "yup";
 import axios from "axios";
 import { errorHandler } from "./functions/Functions";
 import EmailValidation from "./EmailValidation";
+import { Typeahead } from 'react-bootstrap-typeahead'; 
+
+import { default as postal } from "./Files/Postal.json";
+import { sortedLastIndex } from "lodash";
+
+import "./Register.css"
+
 
 function Register() {
+
+
+  const [singleSelections, setSingleSelections] = useState([]);
+
+  const [options, setOptions] = useState(postal);
+
+  const [zip, setZip] = useState(null)
+
+  const handleClick = (e)=>{
+    setSingleSelections(e)
+
+    const zip = options.filter(el => el.city == e)[0].postCode
+    setZip(zip)
+  }
+
+
+
   const RegisterShema = Yup.object().shape({
     firstName: Yup.string().min(2).max(60).required("Ime je obavezno."),
     lastName: Yup.string().min(2).max(60).required("Prezime je obavezno."),
@@ -81,8 +105,19 @@ function Register() {
 
   if (loadEmailValidation == true) return <EmailValidation />;
 
+
+
   return (
+   
+
+
+    
+    
     <div>
+
+
+
+
       <Formik
         initialValues={{
           firstName: "",
@@ -100,6 +135,7 @@ function Register() {
         onSubmit={async (values) => {
           values.dob = reformatDate(values.day, values.month, values.year);
           console.log(values);
+          console.log(singleSelections,zip)
           delete values.day;
           delete values.month;
           delete values.year;
@@ -128,21 +164,14 @@ function Register() {
               id="register_user"
               style={{
                 justifyContent: "center",
-                width: "100%",
-                padding: "0",
-                margin: "0",
                 marginTop: "50px",
               }}
             >
               <Col
+                className="register1"
                 lg={6}
-                md={6}
+                md={12}
                 sm={12}
-                style={{
-                  padding: "10px",
-                  background: "#578BB8",
-                  marginTop: "-20px",
-                }}
               >
                 <h1
                   style={{
@@ -250,12 +279,7 @@ function Register() {
               </Col>
 
               <Col
-                style={{
-                  marginTop: "9px",
-                  background: "#578BB8",
-                  marginLeft: "20px",
-                  marginTop: "-20px",
-                }}
+               className="register2"
                 lg={3}
                 md={3}
                 sm={12}
@@ -271,17 +295,39 @@ function Register() {
                       }}
                     >
                       Grad
-                    </label>
-                    <Field
+                    </label> 
+
+                  {/* <Field
                       name="city"
                       type="text"
                       className="form-control form-group"
                       style={{ backgroundColor: "#A8CEED", border: "none" }}
-                    />
+                    >
+
+
+
+                    </Field> */}
+
+                    <div>
+                      
+                    
+                      <Typeahead
+                        id="basic-typeahead-single"
+                        onChange={handleClick}
+                        options={options.map(i=>i.city)}
+                        placeholder="Izaberite grad..."
+                        selected={singleSelections}
+                        required
+                        
+                      />
+
+                    </div>
+{/* 
                     {errors.city && touched.city ? (
                       <Alert variant="warning">{errors.city}</Alert>
-                    ) : null}
+                    ) : null} */}
                   </Col>
+
                   <Col lg={4}>
                     <label
                       htmlFor="lastName"
@@ -295,6 +341,8 @@ function Register() {
                       type="number"
                       pattern="[A-Za-z]{3}"
                       className="form-control form-group"
+                      value={zip}
+                      onChange={e=>setZip(e.target.value)}
                       style={{ backgroundColor: "#A8CEED", border: "none" }}
                     />
                     {errors.zip && touched.zip ? (
@@ -433,7 +481,12 @@ function Register() {
           </Form>
         )}
       </Formik>
+
+
+  
     </div>
+ 
+
   );
 }
 

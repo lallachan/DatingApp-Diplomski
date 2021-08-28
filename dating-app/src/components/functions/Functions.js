@@ -44,3 +44,11 @@ export const getSexOr = (sex) => {
   }
 };
 
+export const resizeCloudinary = (imageUrl) => {
+  
+  let imageChangeSize = imageUrl.split('/upload/')
+  imageChangeSize[0]=imageChangeSize[0] +"" +'/upload/w_600/q_auto/'
+  imageChangeSize = imageChangeSize.join('')
+
+  return imageChangeSize
+}
