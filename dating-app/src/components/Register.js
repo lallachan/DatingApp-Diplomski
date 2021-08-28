@@ -12,6 +12,7 @@ import { default as postal } from "./Files/Postal.json";
 import { sortedLastIndex } from "lodash";
 
 import "./Register.css"
+import { First } from "react-bootstrap/esm/PageItem";
 
 
 function Register() {
@@ -25,7 +26,7 @@ function Register() {
 
   const handleClick = (e)=>{
     setSingleSelections(e)
-
+    console.log("hey")
     const zip = options.filter(el => el.city == e)[0].postCode
     setZip(zip)
   }
@@ -53,13 +54,13 @@ function Register() {
     month: Yup.string().required("Unesite mjesec."),
     year: Yup.string().required("Unesite godinu."),
 
-    city: Yup.string().min(2).max(60).required("Grad je obavezan."),
-    zip: Yup.string()
-      .required("Poštanski broj je obavezan.")
-      .matches(
-        /^\d{5}(?:[-\s]\d{4})?$/,
-        "Zip must contain 5 numbers e.g 10000"
-      ),
+    // city: Yup.string().required("Grad je obavezan."),
+    // zip: Yup.string()
+    //   .required("Poštanski broj je obavezan.")
+      // .matches(
+      //   /^\d{5}(?:[-\s]\d{4})?$/,
+      //   "Zip must contain 5 numbers e.g 10000"
+      // ),
   });
   const days = [];
 
@@ -105,18 +106,22 @@ function Register() {
 
   if (loadEmailValidation == true) return <EmailValidation />;
 
-
+  const CustomInputComponent = (props) => (
+    <Typeahead
+    id="basic-typeahead-single"
+    onChange={handleClick}
+    options={options.map(i=>i.city)}
+    placeholder="Izaberite grad..."
+    selected={singleSelections}
+    
+    
+  />
+  );
 
   return (
    
-
-
-    
     
     <div>
-
-
-
 
       <Formik
         initialValues={{
@@ -128,26 +133,25 @@ function Register() {
           day: "",
           month: "",
           year: "",
-          city: "",
-          zip: "",
+         
         }}
         validationSchema={RegisterShema}
+        
         onSubmit={async (values) => {
+          console.log("hey")
           values.dob = reformatDate(values.day, values.month, values.year);
-          console.log(values);
-          console.log(singleSelections,zip)
+          
           delete values.day;
           delete values.month;
           delete values.year;
           delete values.confirmPassword;
 
-          // await new Promise((r) => setTimeout(r, 500));
-          // alert(JSON.stringify(values, null, 2));
+
 
           try {
             const res = await axios.post(
               process.env.REACT_APP_REGISTER_USER,
-              values
+              {...values,city:singleSelections,zip:zip}
             );
             console.log(res.data);
           } catch (error) {
@@ -288,6 +292,7 @@ function Register() {
                   <Col lg={8}>
                     <label
                       htmlFor="city"
+                     
                       style={{
                         color: "white",
                         fontSize: "20px",
@@ -299,33 +304,27 @@ function Register() {
 
                   {/* <Field
                       name="city"
-                      type="text"
                       className="form-control form-group"
+                      as={CustomInputComponent}  
                       style={{ backgroundColor: "#A8CEED", border: "none" }}
                     >
 
+                    </Field>
 
 
-                    </Field> */}
-
-                    <div>
-                      
-                    
-                      <Typeahead
-                        id="basic-typeahead-single"
-                        onChange={handleClick}
-                        options={options.map(i=>i.city)}
-                        placeholder="Izaberite grad..."
-                        selected={singleSelections}
-                        required
-                        
-                      />
-
-                    </div>
-{/* 
                     {errors.city && touched.city ? (
                       <Alert variant="warning">{errors.city}</Alert>
                     ) : null} */}
+
+                    <Field
+                      name="city"
+                      as={   CustomInputComponent}
+                    />
+                 
+
+
+
+
                   </Col>
 
                   <Col lg={4}>
@@ -349,6 +348,7 @@ function Register() {
                       <Alert variant="warning">{errors.zip}</Alert>
                     ) : null}
                   </Col>
+
                 </Row>
 
                 <label
