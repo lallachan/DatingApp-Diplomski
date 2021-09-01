@@ -3,22 +3,37 @@ import myContext from "../contexts/myContext";
 import axios from "axios";
 import { errorHandler, resizeCloudinary } from "../functions/Functions";
 import Conversation from "./Conversation";
-import { Button, Spinner, Container, Col, Row, Alert, FormControl } from "react-bootstrap";
+import {
+  Button,
+  Spinner,
+  Container,
+  Col,
+  Row,
+  Alert,
+  FormControl,
+} from "react-bootstrap";
 import { io } from "socket.io-client";
 import Mesage from "./Mesage";
 import { useHistory, useParams } from "react-router-dom";
 import "./Chat.css";
 import { default as _ } from "lodash";
 import ChatThreads from "./ChatThreads";
-import pattern from "../../images/pattern.jpg"
-import Header from "../Header.js"
-import {FaCamera} from 'react-icons/fa';
+import pattern from "../../images/pattern.jpg";
+import Header from "../Header.js";
+import { FaCamera } from "react-icons/fa";
 
-import LogoSpinner from "../spinner/LogoSpinner"
+import LogoSpinner from "../spinner/LogoSpinner";
 
 function Chat() {
-  const { userData, chatId, accessToken, socket, setChatId,setUserPoints,userPoints } =
-    useContext(myContext);
+  const {
+    userData,
+    chatId,
+    accessToken,
+    socket,
+    setChatId,
+    setUserPoints,
+    userPoints,
+  } = useContext(myContext);
   const [chatMessages, setChatMessages] = useState([]);
   const [arriveMessage, setArriveMessage] = useState(null);
   const [reciverID, setReciverID] = useState(null);
@@ -45,8 +60,8 @@ function Chat() {
     (error, result) => {
       if (result.event == "queues-end") {
         setImage(result.info.files[0].uploadInfo.secure_url); //path for backend
-      
-        sendImage(result.info.files[0].uploadInfo.secure_url)
+
+        sendImage(result.info.files[0].uploadInfo.secure_url);
       }
     }
   );
@@ -56,9 +71,8 @@ function Chat() {
   }
 
   const uploadImage = () => {
-    showWidget()
-   
-  }
+    showWidget();
+  };
 
   const textArea = useRef();
 
@@ -67,7 +81,7 @@ function Chat() {
   //GET CHAT
 
   useEffect(() => {
-    console.log(chat_id)
+    console.log(chat_id);
     try {
       axios
         .get(process.env.REACT_APP_CHAT_ROUTE, {
@@ -87,16 +101,16 @@ function Chat() {
           setChatMessages(res.data.messages);
           console.log(res.data);
           setBlocked(res.data.blockChat);
-          setShowOnlyThreads(false)
+          setShowOnlyThreads(false);
         })
         .catch((err) => {
           errorHandler(err);
-          setShowOnlyThreads(true)
-          console.log("Hey")
+          setShowOnlyThreads(true);
+          console.log("Hey");
         });
     } catch (error) {
       errorHandler(error);
-      setShowOnlyThreads(true)
+      setShowOnlyThreads(true);
     }
   }, [chat_id]);
 
@@ -139,7 +153,6 @@ function Chat() {
 
   useEffect(() => {
     if (socket != null) {
-     
       socket.on("getUsers", (users) => {});
 
       socket.on("getMessage", (data) => {
@@ -148,7 +161,7 @@ function Chat() {
           message: data.text,
           date: Date.now(),
           senderID: data.senderId,
-          imageUrl : data.imageUrl
+          imageUrl: data.imageUrl,
         };
         setArriveMessage(messObj);
       });
@@ -173,13 +186,10 @@ function Chat() {
       console.log(res.data);
       setBlocked(res.data.blocked);
       setUserWhoBlocked(res.data.userWhoBlocked);
-      
-      
     } catch (error) {
       errorHandler(error);
     }
   };
-
 
   const unBlockUser = async (chat_id) => {
     try {
@@ -197,23 +207,18 @@ function Chat() {
       console.log(res.data);
       setBlocked(res.data.blocked);
       setUserWhoBlocked(res.data.userWhoBlocked);
-      
-      
     } catch (error) {
       errorHandler(error);
     }
   };
 
-
-
-  const sendImage = async(imgUrl) => {
-   
+  const sendImage = async (imgUrl) => {
     socket.emit("sendMessage", {
       senderId: userData._id,
       receiverId: reciverID,
       text: "m",
       chatId: chat_id,
-      imageUrl: imgUrl
+      imageUrl: imgUrl,
     });
     try {
       const res = await axios.patch(
@@ -223,10 +228,10 @@ function Chat() {
           headers: {
             authorization: accessToken,
             chat_id: chat_id,
-          }
+          },
         }
       );
-      setChatMessages([...chatMessages, { message: "m", imageUrl : imgUrl }]);
+      setChatMessages([...chatMessages, { message: "m", imageUrl: imgUrl }]);
       delete textArea.current.value;
 
       //OVO NETREBA JER VEĆ RADIM SENDMESSAGE
@@ -238,10 +243,9 @@ function Chat() {
     } catch (error) {
       errorHandler(error);
     }
-  }
+  };
 
   const handleSubmit = async () => {
-    
     const messageM = textArea.current.value;
     socket.emit("sendMessage", {
       senderId: userData._id,
@@ -249,10 +253,12 @@ function Chat() {
       text: messageM,
       chatId: chat_id,
     });
-    console.log(  {senderId: userData._id,
+    console.log({
+      senderId: userData._id,
       receiverId: reciverID,
       text: messageM,
-      chatId: chat_id})
+      chatId: chat_id,
+    });
     try {
       const res = await axios.patch(
         process.env.REACT_APP_CHAT_ROUTE,
@@ -265,14 +271,11 @@ function Chat() {
         }
       );
 
-     
       setChatMessages([...chatMessages, { message: messageM }]);
       delete textArea.current.value;
-      const newMessages = res.data.chat_notifications
-      const newMessages2 = res.data.chat_notifications
-      setUserPoints(newMessages,newMessages2)
-        
-    
+      const newMessages = res.data.chat_notifications;
+      const newMessages2 = res.data.chat_notifications;
+      setUserPoints(newMessages, newMessages2);
     } catch (error) {
       errorHandler(error);
     }
@@ -282,156 +285,180 @@ function Chat() {
 
   // if (_.isNull(friendData) || _.isUndefined(friendData)) return <Spinner />;
   return (
-    <Container fluid
-    style={{
-      background: `url(${pattern})`,
-      backgroundRepeat:"repeat-x",
-      height: "100vh",
-      backgroundSize: "cover"
-    
-    }}
+    <Container
+      fluid
+      style={{
+        background: `url(${pattern})`,
+        backgroundRepeat: "repeat-x",
+        height: "100vh",
+        backgroundSize: "cover",
+      }}
     >
-      <Row><Header/></Row>
-
-
-      {
-        console.log("gekko")
-      }
       <Row>
-
-      <Col lg={4} md={12} sm={10} className="conversations">
-
-      <h2 className="conversation-title">Razgovori</h2>
-
-      <ChatThreads blocked={blocked} />
-
-      </Col>
-{     showOnlyThreads?  null :
-      <Col lg={7} md={7} sm={10} className="chatBox" >
-      
-      <Row>
-
-     
-      <Col className="conversation-title" style={{fontSize:"1rem"}}>
-      {friendData === null ? null : (
-          <h2 className="headline">
-            {friendData.firstName} {friendData.lastName}
-          </h2>
-        )}
-      </Col>
-      {/* //TODO ODBLOKIRAJ */}
-      <Col>{blocked? <Button id="blockButton" onClick={()=>unBlockUser(chat_id)}>Odblokiraj</Button> : <Button id="blockButton" onClick={() => rejectUser(chat_id)}>Blokiraj</Button>}</Col>
+        <Header />
       </Row>
 
-
       <Row>
+        <Col lg={4} md={12} sm={10} className="conversations">
+          <h2 className="conversation-title">Razgovori</h2>
 
-        <Col>
-        {chatMessages?.map((m, i) => {
-            if (i == 0) return;
-
-            return (
-              <>
-                <Col
-                  key={i}
-                  
-                >
-                  {_.isUndefined(friendData) || _.isNull(friendData) ? (
-                     <LogoSpinner/>
-                  ) : m.senderID != userData._id && m.senderID != undefined ? (
-                    <Row>
-
-                      <Col>
-                      <img src={resizeCloudinary(friendData.imageUrl)} className="userPhotoImage" /><br/>
-                      </Col>
-                      
-                      
-                      <div style={{clear:"both"}}></div>
-                      
-                      </Row>
-                  
-
-                  ) : null}
-                  
-                
-
-                 <Col style={{float:"right",display:"inline"}}>{m.imageUrl != undefined ? <img src={resizeCloudinary(m.imageUrl)} className={
-
-                  m.senderID === userData._id ? "myImage" : "friendImage"
-
-                 } />  : <span
-                 className={
-                  m.senderID == userData._id || m.senderID === undefined
-                    ? "msg"
-                    : "fmsg"
-                }
-                
-                 >{m.message }<span className="timeMessageFriend">8:23</span></span>}</Col>
-                 <div style={{clear:"both"}}></div>
-                 
-                  
-                  
-                </Col>
-
-                <div className="clear"></div>
-
+          <ChatThreads blocked={blocked} />
+        </Col>
+        {showOnlyThreads ? null : (
+            <Col
+              lg={7}
+              md={7}
+              sm={10}
+              style={{ position: "relative" }}
+            >
+              <Row className="chatBox">
                
-              </>
-            );
-          })}
+                <Row>
+                  <Col
+                    className="conversation-title"
+                    style={{ fontSize: "1rem" }}
+                  >
+                    {friendData === null ? null : (
+                      <h2 className="headline">
+                        {friendData.firstName} {friendData.lastName}
+                      </h2>
+                    )}
+                  </Col>
+                  {/* //TODO ODBLOKIRAJ */}
+                  <Col>
+                    {blocked ? (
+                      <Button
+                        id="blockButton"
+                        onClick={() => unBlockUser(chat_id)}
+                      >
+                        Odblokiraj
+                      </Button>
+                    ) : (
+                      <Button
+                        id="blockButton"
+                        onClick={() => rejectUser(chat_id)}
+                      >
+                        Blokiraj
+                      </Button>
+                    )}
+                  </Col>
+                </Row>
 
+                <Row>
+                  <Col>
+                    {chatMessages?.map((m, i) => {
+                      if (i == 0) return;
 
-        </Col>
+                      return (
+                        <>
+                          <Row key={i} style={{alignItems:"center",marginBottom:"20px"}}>
+                            {_.isUndefined(friendData) ||
+                            _.isNull(friendData) ? (
+                              <LogoSpinner />
+                            ) : m.senderID != userData._id &&
+                              m.senderID != undefined ? (
+                              
+                                <Col lg={1}>
+                                  <img
+                                    src={resizeCloudinary(friendData.imageUrl)}
+                                    className="userPhotoImage"
+                                  />
+                                </Col>
+                              
+                            ) : null}
 
-        <Row>
-          <Col>
-          
-          {blocked == true ? (
-            <Alert variant="danger" style={{backgroundColor:"#DF314D",color:"white",marignTop:"80px",width:"30%",borderRadius:"50px"}}>
-              {userWhoBlocked !== userData._id
-                ? userData.firstName + " " + userData.lastName + " "
-                : friendData.firstName + friendData.lastName + " "}
-              je blokirala razgovor
-            </Alert>
-          ) : null}</Col>
-        </Row>
+                            <Col style={{ float: "right", display: "inline" }}>
+                              {m.imageUrl != undefined ? (
+                                <img
+                                  src={resizeCloudinary(m.imageUrl)}
+                                  className={
+                                    m.senderID === userData._id
+                                      ? "myImage"
+                                      : "friendImage"
+                                  }
+                                />
+                              ) : (
+                                <span
+                                  className={
+                                    m.senderID == userData._id ||
+                                    m.senderID === undefined
+                                      ? "msg"
+                                      : "fmsg"
+                                  }
+                                >
+                                  {m.message}
+                                  <span className="timeMessageFriend">
+                                    8:23
+                                  </span>
+                                </span>
+                              )}
+                            </Col>
+                            <div style={{ clear: "both" }}></div>
+                          </Row>
 
+                          <div className="clear"></div>
+                        </>
+                      );
+                    })}
+                  </Col>
+                  
+                  <Row>
+                    <Col>
+                      {blocked == true ? (
+                        <Alert
+                          variant="danger"
+                          style={{
+                            backgroundColor: "#DF314D",
+                            color: "white",
+                            marignTop: "80px",
+                            width: "30%",
+                            borderRadius: "50px",
+                          }}
+                        >
+                          {userWhoBlocked !== userData._id
+                            ? userData.firstName + " " + userData.lastName + " "
+                            : friendData.firstName + friendData.lastName + " "}
+                          je blokirala razgovor
+                        </Alert>
+                      ) : null}
+                    </Col>
+                  </Row>
+                </Row>
+
+              </Row>
+
+              
+              <Row
+                  style={{ backgroundColor: "#578BB8"}}
+                  className="chatFooter"
+                >
+                  <Col lg={2}>
+                    <Button className="uploadPhotoButton" onClick={showWidget}>
+                      <FaCamera />
+                    </Button>
+                  </Col>
+
+                  <Col lg={10}>
+                    <FormControl
+                      ref={textArea}
+                      className="messageBox"
+                      aria-describedby="basic-addon2"
+                    />
+                    <Button
+                      onClick={handleSubmit}
+                      disabled={blocked}
+                      className="sendButton"
+                    >
+                      Send
+                    </Button>
+                  </Col>
+                </Row>
+
+            </Col>
+        )}
       </Row>
 
-
-      <Row style={{backgroundColor:"#578BB8",marginTop:"40px"}} className="chatFooter">
-
-        <Col lg={2}>
-        <Button className="uploadPhotoButton" onClick={showWidget}><FaCamera/></Button>
-        </Col>
-
-        <Col lg={10}>
-       
-
-        <FormControl
-        ref={textArea}
-        className="messageBox"
-      aria-describedby="basic-addon2"
-    />
-      <Button onClick={handleSubmit} disabled={blocked} className="sendButton">
-            Send
-          </Button>
-
-
-        </Col>
-
-    
-
-      </Row>
-
-      </Col>
-}    
-
-      </Row>
-
-
-
-        {/* <Col lg={3}>
+      {/* <Col lg={3}>
           <ChatThreads blocked={blocked} />
         </Col>
         <Col lg={6} className="chat">

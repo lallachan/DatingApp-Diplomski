@@ -107,26 +107,15 @@ function Card(props) {
           </Button>
         </Col>
 
-        <Col lg={8}>
+        <Col lg={6}>
           <Row>
             <Col lg={10}>
-              <h1 className="user-name">
-                {user.firstName} {user.lastName} ,{user.age},{user.gender}
-              </h1>
+              <h3 className="user-name">
+                {user.firstName} {user.lastName}, {user.age}, {user.gender}
+              </h3>
             </Col>
 
-            <Col lg={1}>
-              <Button
-                variant="primary"
-                className="likeButton"
-                onClick={() => {
-                  likeUser(user._id);
-                }}
-                disabled={buttonLiked}
-              >
-                Like
-              </Button>
-            </Col>
+          
           </Row>
 
           <Row>
@@ -136,18 +125,9 @@ function Card(props) {
               </h3>
             </Col>
 
-            <Col lg={2}>
-              <Button
-                variant="primary"
-                onClick={() => dislikeUser(user._id)}
-                className="dislikeButton"
-              >
-                Dislike
-              </Button>
-            </Col>
+          
           </Row>
 
-          
           <p
             style={{
               color: "#578BB8",
@@ -167,6 +147,34 @@ function Card(props) {
             })}
           </p>
         </Col>
+
+        <Col lg={2}>
+              <Button
+                variant="primary"
+                className="likeButton"
+                onClick={() => {
+                  likeUser(user._id);
+                }}
+                disabled={buttonLiked}
+              >
+                Like
+              </Button>
+              <br/>
+              <Button
+                variant="primary"
+                onClick={() => dislikeUser(user._id)}
+                className="dislikeButton"
+              >
+                Dislike
+              </Button>
+            </Col>
+
+           
+             
+          
+
+
+
       </Row>
     </Row>
   );

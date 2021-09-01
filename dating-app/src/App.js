@@ -26,7 +26,6 @@ function App() {
 
   const history = useHistory()
  
-  //TODO CHECK REFRESH TOKEN (if false redirect on login)
 
  
   useEffect(async() => {

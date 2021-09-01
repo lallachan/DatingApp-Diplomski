@@ -344,7 +344,7 @@ function UserProfile() {
       <Row style={{marginLeft:"10px",marginTop:"10px"}}> 
       
 
-      {_.isEmpty(friendData.gallery) ? "Prazna galerija." : friendData.gallery.map(img=>{
+      {_.isEmpty(friendData.gallery) ? <p>Prazna galerija.</p> : friendData.gallery.map(img=>{
         return <img src={img.imageUrl} style={{width:"30%",height:"200px",backgroundSize:"cover",borderRadius:"0px",marginBottom:"20px"}}
         onClick={handleShowSlideShow}
         />
@@ -372,7 +372,7 @@ function UserProfile() {
         <Col lg={10}>
         <h3 className="titleMe" style={{marginTop:"30px",marginLeft:"20px",marginBottom:"20px"}}>Moji interesi</h3>
 
-        {_.isEmpty(friendData.interests) ? "Nema interesa za prikaz." : 
+        {_.isEmpty(friendData.interests) ? <p style={{marginLeft:"20px"}}>Nema interesa za prikaz.</p> : 
         
         friendData.interests.map(i=>{
           return <li className="myHobbies">{i.interest}</li>

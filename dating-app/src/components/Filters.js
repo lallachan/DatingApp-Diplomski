@@ -9,6 +9,7 @@ import { default as _ } from "lodash";
 
 import { FaSearch } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
+import MySelect from "./MySelect";
 
 function Filters(props) {
   const ranges = [50, 100, 150, 200, 500];
@@ -198,15 +199,28 @@ function Filters(props) {
       <br />
       <br />
       <span style={{ marginTop: "10px" }}>
-        <h5 style={{ display: "inline" }}>Godine :</h5> min{" "}
-        <input type="number" min="18" ref={minAgeRef} className="input-age" />
+        <h5>Godine:</h5>
+      <div className="age-range">
+          <h5>min - max</h5>
+          <div>
+              <input type="number" name="min" id="min" min="18" ref={minAgeRef}/>
+              <input type="number" name="max" id="max"  max="100"  ref={maxAgeRef}/>
+          </div>
+      </div>
+
+
+          
+      
+
+        {/* <label htmlFor="minAge">Min</label>
+        <input type="number" name="minAge" min="18" ref={minAgeRef} className="input-age" />
         <input
           type="number"
           ref={maxAgeRef}
           className="input-age"
           max="100"
-        />{" "}
-    max
+        />{" "} */}
+    
       </span>
        
        </Col>
@@ -216,7 +230,8 @@ function Filters(props) {
 
        <Col>
        <span>
-        <h5 style={{marginTop:"10px",display:"inline"}}>Spol :</h5>
+        
+        <h5 style={{marginTop:"20px",display:"inline"}}>Spol :</h5>
         <div
           class="form-check"
           id="radioGroup"
@@ -285,7 +300,8 @@ function Filters(props) {
 
      <Col lg={6}>
      <h5>Moji interesi</h5>
-      {userData.interests.map((i) => {
+     <MySelect myInterests={userData.interests} setMapHobbies={setMapHobbies}/>
+      {/* {userData.interests.map((i) => {
         return (
           <span
             style={{marginLeft:"20px",paddingLeft:"5px"}}
@@ -303,7 +319,7 @@ function Filters(props) {
           </span>
           
         );
-      })}
+      })} */}
         <br/>
       <Button onClick={filterUsers} id="search-button">Pretraži</Button>
      
