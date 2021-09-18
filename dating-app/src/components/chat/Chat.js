@@ -186,9 +186,28 @@ function Chat() {
 
       setBlocked(res.data);
       setUserWhoBlocked(res.data.userWhoBlocked);
+
+
+      // LOSE POINTS
+
+     
+        const res2 = await axios.get(process.env.REACT_APP_GET_USER_POINTS, {
+          headers: {
+            authorization: accessToken,
+          },
+        });
+        console.log(res2.data);
+        setUserPoints(res2.data)
+  
+      
     } catch (error) {
       errorHandler(error);
     }
+
+
+    
+
+
   };
 
 
