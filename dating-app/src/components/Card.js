@@ -139,12 +139,13 @@ function Card(props) {
               ? "manje od 1 km"
               : Math.round(user.distance) + " km"}
           </p>
-          <h5>O meni</h5>
-          <p>{_.isEmpty(user.description) ? "Nema opisa" : user.description}</p>
+          {/* <h5>O meni</h5>
+          <p>{_.isEmpty(user.description) ? "Nema opisa" : user.description}</p> */}
           <p>
-            {user.interests?.map((i) => {
-              return <li className="user-interest">{i.interest}</li>;
+            {_.isEmpty(user.interests)? "Nema interesa za prikaz" : user.interests?.map((i) => {
+              return <li className="user-interest" style={{marginBottom:"10px"}}>{i.interest}</li>;
             })}
+            
           </p>
         </Col>
 

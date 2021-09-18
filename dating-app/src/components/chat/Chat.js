@@ -100,7 +100,7 @@ function Chat() {
           }
           setChatMessages(res.data.messages);
           console.log(res.data);
-          setBlocked(res.data.blockChat);
+          setBlocked(res.data);
           setShowOnlyThreads(false);
         })
         .catch((err) => {
@@ -170,11 +170,12 @@ function Chat() {
 
   //BLOCK CHAT
 
-  const rejectUser = async (chat_id) => {
+  const rejectUser = async (chat_id,block) => {
     try {
+
       const res = await axios.patch(
         process.env.REACT_APP_BLOCK_CHAT,
-        { chat_id: chat_id, block: true },
+        { chat_id: chat_id, block: !block },
 
         {
           headers: {
@@ -183,34 +184,13 @@ function Chat() {
         }
       );
 
-      console.log(res.data);
-      setBlocked(res.data.blocked);
+      setBlocked(res.data);
       setUserWhoBlocked(res.data.userWhoBlocked);
     } catch (error) {
       errorHandler(error);
     }
   };
 
-  const unBlockUser = async (chat_id) => {
-    try {
-      const res = await axios.patch(
-        process.env.REACT_APP_BLOCK_CHAT,
-        { chat_id: chat_id, block: false },
-
-        {
-          headers: {
-            authorization: accessToken,
-          },
-        }
-      );
-
-      console.log(res.data);
-      setBlocked(res.data.blocked);
-      setUserWhoBlocked(res.data.userWhoBlocked);
-    } catch (error) {
-      errorHandler(error);
-    }
-  };
 
   const sendImage = async (imgUrl) => {
     socket.emit("sendMessage", {
@@ -302,7 +282,7 @@ function Chat() {
         <Col lg={4} md={12} sm={10} className="conversations">
           <h2 className="conversation-title">Razgovori</h2>
 
-          <ChatThreads blocked={blocked} />
+          <ChatThreads chat={blocked} />
         </Col>
         {showOnlyThreads ? null : (
             <Col
@@ -324,19 +304,19 @@ function Chat() {
                       </h2>
                     )}
                   </Col>
-                  {/* //TODO ODBLOKIRAJ */}
+              
                   <Col>
-                    {blocked ? (
+                    {blocked.blockChat ? (
                       <Button
                         id="blockButton"
-                        onClick={() => unBlockUser(chat_id)}
+                        onClick={() => rejectUser(chat_id,blocked.blockChat)}
                       >
                         Odblokiraj
                       </Button>
                     ) : (
                       <Button
                         id="blockButton"
-                        onClick={() => rejectUser(chat_id)}
+                        onClick={() => rejectUser(chat_id,blocked.blockChat)}
                       >
                         Blokiraj
                       </Button>
@@ -416,8 +396,8 @@ function Chat() {
                           }}
                         >
                           {userWhoBlocked !== userData._id
-                            ? userData.firstName + " " + userData.lastName + " "
-                            : friendData.firstName + friendData.lastName + " "}
+                            ? friendData.firstName + friendData.lastName + " " : userData.firstName + " " + userData.lastName + " "
+                            }
                           je blokirala razgovor
                         </Alert>
                       ) : null}

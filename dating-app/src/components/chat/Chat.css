@@ -209,3 +209,9 @@ img{
     bottom:0;
     width: 100%;
 }
+
+.blockedThread{
+    background-color: #DF314D;
+    color: white;
+}
+
