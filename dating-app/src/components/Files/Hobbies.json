@@ -1,29 +1,29 @@
 {
     "hobbies": {
         "Entertainment": [
-            "TV Series",
-            "Games",
-            "Movies",
-            "Board Games"
+            "TV Serije",
+            "Video igrice",
+            "Filmovi",
+            "Društvene igre"
         ]
     ,
     "Health/Fitness": [
-        "Workout",
-        "Dieting"
+        "Vježbanje",
+        "Zdrava prehrana"
     ],
     "Food" : [
-        "Cooking", "Eating Out", "Drinks", "Brewing Beer"
+        "Kuhanje", "Gurman", "Pića", "Craft pive"
     ],
     "Reading/Learning" : [
-        "Programming", "Science", "Reading"
+        "Programiranje", "Znanost", "Čitanje"
     ],
     "Outdoor Activities" : [
-        "Hiking",
-        "Sports",
-        "Football",
-        "Basketball",
-        "Swimming",
-        "Camping"
+        "Šetanje",
+        "Sport",
+        "Nogomet",
+        "Košara",
+        "Plivanje",
+        "Kampiranje"
     ]
     },
     "hobbieColor":[

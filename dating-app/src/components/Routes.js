@@ -22,7 +22,7 @@ import Page from "./Page";
 import LogoSpinner from "../components/spinner/LogoSpinner"
 
 function Routes() {
-  const { accessToken, userData, socket, refreshToken } = useContext(myContext);
+  const { accessToken, userData, socket, refreshToken,userPoints } = useContext(myContext);
   
   return (
     <Router>
@@ -37,9 +37,7 @@ function Routes() {
           <Register />
         </Route>
 
-        <Route path="/userChats">
-          <Chat/>
-        </Route>
+      
 
         <Route exact path="/completeSetup" component={CompleteSetup} />
 
@@ -60,6 +58,8 @@ function Routes() {
           
             {_.isNull(userData) ||
             _.isUndefined(userData) ||
+            _.isUndefined(userPoints)||
+            _.isNull(userPoints) ||
             _.isNull(socket) ? 
 
             
@@ -70,6 +70,9 @@ function Routes() {
                 <Route exact path="/main">
                   <Main />
                 </Route>
+                <Route path="/userChats">
+          <Chat/>
+        </Route>
 
                 <Route exact path="/user/:id" component={UserProfile} />
 

@@ -149,24 +149,26 @@ function Card(props) {
           </p>
         </Col>
 
-        <Col lg={2}>
+        <Col lg={2} style={{marginLeft:"-20px"}}>
               <Button
                 variant="primary"
                 className="likeButton"
+                style={{width:"100px"}}
                 onClick={() => {
                   likeUser(user._id);
                 }}
                 disabled={buttonLiked}
               >
-                Like
+                Sviđa mi se
               </Button>
               <br/>
               <Button
                 variant="primary"
                 onClick={() => dislikeUser(user._id)}
                 className="dislikeButton"
+                style={{width:"100px"}}
               >
-                Dislike
+                Ne sviđa mi se
               </Button>
             </Col>
 

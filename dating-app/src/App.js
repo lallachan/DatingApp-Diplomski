@@ -62,6 +62,24 @@ function App() {
       errorHandler(error)
     }
   }
+  const getUserPoints = async (access = accessToken)=>{
+    try{
+ 
+      const res = await axios.get(
+        process.env.REACT_APP_GET_USER_POINTS,
+        {
+          headers: {
+            "authorization": access,
+          }
+        }
+      );
+      setUserPoints(res.data)
+      
+    }
+    catch(error){
+      errorHandler(error)
+    }
+  }
 
   const getAcessToken = async ()=>{
     
@@ -82,6 +100,7 @@ function App() {
         await setAccessToken(data)
 
         getUserData(data)
+        getUserPoints(data)
       
       }
       catch(error){

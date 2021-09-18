@@ -26,6 +26,7 @@ function LogIn() {
     setRefreshToken,
     userData,
     setUserData,
+    setUserPoints,
     refreshAccessToken,
     setLoggedIn,
   } = useContext(myContext);
@@ -46,8 +47,16 @@ function LogIn() {
           authorization: access,
         },
       });
-      console.log(res.data);
+
       setUserData(res.data);
+
+      const res2 = await axios.get(process.env.REACT_APP_GET_USER_POINTS, {
+        headers: {
+          authorization: access,
+        },
+      });
+      setUserPoints(res2.data);
+      console.log(res2.data)
       if (res.data.completedSetup == true) {
         history.push("/main");
       } else {

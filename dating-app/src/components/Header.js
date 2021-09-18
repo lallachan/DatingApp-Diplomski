@@ -304,9 +304,9 @@ function Header() {
             <div class="dropdown">
             <img src={resizeCloudinary(userData.imageUrl)} className="userPhoto"/>
         <div class="dropdown-content">
-        <p className="dropdown-item" onClick={myProfile}>My Profile</p>
-        <p className="dropdown-item" onClick={()=>history.push("/chat/threads")}>My Chats</p>
-        <p className="dropdown-item" onClick={LogOut}>Log Out</p>
+        <p className="dropdown-item" onClick={myProfile}>Moj profil</p>
+        <p className="dropdown-item" onClick={()=>history.push("/chat/threads")}>Razgovori</p>
+        <p className="dropdown-item" onClick={LogOut}>Odjava</p>
         
 
         </div>

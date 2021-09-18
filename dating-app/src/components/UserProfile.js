@@ -25,6 +25,7 @@ function UserProfile() {
   const handleShowSlideShow = () => setShowSlideShow(true);
 
 
+  const [buttonLiked, setButtonLiked] = useState(false);
 
 
   const handleClose = () => setShowAlert(false);
@@ -75,6 +76,7 @@ function UserProfile() {
           }
         );
         console.log(res.data);
+        setButtonLiked(userPoints.liked.includes(res.data._id))
         setFriendData(res.data);
       } catch (error) {
         errorHandler(error);
@@ -110,11 +112,9 @@ function UserProfile() {
     }
   };
 
-  const [buttonLiked, setButtonLiked] = useState(
-    
-    userPoints?.liked.includes(friendData?._id)
-    
-  );
+
+  
+
 
   const ShowModal = (props) => {
 
@@ -190,29 +190,25 @@ function UserProfile() {
     }
   };
 
-  // const dislikeUser = async (id) => {
-  //   try {
-  //     const res = await axios.get(
-  //       process.env.REACT_APP_DISLIKE_USER + `/${id}`,
-  //       {
-  //         headers: {
-  //           authorization: accessToken,
-  //         },
-  //       }
-  //     );
-  //     console.log(res.data);
+  const dislikeUser = async (id) => {
+    try {
+      const res = await axios.get(
+        process.env.REACT_APP_DISLIKE_USER + `/${id}`,
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        }
+      );
+      console.log(res.data);
+      setUserPoints(res.data);
+      history.push("/main")
 
-  //     setUserPoints(res.data);
 
-  //     const newU = users.filter((el) => {
-  //       return el._id !== id;
-  //     });
-  //     setUsers(newU);
-  //   } catch (error) {
-  //     errorHandler(error);
-  //   }
-  // };
-
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
 
  
 
@@ -231,7 +227,7 @@ function UserProfile() {
     }}
     >
       <Modal showAlert={showAlert} handleClose={handleClose}/>
-       {_.isNull(friendData) ? (
+       {_.isNull(friendData)  ? (
       <Spinner animation="border" role="status" />
     ) : ( <React.Fragment>
       <Row>
@@ -244,8 +240,9 @@ function UserProfile() {
           <Col>
           <Button className="talk" onClick={()=>startChat(friendData._id)}>Razgovaraj</Button>
           </Col>
-          <Col>
-          <div style={{float:"right"}}>
+          <Col style={{padding:"10px",marginLeft:"100px"}}>
+       
+         
             <Button
                 variant="primary"
                 className="likeButton"
@@ -254,17 +251,19 @@ function UserProfile() {
                 }}
                 disabled={buttonLiked}
               >
-                Like
+                Sviđa mi se
               </Button>
-              {/* <Button
+            
+              
+              <Button
                 variant="primary"
-                onClick={() => dislikeUser(user._id)}
+                onClick={() => dislikeUser(friendData._id)}
                 className="dislikeButton"
               >
-                Dislike
-              </Button> */}
-          </div>
-          <div style={{clear:"both"}}></div>
+                Ne sviđa mi se
+              </Button>
+         
+        
           </Col>
         
         </Row>

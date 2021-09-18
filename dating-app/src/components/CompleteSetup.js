@@ -52,7 +52,7 @@ function CompleteSetup() {
   //Location of users
   const [lastKnownLocation, setLastKnownLocation] = useState(false);
 
-    const sexes = ["Males","Females","Both"]
+    const sexes = ["Muškarci","Žene","Ne binarno"]
 
   const descRef = useRef("")
 
