@@ -22,8 +22,7 @@ function SendEmailForgotPass() {
   const history = useHistory();
 
   const sendToEmail = async (value) => {
-    console.log(value);
-
+   
     try {
       const res = await axios.post(
         process.env.REACT_APP_FORGOT_PASSWORD,

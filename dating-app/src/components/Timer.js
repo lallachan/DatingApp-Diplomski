@@ -55,10 +55,6 @@ function Timer(props) {
 
     }, 1000);
 
-
-   
-
-
     return () => clearInterval(interval);
   }, [date]);
 

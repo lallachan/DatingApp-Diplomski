@@ -87,7 +87,7 @@ function LogIn() {
               console.log(err); 
               setError(err);
 
-              //TODO FIX ERROR AND DISPLAY THEM ON FRONT
+             
             }
           }}
         >

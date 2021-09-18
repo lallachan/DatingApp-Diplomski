@@ -416,6 +416,7 @@ function CompleteSetup() {
       {counter == 1 ? <UploadImage /> : null}
       {counter == 2 ? <AddDescription /> : null}
       {counter == 3 ? <SexualOrientation /> : null}
+      
     </Container>
   );
 }

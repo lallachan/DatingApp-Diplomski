@@ -56,13 +56,7 @@ function Register() {
     month: Yup.string().required("Unesite mjesec."),
     year: Yup.string().required("Unesite godinu."),
 
-    // city: Yup.string().required("Grad je obavezan."),
-    // zip: Yup.string()
-    //   .required("Poštanski broj je obavezan.")
-      // .matches(
-      //   /^\d{5}(?:[-\s]\d{4})?$/,
-      //   "Zip must contain 5 numbers e.g 10000"
-      // ),
+
   });
   const days = [];
 
@@ -142,8 +136,7 @@ function Register() {
         
         onSubmit={async (values) => {
 
-          //TODO FIX ERROR ON CITY AND ZIP
-
+        
           if(_.isEmpty(singleSelections) || _.isEmpty(zip)) {setCityError(true);return}
 
           values.dob = reformatDate(values.day, values.month, values.year);

@@ -1,12 +1,12 @@
 import axios from "axios";
 import { range } from "lodash";
 import React, { useContext, useRef, useState } from "react";
-import { Button, Col, Dropdown, FormControl, InputGroup, Modal, Row } from "react-bootstrap";
+import { Button, Col, Dropdown,DropdownButton, FormControl, InputGroup, Modal, Row } from "react-bootstrap";
 import myContext from "./contexts/myContext";
 import "./Filters.css";
 import { errorHandler } from "./functions/Functions";
 import { default as _ } from "lodash";
-
+import Select from 'react-select';
 import { FaSearch } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import MySelect from "./MySelect";
@@ -22,7 +22,7 @@ function Filters(props) {
 
   const hobbieRef = useRef(null);
   const [mapHobbies, setMapHobbies] = useState([]);
-  const [radioVal, setRadioVal] = useState(null);
+  const [radioVal, setRadioVal] = useState(0);
   const [show, setShow] = useState(false);
   
   const history = useHistory();
@@ -31,6 +31,12 @@ function Filters(props) {
   const handleShow = () => setShow(true);
 
   const [results, setResults] = useState(null)
+
+  const sexes = [
+    "Muškarci",
+    "Žene",
+    "NonBinary"
+  ]
 
   const { accessToken } = useContext(myContext);
 
@@ -77,6 +83,7 @@ function Filters(props) {
       range: rangeRef.current.value,
     };
 
+    console.log(radioVal)
     if (!_.isNull(radioVal)) {
       obj["sex"] = radioVal;
     }
@@ -94,7 +101,8 @@ function Filters(props) {
         max: maxAgeRef.current.value,
       };
     }
-
+    
+    console.log("OBJJJJ");
     console.log(obj);
 
     if (Object.keys(obj).length == 1 && Object.keys(obj)[0] == "range") {
@@ -109,7 +117,7 @@ function Filters(props) {
             },
           }
         );
-        // setRadius(range) //TODO CHANGE THIS FIX IT
+      
         console.log(res.data);
         setMarkers(res.data);
       } catch (error) {
@@ -133,6 +141,7 @@ function Filters(props) {
 
   const handleRChange = (e) => {
     setRadioVal(e.target.value);
+    console.log(e.target.value)
   };
   return (
     <div className="filters">
@@ -226,13 +235,30 @@ function Filters(props) {
        </Col>
      </Row>
 
+
+<br/>
      <Row>
 
        <Col>
        <span>
         
         <h5 style={{marginTop:"20px",display:"inline"}}>Spol :</h5>
-        <div
+        <select style={{padding:"5px",marginLeft:"20px",marginTop:"10px"}} onChange={(e)=>{setRadioVal(e.target.value)}}>
+          <option value="0">Muškarci</option>
+          <option value="1">Žene</option>
+          <option value="2">Ne binarno</option>
+        </select>
+        
+        {/* <Select
+        style={{display:"inline"}}
+        placeholder="Odaberite spol"
+        options={sexes.map((s,i)=>({value: i,label:s}))}
+        
+        classNamePrefix="select"
+        onChange={(x)=>setRadioVal(x.map(el=>el.value))}
+      /> */}
+
+        {/* <div
           class="form-check"
           id="radioGroup"
           style={{ marginLeft: "5px",display:"inline"}}
@@ -260,6 +286,7 @@ function Filters(props) {
               name="flexRadioDefault"
               value={1}
               id="flexRadioDefault1"
+              
               onChange={(e) => handleRChange(e)}
               
              
@@ -279,10 +306,10 @@ function Filters(props) {
              
             />
             <label class="form-check-label" for="flexRadioDefault1" >
-              Ostalo
+              
             </label>
            
-        </div>
+        </div> */}
       </span>
        </Col>
      </Row>
@@ -290,7 +317,7 @@ function Filters(props) {
 
    
      
-      <Button id="search-someone" onClick= {()=>findMeSomeone()}>Pronađi mi nekoga danas</Button>
+    
 
 
 
@@ -321,8 +348,12 @@ function Filters(props) {
         );
       })} */}
         <br/>
+        <Button id="search-someone"  onClick= {()=>findMeSomeone()} style={{float:"right"}}>Pronađi mi nekoga danas</Button><br/>
       <Button onClick={filterUsers} id="search-button">Pretraži</Button>
-     
+      <div style={{clear:"both"}}></div>
+    
+      
+      
      </Col>
       
 
