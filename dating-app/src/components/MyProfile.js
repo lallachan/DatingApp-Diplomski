@@ -638,13 +638,13 @@ function MyProfile() {
                   <Button variant="secondary" onClick={handleCloseHobbies}>
                     Zatvori
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="primary"
                     onClick={saveData}
                     style={{ backgroundColor: "#578BB8", border: "none" }}
                   >
                     Spremi promjene
-                  </Button>
+                  </Button> */}
                 </Modal.Footer>
               </Modal>
             </Col>

@@ -122,7 +122,7 @@ function Hobbies(props) {
                 onClick={() => addHobby(selectValue.current.value)}
                 style={{backgroundColor:"#578BB8",border:"none",borderRadius:"0",padding:"10px",width:"20%"}}
               >
-                Add
+                Dodaj
               </Button>
              
             </>

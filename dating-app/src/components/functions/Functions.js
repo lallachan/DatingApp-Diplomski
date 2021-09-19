@@ -1,3 +1,5 @@
+import moment from "moment"
+
 
 export const errorHandler = (error) => {
 
@@ -14,6 +16,7 @@ export const errorHandler = (error) => {
           return error.response.data.message
         }
     
+        return error.response.data
 
        
       } else if (error.request) {
@@ -51,4 +54,14 @@ export const resizeCloudinary = (imageUrl) => {
   imageChangeSize = imageChangeSize.join('')
 
   return imageChangeSize
+}
+
+
+export const getParsedDate = (date) => {
+  
+  return moment(date).format(' hh:mm');
+  // date = String(date).split(' ');
+  // var days = String(date[0]).split('-');
+  // var hours = String(date[1]).split(':');
+  // return [parseInt(days[0]), parseInt(days[1])-1, parseInt(days[2]), parseInt(hours[0]), parseInt(hours[1]), parseInt(hours[2])];
 }

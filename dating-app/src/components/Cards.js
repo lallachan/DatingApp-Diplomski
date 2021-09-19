@@ -107,11 +107,13 @@ function Cards(props) {
       
 
       <h3 style={{ color: "white" }}>Korisnici na mapi</h3>
-
+     
+      {users.length == 0? <h3>Nema korisnika za željeni unos</h3> : null }
       {users.map((user) => {
         if (user._id == userData._id) return;
        
         return (
+        
           <Card user={user} setViewport={setViewport} setModalID={setModalID} handleShow={handleShow} users={users} setUsers={setUsers}/>
          
         );

@@ -108,7 +108,8 @@ function UserProfile() {
       history.push(`/chat/${res.data.chat_id}`);
     } catch (err) {
       console.log(err);
-      errorHandler(err);
+      const error = errorHandler(err);
+      alert(error)
     }
   };
 

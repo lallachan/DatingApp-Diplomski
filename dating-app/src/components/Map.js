@@ -78,13 +78,13 @@ function Map(props) {
     getUsersInRadius();
   }, []);
 
-  useEffect(() => {
-    if (usersMarkers.length == 0) {
-      setSpinner(true);
-    } else {
-      setSpinner(false);
-    }
-  }, [usersMarkers]);
+  // useEffect(() => {
+  //   if (usersMarkers.length == 0) {
+  //     setSpinner(true);
+  //   } else {
+  //     setSpinner(false);
+  //   }
+  // }, [usersMarkers]);
 
   const changeRange = async (range) => {
     try {

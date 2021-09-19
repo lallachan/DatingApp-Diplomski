@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import myContext from "../contexts/myContext";
 import axios from "axios";
-import { errorHandler, resizeCloudinary } from "../functions/Functions";
+import { errorHandler, getParsedDate, resizeCloudinary } from "../functions/Functions";
 import Conversation from "./Conversation";
 import {
   Button,
@@ -201,7 +201,9 @@ function Chat() {
   
       
     } catch (error) {
-      errorHandler(error);
+      const err = errorHandler(error);
+      alert(err)
+      window.location.reload();
     }
 
 
@@ -274,7 +276,8 @@ function Chat() {
       delete textArea.current.value;
       const newMessages = res.data.chat_notifications;
       const newMessages2 = res.data.chat_notifications;
-      setUserPoints(newMessages, newMessages2);
+      console.log(newMessages, newMessages2)
+      // setUserPoints(newMessages, newMessages2);
     } catch (error) {
       errorHandler(error);
     }
@@ -324,11 +327,13 @@ function Chat() {
                     )}
                   </Col>
               
+              {userWhoBlocked == userData._id?
                   <Col>
                     {blocked.blockChat ? (
                       <Button
                         id="blockButton"
                         onClick={() => rejectUser(chat_id,blocked.blockChat)}
+                      
                       >
                         Odblokiraj
                       </Button>
@@ -336,11 +341,12 @@ function Chat() {
                       <Button
                         id="blockButton"
                         onClick={() => rejectUser(chat_id,blocked.blockChat)}
+                       
                       >
                         Blokiraj
                       </Button>
                     )}
-                  </Col>
+                  </Col>:null}
                 </Row>
 
                 <Row>
@@ -387,7 +393,7 @@ function Chat() {
                                 >
                                   {m.message}
                                   <span className="timeMessageFriend">
-                                    8:23
+                                  {getParsedDate(m.date)}
                                   </span>
                                 </span>
                               )}
@@ -403,7 +409,7 @@ function Chat() {
                   
                   <Row>
                     <Col>
-                      {blocked == true ? (
+                      {blocked.blockChat == true ? (
                         <Alert
                           variant="danger"
                           style={{
@@ -445,7 +451,7 @@ function Chat() {
                     />
                     <Button
                       onClick={handleSubmit}
-                      disabled={blocked}
+                      disabled={blocked.blockChat}
                       className="sendButton"
                     >
                       Send

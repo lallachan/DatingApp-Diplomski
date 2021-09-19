@@ -1,23 +1,23 @@
 {
     "hobbies": {
-        "Entertainment": [
+        "Zabava": [
             "TV Serije",
             "Video igrice",
             "Filmovi",
             "Društvene igre"
         ]
     ,
-    "Health/Fitness": [
+    "Zdravlje/Fitness": [
         "Vježbanje",
         "Zdrava prehrana"
     ],
-    "Food" : [
+    "Hrana" : [
         "Kuhanje", "Gurman", "Pića", "Craft pive"
     ],
-    "Reading/Learning" : [
+    "Čitanje/Učenje" : [
         "Programiranje", "Znanost", "Čitanje"
     ],
-    "Outdoor Activities" : [
+    "Vanjske aktivnosti" : [
         "Šetanje",
         "Sport",
         "Nogomet",

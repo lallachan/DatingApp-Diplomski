@@ -55,7 +55,9 @@ function Card(props) {
         errorHandler(error);
       }
     } catch (error) {
-      errorHandler(error);
+      const err = errorHandler(error);
+      alert(err)
+      window.location.reload()
     }
   };
 
@@ -80,7 +82,9 @@ function Card(props) {
       setUsers(newU);
 
     } catch (error) {
-      errorHandler(error);
+      const err = errorHandler(error);
+      alert(err)
+      window.location.reload()
     }
   };
 
