@@ -576,10 +576,13 @@ function MyProfile() {
                 <img
                   src={resizeCloudinary(img.imageUrl)}
                   style={{
-                    width: "30%",
+                   
                     backgroundSize: "cover",
                     borderRadius: "0px",
                     marginBottom: "20px",
+                    width:  "300px",
+                    height: "300px",
+                    objectFit: "cover" 
                   }}
                   onClick={handleShowSlideShow}
                 />

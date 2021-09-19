@@ -133,7 +133,7 @@ function CompleteSetup() {
       let ele = document.getElementsByName('gender');
       
       const checked = [...ele].filter(radio => radio.checked)[0].value
-
+      console.log(Number(sexes.indexOf(checked)))
 
       try {
         const res = await axios.patch(process.env.REACT_APP_GET_USER_DATA,{sexualOrientation:Number(sexes.indexOf(checked))},
@@ -289,11 +289,12 @@ function CompleteSetup() {
           }}
         >
           <Col>
-            <h1 style={{ marginTop: "30px" }}>Add Description</h1>
+            <h1 style={{ marginTop: "30px" }}>Dodajte kratki opis o sebi</h1>
 
             <Form.Control
               as="textarea"
-              placeholder="Education,Job,Hobbies etc."
+              maxlength="150"
+              placeholder="O meni (do 150 znakova)"
               style={{
                 height: "300px",
                 width: "50vw",
@@ -315,7 +316,7 @@ function CompleteSetup() {
               }}
               onClick={setupDesc}
             >
-              Submit
+              Spremi
             </Button>
             <Button
               size="lg"
@@ -327,7 +328,7 @@ function CompleteSetup() {
                 marginBottom: "30px",
               }}
             >
-              Skip
+              Preskoči
             </Button>
           </Col>
         </Row>
@@ -353,15 +354,15 @@ function CompleteSetup() {
           }}
         >
           <Col>
-            <h1 style={{ marginTop: "30px" }}>Add Your Sexual Orientation</h1>
+            <h1 style={{ marginTop: "30px" }}>Dodajte vašu seksualnu orijentaciju</h1>
 
             <Row>
               <Col style={{ padding: "20px", height: "300px" }}>
             
               <div>
-              <input type="radio" value="Males" name="gender" ref={ref1}/> {sexes[0]}
-              <input type="radio" value="Females" name="gender" ref={ref2}/> {sexes[1]}
-              <input type="radio" value="Both" name="gender" ref={ref3} /> {sexes[2]}
+              <input type="radio" value="Muškarci" name="gender" ref={ref1}/> {sexes[0]}
+              <input type="radio" value="Žene" name="gender" ref={ref2}/> {sexes[1]}
+              <input type="radio" value="Ne binarno" name="gender" ref={ref3} /> {sexes[2]}
             </div>
 
               </Col>
@@ -373,7 +374,7 @@ function CompleteSetup() {
               style={{ marginRight: "20px", borderRadius: "1px" }}
               onClick={setupSexualOrientation}
             >
-              Submit
+              Spremi
             </Button>
             <Button
               size="lg"
@@ -381,7 +382,7 @@ function CompleteSetup() {
               onClick={loadMain}
               style={{ marginRight: "20px", borderRadius: "1px" }}
             >
-              Skip
+              Preskoči
             </Button>
           </Col>
         </Row>

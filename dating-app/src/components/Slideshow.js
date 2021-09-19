@@ -14,7 +14,7 @@ function Slideshow(props) {
               className="d-block w-100"
               src={img.imageUrl}
               alt="First slide"
-              style={{borderRadius:"0px",width:"100%",height:"100%"}}
+              style={{borderRadius:"0px",width:"800px",height:"800px",objectFit:"cover"}}
             />
                </Carousel.Item>
         })}

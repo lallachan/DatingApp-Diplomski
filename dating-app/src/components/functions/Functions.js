@@ -37,11 +37,11 @@ export const errorHandler = (error) => {
 
 export const getSexOr = (sex) => {
   if (sex == 0) {
-    return "males";
+    return "Muškarci";
   } else if (sex == 1) {
-    return "females";
+    return "Žene";
   } else if (sex == 2) {
-    return "both";
+    return "Ne binarno";
   } else {
     return "";
   }

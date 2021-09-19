@@ -106,6 +106,7 @@ function Register() {
     <Typeahead
     id="basic-typeahead-single"
     onChange={handleClick}
+    style={{backgroundColor: "#A8CEED",border:"none"}}
     options={options.map(i=>i.city)}
     placeholder="Izaberite grad..."
     selected={singleSelections}
@@ -319,6 +320,7 @@ function Register() {
                     <Field
                       name="city"
                       as={CustomInputComponent}
+                      style={{backgroundColor: "#A8CEED",border:"none"}}
                     />
 
                   {errors.city && touched.city ? (
@@ -335,7 +337,7 @@ function Register() {
                   <Col lg={4}>
                     <label
                       htmlFor="lastName"
-                      style={{ color: "white", fontSize: "20px" }}
+                      style={{ color: "white", fontSize: "20px",width:"100px" }}
                     >
                       Zip
                     </label>
@@ -347,7 +349,7 @@ function Register() {
                       className="form-control form-group"
                       value={zip}
                       onChange={e=>setZip(e.target.value)}
-                      style={{ backgroundColor: "#A8CEED", border: "none" }}
+                      style={{ backgroundColor: "#A8CEED", border: "none",width:"100%" }}
                     />
                     {errors.zip && touched.zip ? (
                       <Alert variant="warning">{errors.zip}</Alert>
@@ -370,7 +372,8 @@ function Register() {
                   as="select"
                   className="my-select"
                   value={values.day}
-                  style={{ padding: "10px", borderRadius: "5px" }}
+                  
+                  style={{ padding: "10px", borderRadius: "5px",backgroundColor: "#A8CEED",border:"none",marginRight:"20px" }}
                 >
                   <option value="" style={{ display: "none" }}>
                     Dan
@@ -392,7 +395,7 @@ function Register() {
                   as="select"
                   className="my-select"
                   value={values.month}
-                  style={{ padding: "10px", borderRadius: "5px" }}
+                  style={{ padding: "10px", borderRadius: "5px",backgroundColor: "#A8CEED",border:"none",marginRight:"20px" }}
                 >
                   <option value="" style={{ display: "none" }}>
                     Mjesec
@@ -414,7 +417,7 @@ function Register() {
                   as="select"
                   className="my-select"
                   value={values.year}
-                  style={{ padding: "10px", borderRadius: "5px" }}
+                  style={{ padding: "10px", borderRadius: "5px",backgroundColor: "#A8CEED",border:"none",marginRight:"20px" }}
                 >
                   <option value="" style={{ display: "none" }}>
                     Godina
@@ -444,19 +447,19 @@ function Register() {
                   <div>
                     <label>
                       <Field type="radio" name="gender" value="Male" />
-                      Male
+                      Muško
                     </label>
                   </div>
                   <div>
                     <label>
                       <Field type="radio" name="gender" value="Female" />
-                      Female
+                      Žensko
                     </label>
                   </div>
                   <div>
                     <label>
                       <Field type="radio" name="gender" value="Other" />
-                      Other
+                      Ne binarno
                     </label>
                   </div>
                 </div>

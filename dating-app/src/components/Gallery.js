@@ -47,7 +47,9 @@ function Gallery() {
           return (
             <img
               src={img.imageUrl}
-              style={{ borderRadius: "0px", width: "30%", marginRight: "10px" }}
+              style={{ borderRadius: "0px",  width:  "100px",
+              height: "100px",
+              objectFit: "cover" }}
             />
           );
         })}
@@ -105,7 +107,9 @@ function Gallery() {
             
             <img
               src={img.imageUrl}
-              style={{borderRadius:"0px",width:"30%",backgroundSize: "cover",padding:"5px"}}
+              style={{borderRadius:"0px",backgroundSize: "cover",padding:"5px", width:  "300px",
+              height: "300px",
+              objectFit: "cover" }}
               onClick={()=>deleteImage(i)}
               
             />

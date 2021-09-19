@@ -163,7 +163,8 @@ function Filters(props) {
 
                       }
                       >
-                      {(result.score).toFixed(2)*100 + "%"}
+                       {console.log(result.score.toFixed(2))}
+                      {(result.score*100).toFixed(2) + "%"}
                       
                       </Col>
                       <Col><h5>{result.firstName}  {result.lastName}</h5>
